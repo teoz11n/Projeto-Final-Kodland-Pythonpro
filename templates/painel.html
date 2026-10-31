@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block titulo %}T.E.R.R.A. - Painel{% endblock %}
+
+{% block conteudo %}
+
+<h1>Painel de {{ usuario.nome }}</h1>
+
+<!-- ============ NIVEL ============ -->
+<section class="cartao faixa-nivel">
+  <div>
+    <strong>Nivel {{ nivel.numero }} - {{ nivel.nome }}</strong>
+    <span class="legenda">{{ nivel.xp }} XP</span>
+  </div>
+  <div class="barra">
+    <div class="barra-preenchida" style="width: {{ nivel.progresso }}%"></div>
+  </div>
+  {% if nivel.nome_proximo %}
+    <p class="legenda">
+      Faltam {{ nivel.falta }} XP para virar {{ nivel.nome_proximo }}.
+    </p>
+  {% else %}
+    <p class="legenda">Voce chegou ao nivel maximo. Voce e uma Floresta!</p>
+  {% endif %}
+</section>
+
+<!-- ============ LEMBRETE DO HORARIO ============ -->
+<section class="cartao lembrete">
+  <h2>{{ lembrete.titulo }}</h2>
+  <p>{{ lembrete.texto }}</p>
+
+  <!-- Notificacao no computador (plyer). So funciona rodando local. -->
+  <form method="post" action="{{ url_for('notificar') }}">
+    <button type="submit" class="botao botao-secundario">
+      Enviar este lembrete para a minha area de trabalho
+    </button>
+  </form>
+</section>
+
+<!-- ============ MISSAO DO DIA ============ -->
+{% if missao_do_dia %}
+<section class="cartao destaque">
+  <h2>Missao do dia</h2>
+  <h3>{{ missao_do_dia.titulo }}</h3>
+  <p>{{ missao_do_dia.descricao }}</p>
+  <p class="legenda">
+    Vale {{ missao_do_dia.xp }} XP
+    {% if missao_do_dia.economia_dia > 0 %}
+      &middot; economiza cerca de {{ missao_do_dia.economia_dia }} L/dia
+    {% endif %}
+  </p>
+
+  {% if missao_do_dia.feita_hoje %}
+    <p class="texto-ok">Voce ja concluiu a missao de hoje. Muito bem!</p>
+  {% else %}
+    <form method="post" action="{{ url_for('concluir', missao_id=missao_do_dia.id) }}">
+      <button type="submit" class="botao botao-grande">
+        Concluir a missao do dia
+      </button>
+    </form>
+  {% endif %}
+</section>
+{% endif %}
+
+<!-- ============ CLIMA ============ -->
+<!-- Se a API Open-Meteo falhar, tempo vem None e este bloco desaparece. -->
+{% if tempo %}
+<section class="cartao">
+  <h2>Clima em {{ tempo.cidade }}</h2>
+  <p>
+    {{ tempo.descricao }}
+    {% if tempo.temperatura is not none %}
+      &middot; {{ tempo.temperatura }} graus
+    {% endif %}
+    {% if tempo.chuva_mm > 0 %}
+      &middot; {{ tempo.chuva_mm }} mm de chuva previstos para hoje
+    {% endif %}
+  </p>
+
+  {% if tempo.esta_chovendo %}
+    <p class="texto-ok">
+      Esta chovendo ou vai chover hoje! Aproveite: coloque um balde para
+      fora e use a agua da chuva para regar plantas ou lavar o chao.
+      A missao de reaproveitar agua da chuva foi liberada na sua lista.
+    </p>
+  {% endif %}
+</section>
+{% endif %}
+
+<!-- ============ MISSOES ATIVAS ============ -->
+<section class="cartao">
+  <h2>Missoes ativas ({{ missoes_ativas | length }})</h2>
+
+  <p class="legenda">
+    {% if origem == 'ia' %}
+      Ordenadas com ajuda da IA do Claude.
+    {% elif ia_ligada %}
+      Ordenadas pelas regras do app (a IA nao respondeu agora).
+    {% else %}
+      Ordenadas pelas regras do app.
+    {% endif %}
+  </p>
+
+  <ul class="lista-missoes">
+    {% for missao in missoes_ativas %}
+    <li class="missao {% if missao.feita_hoje %}missao-feita{% endif %}">
+      <div class="missao-topo">
+        <h3>{{ missao.titulo }}</h3>
+        <span class="etiqueta etiqueta-{{ missao.categoria }}">{{ missao.categoria }}</span>
+        <span class="etiqueta etiqueta-xp">{{ missao.xp }} XP</span>
+      </div>
+
+      <p>{{ missao.descricao }}</p>
+
+      {% if missao.motivo %}
+        <p class="motivo">Por que para voce: {{ missao.motivo }}</p>
+      {% endif %}
+
+      {% if missao.economia_dia > 0 %}
+        <p class="economia">
+          Economiza cerca de {{ missao.economia_dia }} L/dia
+          ({{ missao.economia_mes }} L/mes).
+        </p>
+      {% endif %}
+
+      {% if missao.feita_hoje %}
+        <p class="texto-ok">Concluida hoje. Volte amanha para repetir!</p>
+      {% else %}
+        <form method="post" action="{{ url_for('concluir', missao_id=missao.id) }}">
+          <button type="submit" class="botao">Concluir</button>
+        </form>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+
+{% if dica %}
+<section class="cartao dica">
+  <h3>Dica do momento</h3>
+  <p>{{ dica }}</p>
+</section>
+{% endif %}
+
+{% endblock %}

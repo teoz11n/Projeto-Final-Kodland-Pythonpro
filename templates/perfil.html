@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block titulo %}T.E.R.R.A. - Meu perfil{% endblock %}
+
+{% block conteudo %}
+
+<h1>Perfil de {{ usuario.nome }}</h1>
+<p class="subtitulo">{{ usuario.cidade }}</p>
+
+<!-- ============ NIVEL E PROGRESSO ============ -->
+<section class="cartao destaque">
+  <h2>Nivel {{ nivel.numero }} de {{ nivel.total_niveis }} - {{ nivel.nome }}</h2>
+
+  <div class="barra barra-grande">
+    <div class="barra-preenchida" style="width: {{ nivel.progresso }}%"></div>
+  </div>
+
+  {% if nivel.nome_proximo %}
+    <p>
+      <strong>{{ nivel.xp }} XP</strong> acumulados.
+      Faltam <strong>{{ nivel.falta }} XP</strong> para virar
+      {{ nivel.nome_proximo }} ({{ nivel.xp_proximo }} XP).
+    </p>
+  {% else %}
+    <p>
+      <strong>{{ nivel.xp }} XP</strong> acumulados.
+      Voce alcancou o nivel maximo!
+    </p>
+  {% endif %}
+
+  <!-- Caminho completo dos niveis, para a pessoa ver onde esta -->
+  <ol class="trilha">
+    {% for xp_necessario, nome_nivel in niveis %}
+      <li class="{% if nivel.xp >= xp_necessario %}trilha-feito{% endif %}">
+        {{ nome_nivel }}
+        <small>{{ xp_necessario }} XP</small>
+      </li>
+    {% endfor %}
+  </ol>
+</section>
+
+<!-- ============ TOTAIS ============ -->
+<section class="colunas">
+  <div class="cartao numero-grande">
+    <span class="valor">{{ total_missoes }}</span>
+    <span class="unidade">missoes concluidas</span>
+  </div>
+  <div class="cartao numero-grande">
+    <span class="valor">{{ litros_dia }}</span>
+    <span class="unidade">litros economizados por dia</span>
+  </div>
+  <div class="cartao numero-grande">
+    <span class="valor">{{ litros_ano }}</span>
+    <span class="unidade">litros por ano, se mantiver</span>
+  </div>
+</section>
+
+<p class="legenda">
+  A economia e uma estimativa: ela mostra quanta agua voce deixa de gastar
+  por dia se continuar com os habitos das missoes que voce concluiu.
+  Por mes, isso da cerca de {{ litros_mes }} litros.
+</p>
+
+<!-- ============ HISTORICO ============ -->
+<section class="cartao">
+  <h2>Historico de missoes</h2>
+
+  {% if historico %}
+    <table>
+      <thead>
+        <tr>
+          <th>Missao</th>
+          <th>Categoria</th>
+          <th>XP</th>
+          <th>Economia</th>
+          <th>Quando</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in historico %}
+        <tr>
+          <td>{{ item.titulo }}</td>
+          <td>
+            <span class="etiqueta etiqueta-{{ item.categoria }}">
+              {{ item.categoria }}
+            </span>
+          </td>
+          <td>+{{ item.xp_ganho }}</td>
+          <td>
+            {% if item.litros_dia > 0 %}
+              {{ item.litros_dia }} L/dia
+            {% else %}
+              -
+            {% endif %}
+          </td>
+          <!-- A data vem como "2026-10-31T18:20:00"; cortamos no T -->
+          <td>{{ item.concluida_em.replace("T", " as ") }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>
+      Voce ainda nao concluiu nenhuma missao.
+      <a href="{{ url_for('painel') }}">Va para o painel</a> e comece agora.
+    </p>
+  {% endif %}
+</section>
+
+<p>
+  <a class="botao botao-secundario" href="{{ url_for('rotina') }}">
+    Editar a minha rotina
+  </a>
+</p>
+
+{% endblock %}

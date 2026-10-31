@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block titulo %}T.E.R.R.A. - Minha rotina{% endblock %}
+
+{% block conteudo %}
+
+<h1>{% if editando %}Editar a minha rotina{% else %}Contar a minha rotina{% endif %}</h1>
+<p class="subtitulo">
+  Responda com o que acontece num dia normal. Nao precisa ser exato,
+  so precisa ser honesto.
+</p>
+
+<form method="post" class="cartao formulario">
+
+  <!-- Campo escondido que avisa o app.py se e cadastro novo ou edicao -->
+  {% if editando %}
+    <input type="hidden" name="editar" value="sim">
+  {% endif %}
+
+  <fieldset>
+    <legend>Sobre voce</legend>
+
+    <label for="nome">Seu nome</label>
+    <input type="text" id="nome" name="nome" maxlength="60" required
+           value="{{ usuario.nome if usuario else '' }}">
+
+    <label for="cidade">Sua cidade</label>
+    <input type="text" id="cidade" name="cidade" required
+           placeholder="Ex.: Campinas"
+           value="{{ usuario.cidade if usuario else '' }}">
+    <small>Usamos a cidade para buscar o clima na API Open-Meteo.</small>
+  </fieldset>
+
+  <fieldset>
+    <legend>Agua</legend>
+
+    <label for="minutos_banho">Quantos minutos dura o seu banho?</label>
+    <input type="number" id="minutos_banho" name="minutos_banho"
+           min="1" max="120" required
+           value="{{ usuario.minutos_banho if usuario else 10 }}">
+
+    <label for="banhos_dia">Quantos banhos voce toma por dia?</label>
+    <input type="number" id="banhos_dia" name="banhos_dia"
+           min="1" max="10" required
+           value="{{ usuario.banhos_dia if usuario else 1 }}">
+
+    <label for="descargas_dia">Quantas descargas voce da por dia?</label>
+    <input type="number" id="descargas_dia" name="descargas_dia"
+           min="1" max="40" required
+           value="{{ usuario.descargas_dia if usuario else 5 }}">
+
+    <label>Voce escova os dentes com a torneira aberta?</label>
+    <div class="escolhas">
+      <label class="radio">
+        <input type="radio" name="torneira_escovar" value="sim"
+               {% if usuario and usuario.torneira_escovar %}checked{% endif %}>
+        Sim
+      </label>
+      <label class="radio">
+        <input type="radio" name="torneira_escovar" value="nao"
+               {% if not usuario or not usuario.torneira_escovar %}checked{% endif %}>
+        Nao
+      </label>
+    </div>
+
+    <label>Voce lava louca com a torneira aberta o tempo todo?</label>
+    <div class="escolhas">
+      <label class="radio">
+        <input type="radio" name="torneira_louca" value="sim"
+               {% if usuario and usuario.torneira_louca %}checked{% endif %}>
+        Sim
+      </label>
+      <label class="radio">
+        <input type="radio" name="torneira_louca" value="nao"
+               {% if not usuario or not usuario.torneira_louca %}checked{% endif %}>
+        Nao
+      </label>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Lixo e descarte</legend>
+
+    <label>Voce separa o lixo reciclavel do organico?</label>
+    <div class="escolhas">
+      <label class="radio">
+        <input type="radio" name="separa_lixo" value="sim"
+               {% if usuario and usuario.separa_lixo %}checked{% endif %}>
+        Sim
+      </label>
+      <label class="radio">
+        <input type="radio" name="separa_lixo" value="nao"
+               {% if not usuario or not usuario.separa_lixo %}checked{% endif %}>
+        Nao
+      </label>
+    </div>
+
+    <label for="descarte_especial">
+      O que voce faz com pilhas, oleo de cozinha e eletronicos?
+    </label>
+    <select id="descarte_especial" name="descarte_especial" required>
+      {% for valor, texto in opcoes_descarte.items() %}
+        <option value="{{ valor }}"
+          {% if usuario and usuario.descarte_especial == valor %}selected{% endif %}>
+          {{ texto }}
+        </option>
+      {% endfor %}
+    </select>
+  </fieldset>
+
+  <fieldset>
+    <legend>Horarios</legend>
+
+    <label for="hora_acorda">A que horas voce acorda?</label>
+    <input type="time" id="hora_acorda" name="hora_acorda" required
+           value="{{ usuario.hora_acorda if usuario else '07:00' }}">
+
+    <label for="hora_dorme">A que horas voce dorme?</label>
+    <input type="time" id="hora_dorme" name="hora_dorme" required
+           value="{{ usuario.hora_dorme if usuario else '22:30' }}">
+    <small>Os horarios definem os lembretes que voce recebe no painel.</small>
+  </fieldset>
+
+  <button type="submit" class="botao botao-grande">
+    Calcular o meu consumo
+  </button>
+
+</form>
+
+{% endblock %}

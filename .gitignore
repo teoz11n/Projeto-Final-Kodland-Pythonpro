@@ -1,0 +1,29 @@
+# ---------------------------------------------------------------
+# Arquivos que NAO devem ir para o GitHub
+# ---------------------------------------------------------------
+
+# Ambiente virtual: cada pessoa cria o seu com o requirements.txt.
+.venv/
+venv/
+env/
+
+# Banco de dados: e criado sozinho na primeira execucao e guarda
+# dados pessoais de quem usou o app.
+*.db
+terra.db
+
+# A CHAVE DA API NUNCA PODE SUBIR. Sobe so o .env.example.
+.env
+
+# Arquivos que o Python gera sozinho.
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Lixo do sistema e dos editores.
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp

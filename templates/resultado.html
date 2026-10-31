@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block titulo %}T.E.R.R.A. - Meu resultado{% endblock %}
+
+{% block conteudo %}
+
+<h1>O resultado de {{ usuario.nome }}</h1>
+
+<!-- ============ TOTAIS ============ -->
+<section class="colunas">
+  <div class="cartao numero-grande">
+    <span class="valor">{{ consumo.total_dia }}</span>
+    <span class="unidade">litros por dia</span>
+  </div>
+  <div class="cartao numero-grande">
+    <span class="valor">{{ consumo.total_mes }}</span>
+    <span class="unidade">litros por mes</span>
+  </div>
+  <div class="cartao numero-grande">
+    <span class="valor">{{ consumo.total_ano }}</span>
+    <span class="unidade">litros por ano</span>
+  </div>
+</section>
+
+<!-- ============ COMPARACAO COM A ONU ============ -->
+<section class="cartao">
+  <h2>Comparando com a recomendacao da ONU</h2>
+
+  <p class="{% if comparacao.situacao == 'acima' %}texto-alerta{% else %}texto-ok{% endif %}">
+    {{ comparacao.mensagem }}
+  </p>
+
+  <div class="barra">
+    <div class="barra-preenchida" style="width: {{ comparacao.barra }}%"></div>
+  </div>
+  <p class="legenda">
+    Voce usa {{ comparacao.porcentagem }}% do que a ONU recomenda
+    ({{ comparacao.referencia_onu | round(0) | int }} litros por pessoa por dia).
+  </p>
+</section>
+
+<!-- ============ CONSUMO POR ATIVIDADE ============ -->
+<section class="cartao">
+  <h2>Onde a sua agua vai</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Atividade</th>
+        <th>Por dia</th>
+        <th>Por mes</th>
+        <th>Por ano</th>
+        <th>Fatia</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in consumo.detalhes %}
+      <tr>
+        <td>{{ item.nome }}</td>
+        <td>{{ item.dia }} L</td>
+        <td>{{ item.mes }} L</td>
+        <td>{{ item.ano }} L</td>
+        <td>
+          <div class="barra barra-pequena">
+            <div class="barra-preenchida" style="width: {{ item.porcentagem }}%"></div>
+          </div>
+          {{ item.porcentagem }}%
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    <tfoot>
+      <tr>
+        <th>Total</th>
+        <th>{{ consumo.total_dia }} L</th>
+        <th>{{ consumo.total_mes }} L</th>
+        <th>{{ consumo.total_ano }} L</th>
+        <th></th>
+      </tr>
+    </tfoot>
+  </table>
+</section>
+
+<!-- ============ MISSOES SUGERIDAS ============ -->
+<section class="cartao">
+  <h2>As suas missoes ({{ missoes_sugeridas | length }})</h2>
+
+  <p class="legenda">
+    {% if origem == 'ia' %}
+      Estas missoes foram escolhidas pelas regras do app e organizadas com
+      ajuda da IA do Claude.
+    {% else %}
+      Estas missoes foram escolhidas pelas regras do app, comparando a sua
+      rotina com o catalogo de missoes.
+    {% endif %}
+  </p>
+
+  {% if economia_total > 0 %}
+  <p class="texto-ok">
+    Cumprindo todas, voce economiza cerca de
+    <strong>{{ economia_total }} litros por dia</strong>
+    ({{ economia_total_mes }} litros por mes).
+  </p>
+  <p class="legenda">
+    Esse total nao e a soma simples das missoes: varias delas mexem na
+    mesma coisa (tres missoes diferentes economizam no chuveiro), entao
+    o app conta so a melhor de cada grupo para nao inflar o numero.
+  </p>
+  {% endif %}
+
+  <ul class="lista-missoes">
+    {% for missao in missoes_sugeridas %}
+    <li class="missao">
+      <div class="missao-topo">
+        <h3>{{ missao.titulo }}</h3>
+        <span class="etiqueta etiqueta-{{ missao.categoria }}">{{ missao.categoria }}</span>
+        <span class="etiqueta">{{ missao.dificuldade }}</span>
+        <span class="etiqueta etiqueta-xp">{{ missao.xp }} XP</span>
+      </div>
+
+      <p>{{ missao.descricao }}</p>
+
+      {% if missao.motivo %}
+        <p class="motivo">Por que para voce: {{ missao.motivo }}</p>
+      {% endif %}
+
+      {% if missao.economia_dia > 0 %}
+        <p class="economia">
+          Economia estimada: <strong>{{ missao.economia_dia }} L/dia</strong>
+          &middot; {{ missao.economia_mes }} L/mes
+          &middot; {{ missao.economia_ano }} L/ano
+        </p>
+      {% else %}
+        <p class="economia">
+          Esta missao nao economiza agua, mas evita que residuos
+          perigosos cheguem ao solo e aos rios.
+        </p>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+
+  <p>
+    <a class="botao botao-grande" href="{{ url_for('painel') }}">
+      Comecar as missoes no painel
+    </a>
+    <a class="botao botao-secundario" href="{{ url_for('rotina') }}">
+      Corrigir a minha rotina
+    </a>
+  </p>
+</section>
+
+{% endblock %}

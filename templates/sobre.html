@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block titulo %}T.E.R.R.A. - Sobre{% endblock %}
+
+{% block conteudo %}
+
+<h1>Sobre o T.E.R.R.A.</h1>
+
+<section class="cartao">
+  <h2>O problema</h2>
+  <p>
+    A agua doce e facil de usar e pouca: de toda a agua do planeta, menos de
+    1% esta disponivel em rios e lagos. Mesmo assim, uma pessoa no Brasil
+    consome bem mais do que os
+    {{ referencia_onu | round(0) | int }} litros por dia que a ONU indica
+    como suficiente para viver bem.
+  </p>
+  <p>
+    O problema quase nunca esta em uma unica atitude gigante. Ele esta nos
+    cinco minutos extras de banho, na torneira aberta durante a escovacao,
+    na pilha jogada no lixo comum. Sao gestos pequenos repetidos todos os
+    dias - e e exatamente por isso que eles somam tanto.
+  </p>
+  <p>
+    Campanhas ambientais costumam falar em toneladas e em anos, numeros que
+    ninguem sente no dia a dia. O T.E.R.R.A. faz o contrario: pega a rotina
+    de uma pessoa so, mostra o impacto dela em litros e transforma a mudanca
+    em missoes pequenas, com progresso visivel. Habito novo se constroi por
+    repeticao, nao por culpa.
+  </p>
+</section>
+
+<section class="cartao">
+  <h2>Como o app funciona</h2>
+  <ol>
+    <li>
+      <strong>Rotina:</strong> um formulario coleta banho, descarga,
+      torneira, lixo e horarios.
+    </li>
+    <li>
+      <strong>Calculo:</strong> o arquivo <code>calculos.py</code> multiplica
+      esses numeros pelas vazoes de referencia e devolve o consumo por dia,
+      mes e ano.
+    </li>
+    <li>
+      <strong>Missoes:</strong> o arquivo <code>missoes.py</code> compara a
+      rotina com as condicoes de cada uma das {{ total_missoes }} missoes do
+      catalogo e escolhe as que fazem sentido.
+    </li>
+    <li>
+      <strong>Evolucao:</strong> concluir missao da XP. O XP e a soma do
+      historico guardado no SQLite, e os niveis vao de Semente a Floresta.
+    </li>
+    <li>
+      <strong>Clima:</strong> a API Open-Meteo informa se vai chover; se sim,
+      o app libera a missao de reaproveitar agua da chuva.
+    </li>
+  </ol>
+</section>
+
+<section class="cartao">
+  <h2>Fontes dos dados</h2>
+  <table>
+    <thead>
+      <tr><th>Dado usado nas contas</th><th>Valor</th><th>Fonte</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Vazao do chuveiro eletrico</td>
+        <td>{{ vazao_chuveiro }} L por minuto</td>
+        <td>SABESP / ANA - Agencia Nacional de Aguas</td>
+      </tr>
+      <tr>
+        <td>Descarga de caixa acoplada</td>
+        <td>{{ litros_descarga }} L por acionamento</td>
+        <td>ANA - Manual de Conservacao de Agua em Edificacoes</td>
+      </tr>
+      <tr>
+        <td>Torneira de pia aberta</td>
+        <td>{{ vazao_torneira }} L por minuto</td>
+        <td>SABESP - tabela de consumo domestico</td>
+      </tr>
+      <tr>
+        <td>Consumo recomendado por pessoa</td>
+        <td>{{ referencia_onu | round(0) | int }} L por dia</td>
+        <td>ONU / Programa das Nacoes Unidas para o Meio Ambiente</td>
+      </tr>
+      <tr>
+        <td>Previsao do tempo e chuva</td>
+        <td>em tempo real</td>
+        <td>API Open-Meteo (open-meteo.com)</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="legenda">
+    Todos esses valores estao como constantes no topo do arquivo
+    <code>calculos.py</code>, cada um com a fonte no comentario. Se um orgao
+    atualizar um numero, basta trocar em um lugar.
+  </p>
+</section>
+
+<section class="cartao">
+  <h2>Dicas do catalogo</h2>
+  <ul>
+    {% for dica in dicas %}
+      <li>{{ dica }}</li>
+    {% endfor %}
+  </ul>
+</section>
+
+<section class="cartao">
+  <h2>Tecnologias</h2>
+  <ul>
+    <li><strong>Python 3.11</strong> com <strong>Flask</strong> para o site</li>
+    <li><strong>SQLite</strong> (modulo sqlite3) para guardar perfil e progresso</li>
+    <li><strong>Jinja2</strong> para os templates HTML</li>
+    <li><strong>requests</strong> para falar com as APIs</li>
+    <li><strong>datetime</strong> para lembretes por horario</li>
+    <li><strong>random</strong> para sortear a missao do dia e as dicas</li>
+    <li><strong>json</strong> para ler o catalogo de missoes</li>
+    <li><strong>plyer</strong> para notificacao no computador (opcional)</li>
+    <li><strong>API do Claude</strong> para explicar as missoes (opcional)</li>
+  </ul>
+</section>
+
+<section class="cartao destaque">
+  <h2>Autor</h2>
+  <p>
+    <strong>Teodoro Paro Vinhal</strong><br>
+    Projeto escolar do curso Python Pro - Kodland.
+  </p>
+</section>
+
+{% endblock %}

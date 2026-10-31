@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block titulo %}T.E.R.R.A. - Pagina nao encontrada{% endblock %}
+
+{% block conteudo %}
+
+<section class="cartao destaque">
+  <h1>404</h1>
+  <h2>Essa pagina nao existe</h2>
+  <p>
+    O endereco que voce digitou nao faz parte do T.E.R.R.A.
+    Talvez seja um erro de digitacao.
+  </p>
+  <p>
+    <a class="botao botao-grande" href="{{ url_for('inicio') }}">
+      Voltar para o inicio
+    </a>
+    <a class="botao botao-secundario" href="{{ url_for('painel') }}">
+      Ir para o painel
+    </a>
+  </p>
+</section>
+
+{% endblock %}

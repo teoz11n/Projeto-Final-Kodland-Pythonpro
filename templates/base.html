@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{#
+  base.html
+  O "molde" de todas as paginas. As outras paginas so preenchem o bloco
+  "conteudo" la embaixo. Assim o menu e o rodape ficam escritos uma vez so.
+
+  CUIDADO: este comentario e do Jinja, nao do HTML. Dentro de um
+  comentario de HTML o Jinja continua lendo as tags, entao escrever o
+  nome de um bloco la dentro faria o app dar erro.
+#}
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}T.E.R.R.A.{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <header class="topo">
+    <a class="logo" href="{{ url_for('inicio') }}">T.E.R.R.A.</a>
+    <nav>
+      <a href="{{ url_for('inicio') }}">Inicio</a>
+      <a href="{{ url_for('rotina') }}">Rotina</a>
+      <a href="{{ url_for('resultado') }}">Resultado</a>
+      <a href="{{ url_for('painel') }}">Painel</a>
+      <a href="{{ url_for('perfil') }}">Perfil</a>
+      <a href="{{ url_for('sobre') }}">Sobre</a>
+    </nav>
+  </header>
+
+  <main class="conteudo">
+
+    <!-- Mensagens de aviso e de erro enviadas pelo flash() do Flask -->
+    {% with mensagens = get_flashed_messages(with_categories=true) %}
+      {% if mensagens %}
+        <div class="avisos">
+          {% for categoria, mensagem in mensagens %}
+            <p class="aviso aviso-{{ categoria }}">{{ mensagem }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block conteudo %}{% endblock %}
+
+  </main>
+
+  <footer class="rodape">
+    <p>T.E.R.R.A. - Tutor Ecologico de Rotinas e Reducoes Ambientais</p>
+    <p>Projeto escolar de Teodoro Paro Vinhal - Curso Python Pro (Kodland)</p>
+  </footer>
+
+</body>
+</html>

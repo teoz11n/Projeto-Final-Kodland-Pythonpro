@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block titulo %}T.E.R.R.A. - Inicio{% endblock %}
+
+{% block conteudo %}
+
+<section class="cartao destaque">
+  <h1>T.E.R.R.A.</h1>
+  <p class="subtitulo">Tutor Ecologico de Rotinas e Reducoes Ambientais</p>
+
+  <p>
+    Quase todo mundo quer ajudar o planeta, mas se perde na hora de comecar.
+    O T.E.R.R.A. resolve isso de um jeito simples: ele olha a
+    <strong>sua rotina de verdade</strong> - quanto tempo voce passa no banho,
+    quantas descargas voce da, como voce joga o lixo fora - calcula quanta
+    agua isso gasta e transforma as mudancas possiveis em
+    <strong>missoes</strong>.
+  </p>
+
+  <p>
+    Cada missao concluida vale XP. Com XP voce evolui de
+    <strong>Semente</strong> para <strong>Broto</strong>,
+    <strong>Muda</strong>, <strong>Arvore</strong> e
+    <strong>Floresta</strong>. Sustentabilidade deixa de ser cobranca e
+    vira progresso.
+  </p>
+
+  <p>
+    <a class="botao botao-grande" href="{{ url_for('rotina') }}">
+      {% if tem_perfil %}Editar a minha rotina{% else %}Comecar{% endif %}
+    </a>
+    {% if tem_perfil %}
+      <a class="botao botao-secundario" href="{{ url_for('painel') }}">
+        Ir para o painel
+      </a>
+    {% endif %}
+  </p>
+</section>
+
+<section class="colunas">
+  <div class="cartao">
+    <h2>1. Conte a sua rotina</h2>
+    <p>
+      Um formulario rapido sobre banho, descarga, torneira e lixo.
+      Nada de pergunta dificil.
+    </p>
+  </div>
+  <div class="cartao">
+    <h2>2. Veja os numeros</h2>
+    <p>
+      O app calcula quantos litros voce gasta por dia, mes e ano, e compara
+      com os 110 litros por dia recomendados pela ONU.
+    </p>
+  </div>
+  <div class="cartao">
+    <h2>3. Cumpra missoes</h2>
+    <p>
+      Voce recebe missoes feitas para a sua rotina. Cada uma mostra quanta
+      agua ela economiza e quanto XP ela vale.
+    </p>
+  </div>
+</section>
+
+{% if dica %}
+<section class="cartao dica">
+  <h3>Voce sabia?</h3>
+  <p>{{ dica }}</p>
+</section>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,13 @@
+# Bibliotecas que precisam ser instaladas com pip.
+# Instale tudo de uma vez com:  pip install -r requirements.txt
+
+Flask==3.0.3
+requests==2.32.3
+plyer==2.1.0
+
+# Nao precisam de instalacao (ja vem com o Python):
+#   sqlite3, datetime, random, json, os
+#
+# A API do Claude e usada pelo requests, entao nao tem biblioteca extra.
+# O leitor do arquivo .env foi escrito a mao dentro do ia.py para nao
+# precisar instalar o python-dotenv.
