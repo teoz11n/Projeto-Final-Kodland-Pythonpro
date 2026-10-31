@@ -22,6 +22,7 @@
      18 RODAPE
      19 REVELACAO     animacao de entrada no scroll
      20 ACESSIBILIDADE e responsivo
+     21 AGENTES       a ficha dos personagens (a ponte entre os estilos)
    =================================================================== */
 
 
@@ -1311,4 +1312,127 @@ tfoot th { font-weight: 700; border-top: 2px solid rgba(var(--azul-noite-rgb), .
 
   /* No celular as plantas atrapalham mais: diminui a presenca */
   .planta { opacity: calc(.18 + var(--vida) * .55); }
+}
+
+
+/* ===================================================================
+   21 AGENTES DA ESTACAO
+   -------------------------------------------------------------------
+   A ficha de personagem: retrato + uma fala curta.
+
+   A PONTE entre os dois mundos do projeto. A interface e moderna
+   (vidro, degrade, sombra difusa) e os personagens sao cartoon dos
+   anos 1930. Para os dois nao parecerem coisas coladas com fita,
+   a ficha empresta tres detalhes da era do desenho:
+
+     1. contorno de tinta escuro e grosso, que NADA mais no site tem
+     2. o papel creme do proprio desenho vira o fundo do retrato
+     3. a paleta vintage dos personagens aparece so aqui dentro
+
+   Fora desta caixa, o site continua moderno. O contraste e proposital.
+   =================================================================== */
+
+:root {
+  /* Paleta dos personagens. Vive SO dentro da ficha do agente -
+     nunca em botao, titulo ou qualquer parte da interface.        */
+  --tinta-cartoon:   #2B2622;   /* o preto do contorno, quente    */
+  --papel-cartoon:   #F2E7CE;   /* o creme do fundo do desenho    */
+  --verde-cartoon:   #233B35;
+  --mostarda:        #D3A64D;
+  --terracota:       #D76D48;
+}
+
+.agente {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  max-width: 560px;
+  margin: 26px 0;
+}
+
+/* --- O retrato, numa moldura de ficha ------------------------- */
+
+.agente-retrato {
+  flex: 0 0 auto;
+  width: 96px;
+  height: auto;
+  border-radius: 12px;
+  background: var(--papel-cartoon);
+  /* O traco de tinta: exclusivo dos personagens */
+  border: 2px solid var(--tinta-cartoon);
+  box-shadow: 3px 3px 0 rgba(43, 38, 34, .18);
+  /* A imagem e um desenho, nao uma foto: nada de suavizar demais
+     quando o navegador reduz de tamanho.                          */
+  image-rendering: auto;
+}
+
+/* --- O balao de fala ------------------------------------------- */
+
+.agente-balao {
+  position: relative;
+  flex: 1 1 auto;
+  padding: 15px 18px;
+  background: var(--papel-cartoon);
+  border: 2px solid var(--tinta-cartoon);
+  border-radius: 14px;
+  box-shadow: 3px 3px 0 rgba(43, 38, 34, .18);
+}
+
+/* O biquinho do balao, apontando para o retrato.
+   Dois triangulos sobrepostos: o escuro faz a borda, o claro
+   por cima deixa o miolo da cor do papel.                        */
+.agente-balao::before,
+.agente-balao::after {
+  content: "";
+  position: absolute;
+  top: 26px;
+  width: 0; height: 0;
+  border-style: solid;
+}
+.agente-balao::before {
+  left: -12px;
+  border-width: 9px 12px 9px 0;
+  border-color: transparent var(--tinta-cartoon) transparent transparent;
+}
+.agente-balao::after {
+  left: -9px;
+  border-width: 7px 10px 7px 0;
+  border-color: transparent var(--papel-cartoon) transparent transparent;
+}
+
+.agente-fala {
+  margin: 0 0 9px;
+  max-width: none;
+  font-family: var(--fonte-texto);
+  font-size: .97rem;
+  line-height: 1.55;
+  color: var(--tinta-cartoon);
+}
+
+.agente-assinatura {
+  margin: 0;
+  max-width: none;
+  font-family: var(--fonte-ui);
+  font-size: .72rem;
+  line-height: 1.4;
+}
+.agente-assinatura strong {
+  display: block;
+  color: var(--verde-cartoon);
+  letter-spacing: .02em;
+}
+.agente-assinatura span {
+  color: rgba(43, 38, 34, .6);
+}
+
+/* --- Celular: o retrato encolhe e o balao vai para baixo ------- */
+
+@media (max-width: 560px) {
+  .agente { flex-direction: column; gap: 10px; }
+  .agente-retrato { width: 76px; }
+  /* O biquinho passa a apontar para cima */
+  .agente-balao::before { top: -12px; left: 26px; border-width: 0 9px 12px 9px;
+    border-color: transparent transparent var(--tinta-cartoon) transparent; }
+  .agente-balao::after  { top: -9px;  left: 28px; border-width: 0 7px 10px 7px;
+    border-color: transparent transparent var(--papel-cartoon) transparent; }
 }

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_personagens.html" import agente %}
 {% block titulo %}T.E.R.R.A. - Painel{% endblock %}
 
 {% block conteudo %}
@@ -16,6 +17,10 @@
     <h1 class="entrada" style="--atraso:80ms; font-size:clamp(2.1rem,5vw,3.4rem)">
       Oi, {{ usuario.nome.split()[0] }}
     </h1>
+
+    {{ agente("cora",
+       "Bom te ver por aqui, agente. Não precisa mudar o mundo hoje.
+        Só precisa cumprir a missão de hoje.") }}
 
     {# ============ NIVEL ============ #}
     <div class="cartao vidro faixa-nivel entrada" style="--atraso:180ms; margin-top:22px">
@@ -98,6 +103,10 @@
         {% if tempo.temperatura is not none %}&middot; {{ tempo.temperatura }} graus{% endif %}
         {% if tempo.chuva_mm > 0 %}&middot; {{ tempo.chuva_mm }} mm de chuva previstos para hoje{% endif %}
       </p>
+
+      {{ agente("ravi",
+         "Olho no céu, agente! O clima muda, e a nossa capacidade de
+          adaptação também precisa mudar.") }}
 
       {% if tempo.esta_chovendo %}
         <p class="texto-ok" style="margin-bottom:0">

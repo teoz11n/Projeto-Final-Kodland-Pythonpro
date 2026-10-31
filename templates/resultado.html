@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_personagens.html" import agente %}
 {% block titulo %}T.E.R.R.A. - Meu resultado{% endblock %}
 
 {% block conteudo %}
@@ -43,6 +44,11 @@
 {# ============ COMPARACAO COM A ONU ============ #}
 <section class="secao vida-3" style="padding-top:40px">
   <div class="conteudo">
+    <div class="revelar">
+      {{ agente("nina",
+         "Terminei de processar os seus dados. Os números não mentem —
+          mas a gente precisa saber interpretá-los.") }}
+    </div>
     <div class="cartao vidro revelar">
       <span class="etiqueta-secao">Comparando com a ONU</span>
       <h2 style="font-size:clamp(1.5rem,3vw,2.1rem)">
@@ -155,6 +161,14 @@
         melhor de cada grupo para não inflar o número.
       </p>
     </div>
+    {% endif %}
+
+    {% if missoes_sugeridas | selectattr("categoria", "equalto", "descarte") | list %}
+      <div class="revelar">
+        {{ agente("bento",
+           "Opa! Essas de descarte aí são comigo. O que parece lixo para
+            alguém pode ser matéria-prima para outra coisa.") }}
+      </div>
     {% endif %}
 
     <ul class="lista-missoes">

@@ -1,0 +1,62 @@
+{#
+  _personagens.html
+  ---------------------------------------------------------------
+  A equipe da Estação T.E.R.R.A.
+
+  Este arquivo tem UMA macro só, usada por várias páginas. É por isso
+  que ele existe separado: se a ficha do personagem fosse copiada em
+  cada template, mudar o visual dela daria trabalho em quatro lugares.
+
+  Como usar numa página:
+      {% from "_personagens.html" import agente %}
+      {{ agente("jonas", "Pode começar quando quiser, agente.") }}
+
+  REGRA DE OURO: o personagem é um detalhe, nunca o conteúdo.
+  Ele nunca bloqueia nada, nunca pede clique e nunca é obrigatório
+  para usar o site. Se a imagem não carregar, a página continua
+  inteira e funcionando.
+#}
+
+{% set EQUIPE = {
+  "jonas": {
+    "nome":  "Dr. Jonas Vale",
+    "cargo": "Pesquisa Biológica e Recursos Hídricos"
+  },
+  "nina": {
+    "nome":  "Nina Azevedo",
+    "cargo": "Análise e Inteligência de Dados"
+  },
+  "bento": {
+    "nome":  "Bento Salles",
+    "cargo": "Engenharia Ambiental e Economia Circular"
+  },
+  "ravi": {
+    "nome":  "Ravi Monteiro",
+    "cargo": "Meteorologia e Pesquisa Climática"
+  },
+  "cora": {
+    "nome":  "Cora Martins",
+    "cargo": "Coordenação de Missões"
+  }
+} %}
+
+
+{% macro agente(quem, fala) %}
+  {% set pessoa = EQUIPE[quem] %}
+  <aside class="agente agente-{{ quem }}">
+
+    <img class="agente-retrato"
+         src="{{ url_for('static', filename='personagens/' ~ quem ~ '.png') }}"
+         alt="Ilustração de {{ pessoa.nome }}"
+         width="149" height="199" loading="lazy" decoding="async">
+
+    <div class="agente-balao">
+      <p class="agente-fala">{{ fala }}</p>
+      <p class="agente-assinatura">
+        <strong>{{ pessoa.nome }}</strong>
+        <span>{{ pessoa.cargo }}</span>
+      </p>
+    </div>
+
+  </aside>
+{% endmacro %}

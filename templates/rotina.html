@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_personagens.html" import agente %}
 {% block titulo %}T.E.R.R.A. - Minha rotina{% endblock %}
 
 {% block conteudo %}
@@ -21,6 +22,10 @@
       honesto &mdash; os cálculos são estimativas baseadas em dados da
       SABESP e da ANA.
     </p>
+
+    {{ agente("jonas",
+       "Ah, você deve ser o novo agente! Antes de tudo eu preciso conhecer
+        a sua rotina. Nada de pergunta difícil, prometo.") }}
 
     <form method="post" class="formulario cartao vidro entrada" style="--atraso:260ms; margin-top:28px">
 
