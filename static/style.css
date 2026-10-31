@@ -1,467 +1,1317 @@
 /* ===================================================================
-   style.css - T.E.R.R.A.
-   SO O BASICO DE LAYOUT, de proposito.
-   As cores e o visual bonito entram depois. Tudo aqui e cinza e neutro
-   para nao brigar com o tema que vai ser escolhido mais pra frente.
+   T.E.R.R.A. - Sistema de design
+   -------------------------------------------------------------------
+   Organizado em blocos. Use Ctrl+F para achar:
+     01 TOKENS        cores, fontes, sombras, curvas de animacao
+     02 FONTES        @font-face com as fontes pagas e os substitutos
+     03 BASE          reset e tipografia
+     04 TEXTURA       grao de filme por cima de tudo
+     05 NATUREZA      folhas e flores de fundo + progressao de vida
+     06 VIDRO         liquid glass
+     07 BOTOES        hover lift, shimmer, magnetico, icon slide
+     08 NAVBAR        menu fixo de vidro
+     09 HERO          primeira dobra
+     10 CARTOES       bento, spotlight, tilt
+     11 FORMULARIO    floating label
+     12 BARRAS        progresso e niveis
+     13 MISSOES       lista de missoes
+     14 TABELAS
+     15 TOASTS        avisos flutuantes
+     16 FLUTUANTES    voltar ao topo e barra de progresso do scroll
+     17 COLAGEM       secao final bem viva
+     18 RODAPE
+     19 REVELACAO     animacao de entrada no scroll
+     20 ACESSIBILIDADE e responsivo
    =================================================================== */
 
-/* As cores ficam todas em variaveis: para mudar o tema, mexa so aqui. */
+
+/* ===================================================================
+   01 TOKENS
+   =================================================================== */
+
 :root {
-  --fundo: #f5f5f4;
-  --cartao: #ffffff;
-  --borda: #d6d3d1;
-  --texto: #1c1917;
-  --texto-fraco: #57534e;
-  --realce: #44403c;
-  --alerta: #b45309;
-  --ok: #15803d;
+  /* --- Paleta oficial do projeto ---------------------------------
+     https://coolors.co/ffdd00-8eee43-1cff86-ffffff-59d2fe-4a8fe7-384296
+  ----------------------------------------------------------------- */
+  --amarelo:      #FFDD00;
+  --verde-folha:  #8EEE43;
+  --verde-neon:   #1CFF86;
+  --branco:       #FFFFFF;
+  --azul-ceu:     #59D2FE;
+  --azul:         #4A8FE7;
+  --azul-noite:   #384296;
+
+  /* Versoes em RGB, para conseguir usar com transparencia.
+     Exemplo de uso:  rgba(var(--azul-noite-rgb), .25)            */
+  --azul-noite-rgb: 56, 66, 150;
+  --azul-rgb:       74, 143, 231;
+  --azul-ceu-rgb:   89, 210, 254;
+  --verde-neon-rgb: 28, 255, 134;
+  --verde-folha-rgb:142, 238, 67;
+  --amarelo-rgb:    255, 221, 0;
+
+  /* --- Papeis (o que cada cor significa na interface) ------------- */
+  --fundo:        #FBFDFA;   /* branco levemente esverdeado   */
+  --superficie:   #FFFFFF;
+  --tinta:        var(--azul-noite);
+  --tinta-fraca:  #6B74AE;
+  --borda:        rgba(var(--azul-noite-rgb), .12);
+
+  /* Verde escurecido o bastante para ser LEGIVEL em texto.
+     O --verde-neon puro tem contraste 1.4:1 no branco: so serve
+     para letra gigante e preenchimento, nunca para texto corrido. */
+  --verde-texto:  #0F9A54;
+
+  --alerta:       #C2410C;
+  --ok:           #0F9A54;
+
+  /* --- Sombras em camadas (profundidade de verdade) --------------- */
+  --sombra-1: 0 1px 2px rgba(var(--azul-noite-rgb), .06),
+              0 2px 6px rgba(var(--azul-noite-rgb), .05);
+  --sombra-2: 0 2px 4px rgba(var(--azul-noite-rgb), .05),
+              0 8px 20px -6px rgba(var(--azul-noite-rgb), .14);
+  --sombra-3: 0 4px 8px rgba(var(--azul-noite-rgb), .06),
+              0 20px 44px -16px rgba(var(--azul-noite-rgb), .26);
+  --sombra-4: 0 8px 16px rgba(var(--azul-noite-rgb), .08),
+              0 36px 70px -24px rgba(var(--azul-noite-rgb), .34);
+
+  /* --- Curvas de animacao ----------------------------------------
+     --mola tem overshoot: o elemento passa do ponto e volta,
+     que e o que da a sensacao de coisa fisica.                     */
+  --suave:  cubic-bezier(.22, .61, .36, 1);
+  --mola:   cubic-bezier(.34, 1.56, .64, 1);
+  --expo:   cubic-bezier(.16, 1, .3, 1);
+
+  /* --- Raios e espacos -------------------------------------------- */
+  --raio-p: 10px;
+  --raio-m: 18px;
+  --raio-g: 28px;
+  --raio-pilula: 999px;
+
+  --larg-conteudo: 1120px;
+  --larg-texto: 68ch;
+
+  /* --- Progressao de vida ----------------------------------------
+     Controla o quanto os elementos de natureza aparecem.
+     No topo da pagina fica baixo (quase branco, para o texto ler
+     bem) e vai subindo secao por secao ate a colagem final.        */
+  --vida: .18;
 }
 
-* {
-  box-sizing: border-box;
+
+/* ===================================================================
+   02 FONTES
+   -------------------------------------------------------------------
+   TAN Meringue e Sloop Script sao fontes PAGAS e nao estao no
+   Google Fonts. A cascata abaixo resolve isso em tres niveis:
+
+     1. local()      -> usa a fonte se ela estiver instalada no PC
+     2. url()        -> usa o arquivo em static/fontes/, se existir
+     3. fallback     -> cai no substituto livre do Google Fonts
+
+   Para ativar as fontes de verdade, coloque os arquivos em
+   static/fontes/ com estes nomes e pronto, nada mais muda:
+     static/fontes/TANMeringue.woff2
+     static/fontes/SloopScriptOne.woff2
+   =================================================================== */
+
+@font-face {
+  font-family: "Display Terra";
+  /* local() = usa a fonte se ela estiver INSTALADA no computador.
+     Se voce comprar a fonte e salvar o arquivo .woff2 na pasta
+     static/fontes/, descomente a linha url() abaixo.             */
+  src: local("TAN Meringue"),
+       local("TAN-Meringue");
+    /* , url("fontes/TANMeringue.woff2") format("woff2"); */
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Script Terra";
+  src: local("Sloop Script One"),
+       local("Sloop Script"),
+       local("SloopScriptOne");
+    /* , url("fontes/SloopScriptOne.woff2") format("woff2"); */
+  font-display: swap;
+}
+
+:root {
+  /* Display: titulos gigantes. Playfair Display e o substituto -
+     serifada de alto contraste, mesma pegada elegante.            */
+  --fonte-display: "Display Terra", "Playfair Display", "Bodoni Moda", Georgia, serif;
+
+  /* Script: a assinatura manuscrita, so para frases curtas.       */
+  --fonte-script: "Script Terra", "Pinyon Script", "Italianno", cursive;
+
+  /* Texto: a fonte de leitura, pedida pelo Teo.                   */
+  --fonte-texto: "Noto Serif Bengali", Georgia, "Times New Roman", serif;
+
+  /* Interface: numeros, etiquetas e botoes pedem algo neutro.     */
+  --fonte-ui: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+
+/* ===================================================================
+   03 BASE
+   =================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  /* Compensa a navbar fixa quando o link pula para uma ancora */
+  scroll-padding-top: 90px;
 }
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--texto);
-  background: var(--fundo);
-}
-
-/* ---------- Cabecalho e menu ---------- */
-
-.topo {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 16px 24px;
-  background: var(--cartao);
-  border-bottom: 1px solid var(--borda);
-}
-
-.logo {
-  font-size: 20px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-decoration: none;
-  color: var(--texto);
-}
-
-.topo nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
-.topo nav a {
-  color: var(--texto-fraco);
-  text-decoration: none;
-  font-size: 15px;
-}
-
-.topo nav a:hover {
-  color: var(--texto);
-  text-decoration: underline;
-}
-
-/* ---------- Area principal ---------- */
-
-.conteudo {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 24px 16px 48px;
-}
-
-h1 {
-  font-size: 28px;
-  margin: 16px 0 4px;
-}
-
-h2 {
-  font-size: 20px;
-  margin: 0 0 8px;
-}
-
-h3 {
+  font-family: var(--fonte-texto);
   font-size: 17px;
-  margin: 0 0 4px;
+  line-height: 1.7;
+  color: var(--tinta);
+  background: var(--fundo);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Tipografia fluida: cresce junto com a largura da tela, sem
+   precisar de media query para cada tamanho.                      */
+h1, h2, h3 { font-family: var(--fonte-display); font-weight: 400; line-height: 1.05; }
+
+h1 { font-size: clamp(2.6rem, 7vw, 5.4rem); margin: 0 0 .2em; letter-spacing: -.02em; }
+h2 { font-size: clamp(1.9rem, 4vw, 3rem);   margin: 0 0 .4em; letter-spacing: -.015em; }
+h3 { font-size: clamp(1.15rem, 2vw, 1.45rem); margin: 0 0 .3em; letter-spacing: -.01em; }
+
+p { margin: 0 0 1em; max-width: var(--larg-texto); }
+
+a { color: var(--azul); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--azul-noite); }
+
+code {
+  font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: .88em;
+  background: rgba(var(--azul-ceu-rgb), .14);
+  border-radius: 5px;
+  padding: 2px 6px;
+}
+
+/* A palavra de destaque, grande e em verde com degrade.
+   So funciona em tamanho display - nunca use em texto pequeno.   */
+.palavra-viva {
+  background: linear-gradient(170deg, var(--verde-neon) 0%, var(--verde-folha) 55%, var(--verde-texto) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* Contorno fininho para a letra nao sumir no fundo branco */
+  -webkit-text-stroke: .5px rgba(var(--verde-neon-rgb), .5);
+}
+
+.script {
+  font-family: var(--fonte-script);
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  line-height: 1;
+  color: var(--azul-noite);
+  font-weight: 400;
 }
 
 .subtitulo {
-  color: var(--texto-fraco);
-  margin: 0 0 24px;
+  font-family: var(--fonte-ui);
+  font-size: 1.02rem;
+  color: var(--tinta-fraca);
+  max-width: 56ch;
 }
 
 .legenda {
-  font-size: 14px;
-  color: var(--texto-fraco);
+  font-family: var(--fonte-ui);
+  font-size: .83rem;
+  line-height: 1.55;
+  color: var(--tinta-fraca);
 }
 
-code {
-  background: var(--fundo);
-  border: 1px solid var(--borda);
-  border-radius: 3px;
-  padding: 1px 4px;
-  font-size: 14px;
-}
-
-/* ---------- Cartoes ---------- */
-
-.cartao {
-  background: var(--cartao);
-  border: 1px solid var(--borda);
-  border-radius: 6px;
-  padding: 20px;
-  margin-bottom: 20px;
-}
-
-.destaque {
-  border-left: 4px solid var(--realce);
-}
-
-.dica {
-  background: var(--fundo);
-}
-
-/* Tres cartoes lado a lado que viram um embaixo do outro no celular */
-.colunas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-bottom: 4px;
-}
-
-.colunas > .cartao {
-  flex: 1 1 220px;
-  margin-bottom: 16px;
-}
-
-/* ---------- Numeros grandes ---------- */
-
-.numero-grande {
-  text-align: center;
-}
-
-.numero-grande .valor {
-  display: block;
-  font-size: 32px;
-  font-weight: 700;
-}
-
-.numero-grande .unidade {
-  display: block;
-  font-size: 14px;
-  color: var(--texto-fraco);
-}
-
-/* ---------- Formulario ---------- */
-
-.formulario fieldset {
-  border: 1px solid var(--borda);
-  border-radius: 4px;
-  padding: 16px;
-  margin: 0 0 20px;
-}
-
-.formulario legend {
-  font-weight: 700;
-  padding: 0 6px;
-}
-
-.formulario label {
-  display: block;
-  margin: 12px 0 4px;
-  font-size: 15px;
-}
-
-.formulario input[type="text"],
-.formulario input[type="number"],
-.formulario input[type="time"],
-.formulario select {
-  width: 100%;
-  padding: 8px 10px;
-  font-size: 15px;
-  font-family: inherit;
-  border: 1px solid var(--borda);
-  border-radius: 4px;
-  background: var(--cartao);
-  color: var(--texto);
-}
-
-.formulario small {
-  display: block;
-  margin-top: 4px;
-  font-size: 13px;
-  color: var(--texto-fraco);
-}
-
-.escolhas {
-  display: flex;
-  gap: 20px;
-  margin-top: 4px;
-}
-
-.escolhas .radio {
+.etiqueta-secao {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  margin: 0;
+  gap: 8px;
+  font-family: var(--fonte-ui);
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--verde-texto);
+  margin-bottom: 14px;
+}
+.etiqueta-secao::before {
+  content: "";
+  width: 26px; height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--verde-neon), var(--azul-ceu));
 }
 
-.escolhas input[type="radio"] {
-  width: auto;
+.conteudo {
+  width: 100%;
+  max-width: var(--larg-conteudo);
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 2;
 }
 
-/* ---------- Botoes ---------- */
+.secao { padding: clamp(64px, 10vw, 128px) 0; position: relative; }
+
+/* Progressao de vida: cada secao mais embaixo deixa as plantas
+   mais saturadas e mais visiveis.                                 */
+.vida-1 { --vida: .18; }
+.vida-2 { --vida: .34; }
+.vida-3 { --vida: .55; }
+.vida-4 { --vida: .78; }
+.vida-5 { --vida: 1; }
+
+
+/* ===================================================================
+   04 TEXTURA - grao de filme
+   -------------------------------------------------------------------
+   Um ruido bem fraquinho por cima de tudo. E o detalhe que tira
+   aquele aspecto de "degrade liso de template" e deixa impresso.
+   O SVG esta embutido como data URI, entao nao pesa nenhum arquivo.
+   =================================================================== */
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: .035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23r)'/%3E%3C/svg%3E");
+}
+
+
+/* ===================================================================
+   05 NATUREZA - folhas e flores de fundo
+   =================================================================== */
+
+/* Cada secao carrega um palco onde as plantas ficam posicionadas.
+   pointer-events: none para nunca atrapalhar o clique.            */
+.palco {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.planta {
+  position: absolute;
+  /* O viewBox do SVG cuida da proporcao: basta mandar a largura
+     e a altura se ajusta sozinha.                                */
+  height: auto;
+  /* Aqui acontece a magica da progressao:
+     saturate baixo + opacidade baixa = aguarela lavada no topo
+     saturate 1 + opacidade cheia     = natureza viva no final    */
+  opacity: calc(.25 + var(--vida) * .75);
+  filter: saturate(calc(.12 + var(--vida) * .88))
+          blur(calc((1 - var(--vida)) * 1.1px));
+  transition: opacity 1.1s var(--suave), filter 1.1s var(--suave);
+  will-change: transform;
+}
+
+/* Posicoes usadas no hero, imitando a referencia do Canva:
+   massa de folhagem nos cantos, texto respirando no meio.        */
+.planta-ne  { top: -6%;  right: -4%;  width: clamp(230px, 32vw, 430px); }
+.planta-no  { top: -10%; left: -8%;   width: clamp(190px, 26vw, 340px); }
+.planta-so  { bottom: -12%; left: -6%; width: clamp(220px, 30vw, 400px); }
+.planta-se  { bottom: -8%; right: -7%; width: clamp(200px, 27vw, 360px); }
+.planta-girassol { top: 4%; left: 3%;  width: clamp(80px, 11vw, 140px); }
+.planta-samambaia{ bottom: 6%; right: 4%; width: clamp(150px, 20vw, 280px); transform: rotate(-12deg); }
+
+/* Borroes de aguarela: manchas organicas atras das folhas */
+/* Os borroes sao a "aguarela" de fundo. Eles ficam de proposito
+   nos CANTOS e fracos: o centro da tela precisa continuar branco
+   para o texto ter contraste, igual na referencia.              */
+.borrao {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(58px);
+  opacity: calc(.07 + var(--vida) * .26);
+  transition: opacity 1.1s var(--suave);
+}
+.borrao-verde    { background: var(--verde-folha); }
+.borrao-azul     { background: var(--azul-ceu); }
+.borrao-amarelo  { background: var(--amarelo); }
+
+/* Parallax: o JS escreve --deslocamento e a planta sobe/desce
+   mais devagar que o resto da pagina.                            */
+.parallax { transform: translate3d(0, var(--deslocamento, 0px), 0); }
+
+
+/* ===================================================================
+   06 VIDRO - liquid glass
+   -------------------------------------------------------------------
+   A receita do vidro liquido tem 4 ingredientes:
+     1. fundo semitransparente em degrade (nao cor chapada)
+     2. backdrop-filter com blur E saturate (o saturate e o segredo:
+        as cores atras "vazam" vivas, como vidro de verdade)
+     3. brilho interno na borda de cima (o reflexo da luz)
+     4. sombra externa suave, longa e bem difusa
+   =================================================================== */
+
+.vidro {
+  position: relative;
+  background: linear-gradient(145deg,
+              rgba(255, 255, 255, .80),
+              rgba(255, 255, 255, .50));
+  -webkit-backdrop-filter: blur(22px) saturate(185%);
+  backdrop-filter: blur(22px) saturate(185%);
+  border: 1px solid rgba(255, 255, 255, .7);
+  border-radius: var(--raio-g);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .95),   /* reflexo em cima  */
+    inset 0 -1px 0 rgba(var(--azul-noite-rgb), .05),
+    var(--sombra-2);
+  overflow: hidden;
+}
+
+/* Brilho especular que segue o cursor (Cursor Tracking Glow).
+   O JS atualiza --mx e --my com a posicao do mouse.               */
+.vidro::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .45s var(--suave);
+  background: radial-gradient(300px circle at var(--mx, 50%) var(--my, 50%),
+              rgba(var(--verde-neon-rgb), .20),
+              rgba(var(--azul-ceu-rgb), .10) 40%,
+              transparent 70%);
+}
+.vidro:hover::after { opacity: 1; }
+
+/* Variante mais densa, para a navbar e o dock */
+.vidro-denso {
+  background: linear-gradient(145deg,
+              rgba(255, 255, 255, .88),
+              rgba(255, 255, 255, .70));
+  -webkit-backdrop-filter: blur(30px) saturate(200%);
+  backdrop-filter: blur(30px) saturate(200%);
+}
+
+/* Navegador sem backdrop-filter: cai para fundo solido.
+   Sem isso o texto ficaria ilegivel sobre as plantas.            */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .vidro, .vidro-denso { background: rgba(255, 255, 255, .96); }
+}
+
+
+/* ===================================================================
+   07 BOTOES
+   =================================================================== */
 
 .botao {
-  display: inline-block;
-  padding: 9px 18px;
-  margin: 4px 4px 4px 0;
-  font-size: 15px;
-  font-family: inherit;
+  --brilho: 0;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 26px;
+  margin: 4px 6px 4px 0;
+  font-family: var(--fonte-ui);
+  font-size: .96rem;
+  font-weight: 600;
+  letter-spacing: -.01em;
   text-decoration: none;
-  color: var(--cartao);
-  background: var(--realce);
-  border: 1px solid var(--realce);
-  border-radius: 4px;
+  color: var(--branco);
+  background: linear-gradient(135deg, var(--azul) 0%, var(--azul-noite) 100%);
+  border: none;
+  border-radius: var(--raio-pilula);
+  cursor: pointer;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: var(--sombra-2);
+  /* A mola e o que da a sensacao de peso fisico no hover */
+  transition: transform .45s var(--mola),
+              box-shadow .45s var(--suave),
+              filter .3s var(--suave);
+}
+
+/* Hover Lift: o botao sobe e a sombra cresce junto.
+   Os dois precisam andar juntos, senao parece colado na tela.   */
+.botao:hover {
+  transform: translateY(-3px) scale(1.015);
+  box-shadow: var(--sombra-3);
+  filter: brightness(1.06);
+  color: var(--branco);
+}
+
+/* Squishy: ao clicar, o botao afunda. Resposta tatil.           */
+.botao:active { transform: translateY(-1px) scale(.985); transition-duration: .1s; }
+
+.botao:focus-visible {
+  outline: 3px solid rgba(var(--azul-ceu-rgb), .75);
+  outline-offset: 3px;
+}
+
+/* Shimmer: um reflexo atravessa o botao no hover.               */
+.botao::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(105deg,
+              transparent 35%,
+              rgba(255, 255, 255, .42) 50%,
+              transparent 65%);
+  transform: translateX(-120%);
+  transition: transform .85s var(--expo);
+}
+.botao:hover::before { transform: translateX(120%); }
+
+/* Icon Slide: a setinha desliza para a direita no hover.        */
+.botao .seta {
+  display: inline-block;
+  transition: transform .4s var(--mola);
+}
+.botao:hover .seta { transform: translateX(5px); }
+
+/* --- Variantes ---------------------------------------------------- */
+
+.botao-verde {
+  color: var(--azul-noite);
+  background: linear-gradient(135deg, var(--verde-neon) 0%, var(--verde-folha) 100%);
+}
+.botao-verde:hover { color: var(--azul-noite); }
+
+.botao-sol {
+  color: var(--azul-noite);
+  background: linear-gradient(135deg, var(--amarelo) 0%, var(--verde-folha) 120%);
+}
+.botao-sol:hover { color: var(--azul-noite); }
+
+/* Botao de vidro: para acoes secundarias */
+.botao-vidro {
+  color: var(--azul-noite);
+  background: linear-gradient(145deg, rgba(255,255,255,.80), rgba(255,255,255,.52));
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, .8);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9), var(--sombra-1);
+}
+.botao-vidro:hover { color: var(--azul-noite); box-shadow: inset 0 1px 0 rgba(255,255,255,.9), var(--sombra-2); }
+
+.botao-grande { padding: 17px 36px; font-size: 1.05rem; }
+.botao-pequeno { padding: 9px 18px; font-size: .86rem; }
+
+/* Border Beam: um feixe de luz percorre a borda do botao.
+   Usa @property para o navegador conseguir animar o angulo.     */
+@property --angulo {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.botao-feixe { position: relative; z-index: 1; }
+.botao-feixe::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -2;
+  border-radius: inherit;
+  background: conic-gradient(from var(--angulo),
+              transparent 0deg,
+              var(--verde-neon) 40deg,
+              var(--azul-ceu) 80deg,
+              transparent 130deg);
+  animation: girar-feixe 3.5s linear infinite;
+  opacity: 0;
+  transition: opacity .4s;
+}
+.botao-feixe:hover::after { opacity: 1; }
+
+@keyframes girar-feixe { to { --angulo: 360deg; } }
+
+
+/* ===================================================================
+   08 NAVBAR
+   =================================================================== */
+
+.topo {
+  position: sticky;
+  top: 14px;
+  z-index: 900;
+  width: calc(100% - 32px);
+  max-width: var(--larg-conteudo);
+  margin: 14px auto 0;
+  padding: 11px 14px 11px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-radius: var(--raio-pilula);
+  transition: box-shadow .4s var(--suave), padding .4s var(--suave);
+}
+
+/* O JS adiciona .rolou quando a pagina desce: a barra encolhe
+   um pouquinho e ganha sombra. Detalhe pequeno, efeito grande.  */
+.topo.rolou { box-shadow: var(--sombra-3); padding-top: 8px; padding-bottom: 8px; }
+
+.logo {
+  font-family: var(--fonte-display);
+  font-size: 1.35rem;
+  letter-spacing: .06em;
+  color: var(--azul-noite);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.logo:hover { color: var(--verde-texto); }
+
+.topo nav { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+
+.topo nav a {
+  position: relative;
+  padding: 8px 14px;
+  font-family: var(--fonte-ui);
+  font-size: .9rem;
+  font-weight: 500;
+  color: var(--tinta-fraca);
+  text-decoration: none;
+  border-radius: var(--raio-pilula);
+  transition: color .3s var(--suave), background .3s var(--suave);
+}
+.topo nav a:hover { color: var(--azul-noite); background: rgba(var(--verde-neon-rgb), .14); }
+
+/* Pagina atual: pilula verde preenchida */
+.topo nav a.ativo {
+  color: var(--azul-noite);
+  background: linear-gradient(135deg, rgba(var(--verde-neon-rgb), .30), rgba(var(--azul-ceu-rgb), .26));
+  font-weight: 600;
+}
+
+/* Botao de menu do celular (escondido no desktop) */
+.abrir-menu {
+  display: none;
+  padding: 8px 12px;
+  font-size: 1.2rem;
+  line-height: 1;
+  background: none;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-pilula);
+  color: var(--azul-noite);
   cursor: pointer;
 }
 
-.botao:hover {
-  opacity: 0.85;
+
+/* ===================================================================
+   09 HERO
+   =================================================================== */
+
+.hero {
+  position: relative;
+  min-height: min(92vh, 860px);
+  display: flex;
+  align-items: center;
+  padding: clamp(60px, 10vw, 110px) 0 clamp(70px, 12vw, 140px);
+  text-align: center;
+  overflow: hidden;
 }
 
-.botao-grande {
-  padding: 12px 24px;
-  font-size: 16px;
+.hero .conteudo { display: flex; flex-direction: column; align-items: center; }
+
+.hero-titulo {
+  font-size: clamp(3.6rem, 15vw, 11rem);
+  line-height: .88;
+  letter-spacing: -.035em;
+  margin: 0;
 }
 
-.botao-secundario {
-  color: var(--texto);
-  background: var(--cartao);
-  border-color: var(--borda);
+.hero-script { margin: -.1em 0 .5em; }
+
+.hero p { margin-left: auto; margin-right: auto; }
+
+.hero-botoes { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 26px; }
+
+/* Selo de vidro acima do titulo */
+.selo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 17px 7px 11px;
+  margin-bottom: 26px;
+  font-family: var(--fonte-ui);
+  font-size: .8rem;
+  font-weight: 500;
+  color: var(--tinta-fraca);
+  border-radius: var(--raio-pilula);
+}
+.selo .ponto {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--verde-neon);
+  box-shadow: 0 0 0 0 rgba(var(--verde-neon-rgb), .7);
+  animation: pulsar 2.4s ease-out infinite;
+}
+@keyframes pulsar {
+  70%  { box-shadow: 0 0 0 11px rgba(var(--verde-neon-rgb), 0); }
+  100% { box-shadow: 0 0 0 0 rgba(var(--verde-neon-rgb), 0); }
 }
 
-/* ---------- Barras de progresso ---------- */
+/* Seta de "role para baixo" */
+.role {
+  margin-top: 48px;
+  font-family: var(--fonte-ui);
+  font-size: .76rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--tinta-fraca);
+  animation: flutuar 2.6s ease-in-out infinite;
+}
+@keyframes flutuar {
+  0%, 100% { transform: translateY(0); opacity: .75; }
+  50%      { transform: translateY(7px); opacity: 1; }
+}
+
+
+/* ===================================================================
+   10 CARTOES
+   =================================================================== */
+
+.cartao {
+  position: relative;
+  padding: 28px;
+  margin-bottom: 22px;
+  border-radius: var(--raio-g);
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  box-shadow: var(--sombra-1);
+  transition: transform .5s var(--mola), box-shadow .45s var(--suave);
+}
+
+/* Hover Lift nos cartoes clicaveis */
+.cartao-vivo:hover { transform: translateY(-5px); box-shadow: var(--sombra-3); }
+
+.cartao h2, .cartao h3 { margin-top: 0; }
+.cartao > :last-child { margin-bottom: 0; }
+
+.destaque { border-left: 3px solid var(--verde-neon); }
+
+/* Bento: grade de cartoes de tamanhos diferentes */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+  gap: 18px;
+  margin-bottom: 22px;
+}
+.bento-largo { grid-column: span 2; }
+
+.colunas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: 18px;
+  margin-bottom: 22px;
+}
+.colunas > .cartao { margin-bottom: 0; }
+
+/* Numero grande, com o degrade da paleta */
+.numero-grande { text-align: center; }
+.numero-grande .valor {
+  display: block;
+  font-family: var(--fonte-display);
+  font-size: clamp(2.4rem, 5.5vw, 3.6rem);
+  line-height: 1;
+  letter-spacing: -.03em;
+  background: linear-gradient(150deg, var(--azul-ceu), var(--azul) 60%, var(--azul-noite));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.numero-grande .unidade {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--fonte-ui);
+  font-size: .82rem;
+  letter-spacing: .04em;
+  color: var(--tinta-fraca);
+}
+
+/* Ícone redondo de vidro no topo dos cartoes */
+.icone-bolha {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px; height: 46px;
+  margin-bottom: 14px;
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(var(--verde-neon-rgb), .26), rgba(var(--azul-ceu-rgb), .22));
+  border: 1px solid rgba(255, 255, 255, .8);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.9);
+  font-size: 1.25rem;
+}
+
+.dica { background: linear-gradient(135deg, rgba(var(--amarelo-rgb), .16), rgba(var(--verde-folha-rgb), .12)); border-color: rgba(var(--amarelo-rgb), .4); }
+
+
+/* ===================================================================
+   11 FORMULARIO - floating label
+   =================================================================== */
+
+.formulario fieldset {
+  padding: 24px;
+  margin: 0 0 20px;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-m);
+  background: rgba(255, 255, 255, .55);
+}
+
+.formulario legend {
+  padding: 3px 12px;
+  font-family: var(--fonte-ui);
+  font-size: .74rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--verde-texto);
+  background: var(--superficie);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-pilula);
+}
+
+/* O campo com rotulo flutuante.
+   Truque: o input tem placeholder=" " (um espaco). Quando ele
+   esta vazio o seletor :placeholder-shown e verdadeiro, e o
+   rotulo fica grande dentro do campo. Quando a pessoa digita ou
+   foca, o rotulo encolhe e sobe para a borda.                   */
+.campo { position: relative; margin: 20px 0 0; }
+
+.campo input,
+.campo select {
+  width: 100%;
+  padding: 21px 15px 9px;
+  font-family: var(--fonte-ui);
+  font-size: 1rem;
+  color: var(--tinta);
+  background: var(--superficie);
+  border: 1.5px solid var(--borda);
+  border-radius: var(--raio-p);
+  transition: border-color .3s var(--suave), box-shadow .3s var(--suave);
+  appearance: none;
+}
+.campo select { cursor: pointer; padding-right: 40px; }
+
+.campo input:focus,
+.campo select:focus {
+  outline: none;
+  border-color: var(--verde-neon);
+  box-shadow: 0 0 0 4px rgba(var(--verde-neon-rgb), .18);
+}
+
+.campo label {
+  position: absolute;
+  left: 16px;
+  top: 7px;
+  font-family: var(--fonte-ui);
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--verde-texto);
+  pointer-events: none;
+  transition: all .25s var(--suave);
+}
+
+/* Campo vazio e sem foco: o rotulo volta para o meio */
+.campo input:placeholder-shown:not(:focus) + label {
+  top: 17px;
+  font-size: .97rem;
+  font-weight: 400;
+  color: var(--tinta-fraca);
+}
+
+/* A setinha do select */
+.campo-select::after {
+  content: "";
+  position: absolute;
+  right: 18px; top: 26px;
+  width: 8px; height: 8px;
+  border-right: 2px solid var(--tinta-fraca);
+  border-bottom: 2px solid var(--tinta-fraca);
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
+.campo small { display: block; margin-top: 6px; font-family: var(--fonte-ui); font-size: .78rem; color: var(--tinta-fraca); }
+
+.pergunta {
+  display: block;
+  margin: 22px 0 9px;
+  font-family: var(--fonte-ui);
+  font-size: .95rem;
+  font-weight: 600;
+}
+
+/* Sim/Nao como pilulas selecionaveis, no lugar do radio cru */
+.escolhas { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.escolhas .radio { position: relative; }
+.escolhas input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%; height: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+.escolhas .radio span {
+  display: block;
+  padding: 10px 24px;
+  font-family: var(--fonte-ui);
+  font-size: .93rem;
+  font-weight: 500;
+  color: var(--tinta-fraca);
+  background: var(--superficie);
+  border: 1.5px solid var(--borda);
+  border-radius: var(--raio-pilula);
+  transition: all .3s var(--mola);
+}
+.escolhas input:checked + span {
+  color: var(--azul-noite);
+  font-weight: 600;
+  background: linear-gradient(135deg, rgba(var(--verde-neon-rgb), .28), rgba(var(--azul-ceu-rgb), .24));
+  border-color: var(--verde-neon);
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-1);
+}
+.escolhas input:focus-visible + span { outline: 3px solid rgba(var(--azul-ceu-rgb), .75); outline-offset: 2px; }
+.escolhas .radio:hover span { border-color: rgba(var(--verde-neon-rgb), .6); }
+
+
+/* ===================================================================
+   12 BARRAS de progresso
+   =================================================================== */
 
 .barra {
-  height: 14px;
-  background: var(--fundo);
-  border: 1px solid var(--borda);
-  border-radius: 7px;
+  position: relative;
+  height: 11px;
+  margin: 10px 0;
+  background: rgba(var(--azul-noite-rgb), .08);
+  border-radius: var(--raio-pilula);
   overflow: hidden;
-  margin: 8px 0;
 }
-
-.barra-grande {
-  height: 22px;
-  border-radius: 11px;
-}
-
-.barra-pequena {
-  height: 8px;
-  width: 80px;
-  display: inline-block;
-  vertical-align: middle;
-  margin: 0 6px 0 0;
-}
+.barra-grande { height: 20px; }
+.barra-pequena { display: inline-block; width: 78px; height: 7px; margin: 0 8px 0 0; vertical-align: middle; }
 
 .barra-preenchida {
   height: 100%;
-  background: var(--realce);
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--verde-neon), var(--verde-folha) 45%, var(--azul-ceu));
+  background-size: 220% 100%;
+  /* Duas animacoes ao mesmo tempo: o gradiente corre para sempre
+     e a barra cresce da esquerda uma vez, quando a pagina abre.  */
+  transform-origin: left;
+  animation: correr-gradiente 5s linear infinite,
+             encher .95s var(--expo) both;
 }
+@keyframes correr-gradiente { to { background-position: -220% 0; } }
+@keyframes encher { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
-.faixa-nivel .legenda {
-  margin-left: 8px;
-}
-
-/* ---------- Trilha de niveis ---------- */
-
-.trilha {
+/* Faixa com o nivel atual, no topo do painel */
+.faixa-nivel { display: grid; gap: 4px; }
+.faixa-nivel .topo-faixa {
   display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
   flex-wrap: wrap;
-  gap: 8px;
+}
+.faixa-nivel strong { font-family: var(--fonte-display); font-size: 1.3rem; font-weight: 400; }
+
+/* Trilha dos 5 niveis */
+.trilha {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+  gap: 9px;
   list-style: none;
   padding: 0;
-  margin: 12px 0 0;
+  margin: 18px 0 0;
 }
-
 .trilha li {
-  flex: 1 1 100px;
+  padding: 12px 6px;
   text-align: center;
-  padding: 8px 4px;
-  font-size: 14px;
-  border: 1px solid var(--borda);
-  border-radius: 4px;
-  color: var(--texto-fraco);
+  font-family: var(--fonte-ui);
+  font-size: .85rem;
+  color: var(--tinta-fraca);
+  background: var(--superficie);
+  border: 1.5px solid var(--borda);
+  border-radius: var(--raio-m);
+  transition: all .45s var(--mola);
 }
-
-.trilha li small {
-  display: block;
-  font-size: 12px;
-}
-
+.trilha li small { display: block; font-size: .7rem; opacity: .75; }
 .trilha-feito {
-  border-color: var(--realce);
-  color: var(--texto);
+  color: var(--azul-noite);
   font-weight: 700;
+  background: linear-gradient(160deg, rgba(var(--verde-neon-rgb), .24), rgba(var(--azul-ceu-rgb), .18));
+  border-color: var(--verde-neon);
+  transform: translateY(-3px);
+  box-shadow: var(--sombra-1);
 }
 
-/* ---------- Lista de missoes ---------- */
 
-.lista-missoes {
-  list-style: none;
-  padding: 0;
-  margin: 12px 0 0;
-}
+/* ===================================================================
+   13 MISSOES
+   =================================================================== */
+
+.lista-missoes { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 14px; }
 
 .missao {
+  position: relative;
+  padding: 20px 22px;
+  background: var(--superficie);
   border: 1px solid var(--borda);
-  border-radius: 5px;
-  padding: 14px 16px;
-  margin-bottom: 12px;
+  border-radius: var(--raio-m);
+  box-shadow: var(--sombra-1);
+  transition: transform .5s var(--mola), box-shadow .45s var(--suave), border-color .3s;
+  overflow: hidden;
 }
+.missao:hover { transform: translateY(-4px); box-shadow: var(--sombra-2); border-color: rgba(var(--verde-neon-rgb), .5); }
 
-.missao-feita {
-  background: var(--fundo);
+/* Faixa colorida na lateral, por categoria */
+.missao::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, var(--verde-neon), var(--azul-ceu));
 }
+.missao-descarte::before { background: linear-gradient(180deg, var(--amarelo), var(--verde-folha)); }
 
-.missao-topo {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 6px;
-}
+.missao-feita { opacity: .62; background: rgba(var(--verde-neon-rgb), .05); }
+.missao-feita:hover { transform: none; }
 
-.missao-topo h3 {
-  margin: 0;
-  flex: 1 1 auto;
-}
-
-.missao p {
-  margin: 6px 0;
-}
+.missao-topo { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-bottom: 8px; }
+.missao-topo h3 { margin: 0; flex: 1 1 auto; font-size: 1.15rem; }
+.missao p { margin: 7px 0; }
 
 .motivo {
+  padding: 10px 14px;
+  margin: 10px 0;
   font-style: italic;
-  color: var(--texto-fraco);
+  font-size: .94rem;
+  color: var(--tinta-fraca);
+  background: rgba(var(--azul-ceu-rgb), .1);
+  border-radius: var(--raio-p);
 }
+.economia { font-family: var(--fonte-ui); font-size: .85rem; color: var(--tinta-fraca); }
 
-.economia {
-  font-size: 14px;
-  color: var(--texto-fraco);
-}
-
-/* ---------- Etiquetas ---------- */
-
+/* Etiquetas */
 .etiqueta {
   display: inline-block;
-  padding: 2px 8px;
-  font-size: 12px;
+  padding: 3px 11px;
+  font-family: var(--fonte-ui);
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .08em;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  color: var(--tinta-fraca);
+  background: rgba(var(--azul-noite-rgb), .05);
   border: 1px solid var(--borda);
-  border-radius: 10px;
-  color: var(--texto-fraco);
+  border-radius: var(--raio-pilula);
   white-space: nowrap;
 }
+.etiqueta-agua     { color: #0C6E8F; background: rgba(var(--azul-ceu-rgb), .20); border-color: rgba(var(--azul-ceu-rgb), .5); }
+.etiqueta-descarte { color: #86640A; background: rgba(var(--amarelo-rgb), .22); border-color: rgba(var(--amarelo-rgb), .6); }
+.etiqueta-xp       { color: var(--azul-noite); background: linear-gradient(135deg, rgba(var(--verde-neon-rgb), .3), rgba(var(--verde-folha-rgb), .24)); border-color: rgba(var(--verde-neon-rgb), .6); font-weight: 700; }
 
-.etiqueta-xp {
-  border-color: var(--realce);
-  color: var(--texto);
-}
 
-/* As etiquetas de categoria ficam sem cor por enquanto, de proposito. */
-.etiqueta-agua,
-.etiqueta-descarte {
-  border-style: dashed;
-}
+/* ===================================================================
+   14 TABELAS
+   =================================================================== */
 
-/* ---------- Tabelas ---------- */
+.rolagem-tabela { overflow-x: auto; margin: 10px 0; border-radius: var(--raio-m); }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 8px;
-  font-size: 15px;
-}
+table { width: 100%; border-collapse: collapse; font-size: .95rem; min-width: 460px; }
 
-th,
-td {
-  text-align: left;
-  padding: 8px 10px;
-  border-bottom: 1px solid var(--borda);
-}
+th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--borda); }
 
 thead th {
-  font-size: 13px;
+  font-family: var(--fonte-ui);
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .1em;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--texto-fraco);
+  color: var(--tinta-fraca);
+  border-bottom: 1.5px solid var(--borda);
 }
 
-tfoot th {
-  border-top: 2px solid var(--borda);
-  border-bottom: none;
-}
+tbody tr { transition: background .25s; }
+tbody tr:hover { background: rgba(var(--verde-neon-rgb), .06); }
 
-/* ---------- Avisos (flash) ---------- */
+tfoot th { font-weight: 700; border-top: 2px solid rgba(var(--azul-noite-rgb), .18); border-bottom: none; }
+
+
+/* ===================================================================
+   15 TOASTS - avisos flutuantes
+   =================================================================== */
 
 .avisos {
-  margin-bottom: 20px;
+  position: fixed;
+  top: 86px;
+  right: 20px;
+  z-index: 950;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: min(360px, calc(100vw - 40px));
+  pointer-events: none;
 }
 
 .aviso {
-  padding: 10px 14px;
-  margin: 0 0 8px;
-  border: 1px solid var(--borda);
-  border-left-width: 4px;
-  border-radius: 4px;
-  background: var(--cartao);
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  padding: 14px 16px;
+  margin: 0;
+  font-family: var(--fonte-ui);
+  font-size: .92rem;
+  line-height: 1.5;
+  color: var(--tinta);
+  border-radius: var(--raio-m);
+  pointer-events: auto;
+  box-shadow: var(--sombra-3);
+  animation: entrar-aviso .55s var(--mola) both;
+}
+@keyframes entrar-aviso {
+  from { opacity: 0; transform: translateX(26px) scale(.95); }
+}
+.aviso.saindo { animation: sair-aviso .4s var(--suave) forwards; }
+@keyframes sair-aviso {
+  to { opacity: 0; transform: translateX(26px) scale(.95); }
 }
 
-.aviso-ok {
-  border-left-color: var(--ok);
+.aviso::before {
+  content: "";
+  flex: 0 0 4px;
+  align-self: stretch;
+  border-radius: 2px;
+}
+.aviso-ok::before   { background: linear-gradient(180deg, var(--verde-neon), var(--verde-folha)); }
+.aviso-erro::before { background: linear-gradient(180deg, var(--amarelo), var(--alerta)); }
+
+.fechar-aviso {
+  margin-left: auto;
+  padding: 0 4px;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--tinta-fraca);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: color .25s, transform .25s var(--mola);
+}
+.fechar-aviso:hover { color: var(--tinta); transform: scale(1.2); }
+
+.texto-ok     { color: var(--ok); }
+.texto-alerta { color: var(--alerta); }
+
+
+/* ===================================================================
+   16 FLUTUANTES
+   =================================================================== */
+
+/* Barra fininha no topo mostrando quanto da pagina ja foi lida */
+.progresso-scroll {
+  position: fixed;
+  top: 0; left: 0;
+  z-index: 999;
+  height: 3px;
+  width: 100%;
+  transform: scaleX(var(--lido, 0));
+  transform-origin: left;
+  background: linear-gradient(90deg, var(--verde-neon), var(--azul-ceu), var(--azul));
+  pointer-events: none;
 }
 
-.aviso-erro {
-  border-left-color: var(--alerta);
+/* Voltar ao topo */
+.voltar-topo {
+  position: fixed;
+  right: 22px; bottom: 22px;
+  z-index: 920;
+  display: grid;
+  place-items: center;
+  width: 50px; height: 50px;
+  font-size: 1.1rem;
+  color: var(--azul-noite);
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(14px) scale(.85);
+  transition: all .5s var(--mola);
+}
+.voltar-topo.aparece { opacity: 1; visibility: visible; transform: none; }
+.voltar-topo:hover { transform: translateY(-4px) scale(1.06); box-shadow: var(--sombra-3); }
+
+
+/* ===================================================================
+   17 COLAGEM - a secao final
+   -------------------------------------------------------------------
+   Aqui a paleta oficial e liberada: entram rosa, laranja, roxo.
+   As folhas ficam 100% saturadas e sobrepostas.
+   =================================================================== */
+
+.colagem {
+  position: relative;
+  padding: clamp(90px, 14vw, 170px) 0;
+  overflow: hidden;
+  text-align: center;
+  background:
+    radial-gradient(60% 70% at 15% 20%, rgba(255, 170, 200, .40), transparent 62%),
+    radial-gradient(55% 60% at 85% 18%, rgba(var(--amarelo-rgb), .45), transparent 60%),
+    radial-gradient(70% 80% at 50% 110%, rgba(var(--verde-folha-rgb), .55), transparent 65%),
+    radial-gradient(45% 55% at 90% 80%, rgba(180, 150, 255, .34), transparent 62%),
+    linear-gradient(170deg, #FFFFFF 0%, #F2FBF0 45%, #E4F7EA 100%);
 }
 
-.texto-ok {
-  color: var(--ok);
+/* As plantas da colagem ficam vivas, grandes e sobrepostas */
+.colagem .planta { opacity: 1; filter: saturate(1.08) contrast(1.03); }
+
+.colagem-c1 { top: -4%;  left: -5%;  width: clamp(200px, 27vw, 380px); transform: rotate(-8deg); }
+.colagem-c2 { top: -8%;  right: -4%; width: clamp(230px, 30vw, 420px); }
+.colagem-c3 { bottom: -10%; left: 8%;  width: clamp(180px, 24vw, 330px); transform: rotate(12deg); }
+.colagem-c4 { bottom: -6%;  right: 2%; width: clamp(210px, 28vw, 380px); transform: rotate(-5deg); }
+.colagem-c5 { top: 38%;  left: -8%;  width: clamp(130px, 17vw, 230px); transform: rotate(22deg); }
+.colagem-c6 { top: 20%;  right: 12%; width: clamp(70px, 9vw, 120px); }
+.colagem-c7 { bottom: 26%; left: 24%; width: clamp(60px, 8vw, 105px); }
+
+.colagem .conteudo { position: relative; z-index: 3; }
+
+/* Caixa de vidro no meio da colagem, para o texto ler bem */
+.caixa-colagem {
+  display: inline-block;
+  max-width: 660px;
+  padding: clamp(32px, 5vw, 54px);
+  border-radius: var(--raio-g);
 }
 
-.texto-alerta {
-  color: var(--alerta);
-}
 
-/* ---------- Rodape ---------- */
+/* ===================================================================
+   18 RODAPE
+   =================================================================== */
 
 .rodape {
-  padding: 20px 24px;
-  border-top: 1px solid var(--borda);
-  background: var(--cartao);
-  font-size: 13px;
-  color: var(--texto-fraco);
+  position: relative;
+  padding: 54px 24px 40px;
   text-align: center;
+  font-family: var(--fonte-ui);
+  font-size: .86rem;
+  background: var(--azul-noite);
+  color: rgba(255, 255, 255, .72);
+}
+.rodape .logo-rodape {
+  display: block;
+  margin-bottom: 10px;
+  font-family: var(--fonte-display);
+  font-size: 1.6rem;
+  letter-spacing: .1em;
+  color: var(--verde-neon);
+}
+.rodape p { margin: 4px auto; max-width: 52ch; }
+.rodape a { color: var(--verde-neon); }
+
+
+/* ===================================================================
+   19 REVELACAO no scroll
+   -------------------------------------------------------------------
+   O JS coloca a classe .visivel quando o elemento entra na tela.
+   O --atraso faz os itens de uma lista entrarem em sequencia
+   (staggered reveal), em vez de todos de uma vez.
+   =================================================================== */
+
+.revelar {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity .85s var(--expo), transform .85s var(--expo);
+  transition-delay: var(--atraso, 0ms);
+}
+.revelar.visivel { opacity: 1; transform: none; }
+
+/* --- Entrada da primeira dobra ---------------------------------
+   IMPORTANTE: o conteudo do topo da pagina NAO pode usar .revelar.
+   O .revelar depende do JavaScript para ganhar a classe .visivel;
+   se o JS falhar, demorar ou estiver desligado, a primeira coisa
+   que a pessoa ve e uma tela em branco.
+
+   Por isso o hero usa .entrada, que e animacao de CSS puro e roda
+   sozinha assim que a pagina carrega. Sem JavaScript no caminho. */
+.entrada {
+  animation: entrar-subindo .8s var(--expo) both;
+  animation-delay: var(--atraso, 0ms);
+}
+@keyframes entrar-subindo {
+  from { opacity: 0; transform: translateY(20px); }
 }
 
-.rodape p {
-  margin: 2px 0;
+
+/* ===================================================================
+   20 ACESSIBILIDADE E RESPONSIVO
+   =================================================================== */
+
+/* Link que so aparece para quem navega por teclado */
+.pular-para-conteudo {
+  position: absolute;
+  left: -9999px;
+  z-index: 1000;
+  padding: 12px 20px;
+  background: var(--azul-noite);
+  color: var(--branco);
+  border-radius: 0 0 var(--raio-p) 0;
+}
+.pular-para-conteudo:focus { left: 0; top: 0; color: var(--branco); }
+
+:focus-visible { outline: 3px solid rgba(var(--azul-ceu-rgb), .8); outline-offset: 2px; }
+
+/* Respeita quem pediu menos movimento no sistema.
+   Nao e opcional: animacao demais causa enjoo em algumas pessoas. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .revelar { opacity: 1; transform: none; }
+  .planta { filter: saturate(calc(.3 + var(--vida) * .7)); }
 }
 
-/* ---------- Celular ---------- */
+@media (max-width: 860px) {
+  .bento-largo { grid-column: span 1; }
+}
 
-@media (max-width: 600px) {
-  h1 { font-size: 24px; }
-  .topo { padding: 12px 16px; }
-  .topo nav { gap: 12px; }
-  table { font-size: 14px; }
+@media (max-width: 700px) {
+  body { font-size: 16px; }
+
+  .topo { padding: 10px 12px 10px 18px; flex-wrap: wrap; }
+  .abrir-menu { display: block; }
+
+  /* No celular o menu comeca fechado e abre no botao */
+  .topo nav {
+    display: none;
+    order: 3;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    padding-top: 10px;
+    margin-top: 8px;
+    border-top: 1px solid var(--borda);
+  }
+  .topo nav.aberto { display: flex; }
+  .topo nav a { padding: 11px 14px; }
+
+  .avisos { top: auto; bottom: 86px; right: 16px; left: 16px; width: auto; }
+  .voltar-topo { right: 16px; bottom: 16px; width: 44px; height: 44px; }
+
+  .secao { padding: 60px 0; }
+  .conteudo { padding: 0 18px; }
+  .cartao { padding: 22px; }
+  .formulario fieldset { padding: 18px; }
+
+  /* No celular as plantas atrapalham mais: diminui a presenca */
+  .planta { opacity: calc(.18 + var(--vida) * .55); }
 }

@@ -3,113 +3,145 @@
 
 {% block conteudo %}
 
-<h1>Perfil de {{ usuario.nome }}</h1>
-<p class="subtitulo">{{ usuario.cidade }}</p>
-
-<!-- ============ NIVEL E PROGRESSO ============ -->
-<section class="cartao destaque">
-  <h2>Nivel {{ nivel.numero }} de {{ nivel.total_niveis }} - {{ nivel.nome }}</h2>
-
-  <div class="barra barra-grande">
-    <div class="barra-preenchida" style="width: {{ nivel.progresso }}%"></div>
+<section class="secao vida-4" style="padding-bottom:40px">
+  <div class="palco">
+    <svg class="planta parallax" viewBox="0 0 220 200" data-parallax="0.05"
+         style="top:-8%; left:-8%; width:clamp(170px,22vw,320px)"><use href="#arbusto"/></svg>
+    <svg class="planta parallax" viewBox="0 0 140 140" data-parallax="0.13"
+         style="top:16%; right:8%; width:clamp(48px,7vw,88px)"><use href="#girassol"/></svg>
+    <svg class="planta parallax" viewBox="0 0 160 210" data-parallax="0.09"
+         style="bottom:-6%; right:-6%; width:clamp(140px,18vw,260px)"><use href="#samambaia"/></svg>
   </div>
 
-  {% if nivel.nome_proximo %}
-    <p>
-      <strong>{{ nivel.xp }} XP</strong> acumulados.
-      Faltam <strong>{{ nivel.falta }} XP</strong> para virar
-      {{ nivel.nome_proximo }} ({{ nivel.xp_proximo }} XP).
-    </p>
-  {% else %}
-    <p>
-      <strong>{{ nivel.xp }} XP</strong> acumulados.
-      Voce alcancou o nivel maximo!
-    </p>
-  {% endif %}
+  <div class="conteudo">
+    <span class="etiqueta-secao entrada">Perfil</span>
+    <h1 class="entrada" style="--atraso:80ms; font-size:clamp(2.1rem,5vw,3.4rem)">
+      {{ usuario.nome }}
+    </h1>
+    <p class="subtitulo entrada" style="--atraso:160ms">{{ usuario.cidade }}</p>
 
-  <!-- Caminho completo dos niveis, para a pessoa ver onde esta -->
-  <ol class="trilha">
-    {% for xp_necessario, nome_nivel in niveis %}
-      <li class="{% if nivel.xp >= xp_necessario %}trilha-feito{% endif %}">
-        {{ nome_nivel }}
-        <small>{{ xp_necessario }} XP</small>
-      </li>
-    {% endfor %}
-  </ol>
-</section>
+    {# ============ NIVEL E TRILHA ============ #}
+    <div class="cartao vidro destaque entrada" style="--atraso:240ms; margin-top:24px">
+      <h2 style="font-size:clamp(1.5rem,3vw,2.2rem)">
+        Nivel {{ nivel.numero }} de {{ nivel.total_niveis }} &middot;
+        <span class="palavra-viva">{{ nivel.nome }}</span>
+      </h2>
 
-<!-- ============ TOTAIS ============ -->
-<section class="colunas">
-  <div class="cartao numero-grande">
-    <span class="valor">{{ total_missoes }}</span>
-    <span class="unidade">missoes concluidas</span>
-  </div>
-  <div class="cartao numero-grande">
-    <span class="valor">{{ litros_dia }}</span>
-    <span class="unidade">litros economizados por dia</span>
-  </div>
-  <div class="cartao numero-grande">
-    <span class="valor">{{ litros_ano }}</span>
-    <span class="unidade">litros por ano, se mantiver</span>
-  </div>
-</section>
+      <div class="barra barra-grande">
+        <div class="barra-preenchida" style="width: {{ nivel.progresso }}%"></div>
+      </div>
 
-<p class="legenda">
-  A economia e uma estimativa: ela mostra quanta agua voce deixa de gastar
-  por dia se continuar com os habitos das missoes que voce concluiu.
-  Por mes, isso da cerca de {{ litros_mes }} litros.
-</p>
+      {% if nivel.nome_proximo %}
+        <p>
+          <strong>{{ nivel.xp }} XP</strong> acumulados. Faltam
+          <strong>{{ nivel.falta }} XP</strong> para virar
+          {{ nivel.nome_proximo }} ({{ nivel.xp_proximo }} XP).
+        </p>
+      {% else %}
+        <p><strong>{{ nivel.xp }} XP</strong> acumulados. Voce alcancou o nivel maximo!</p>
+      {% endif %}
 
-<!-- ============ HISTORICO ============ -->
-<section class="cartao">
-  <h2>Historico de missoes</h2>
-
-  {% if historico %}
-    <table>
-      <thead>
-        <tr>
-          <th>Missao</th>
-          <th>Categoria</th>
-          <th>XP</th>
-          <th>Economia</th>
-          <th>Quando</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for item in historico %}
-        <tr>
-          <td>{{ item.titulo }}</td>
-          <td>
-            <span class="etiqueta etiqueta-{{ item.categoria }}">
-              {{ item.categoria }}
-            </span>
-          </td>
-          <td>+{{ item.xp_ganho }}</td>
-          <td>
-            {% if item.litros_dia > 0 %}
-              {{ item.litros_dia }} L/dia
-            {% else %}
-              -
-            {% endif %}
-          </td>
-          <!-- A data vem como "2026-10-31T18:20:00"; cortamos no T -->
-          <td>{{ item.concluida_em.replace("T", " as ") }}</td>
-        </tr>
+      {# Caminho completo dos niveis, para a pessoa ver onde esta #}
+      <ol class="trilha">
+        {% for xp_necessario, nome_nivel in niveis %}
+          <li class="{% if nivel.xp >= xp_necessario %}trilha-feito{% endif %}">
+            {{ nome_nivel }}
+            <small>{{ xp_necessario }} XP</small>
+          </li>
         {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>
-      Voce ainda nao concluiu nenhuma missao.
-      <a href="{{ url_for('painel') }}">Va para o painel</a> e comece agora.
-    </p>
-  {% endif %}
+      </ol>
+    </div>
+  </div>
 </section>
 
-<p>
-  <a class="botao botao-secundario" href="{{ url_for('rotina') }}">
-    Editar a minha rotina
-  </a>
-</p>
+
+{# ============ TOTAIS ============ #}
+<section class="secao vida-4" style="padding-top:0; padding-bottom:40px">
+  <div class="conteudo">
+    <div class="colunas revelar">
+      <div class="cartao vidro cartao-vivo numero-grande">
+        <span class="valor" data-contar="{{ total_missoes }}">{{ total_missoes }}</span>
+        <span class="unidade">missoes concluidas</span>
+      </div>
+      <div class="cartao vidro cartao-vivo numero-grande">
+        <span class="valor" data-contar="{{ litros_dia }}">{{ litros_dia }}</span>
+        <span class="unidade">litros economizados por dia</span>
+      </div>
+      <div class="cartao vidro cartao-vivo numero-grande">
+        <span class="valor" data-contar="{{ litros_ano }}">{{ litros_ano }}</span>
+        <span class="unidade">litros por ano, se mantiver</span>
+      </div>
+    </div>
+
+    <p class="legenda revelar">
+      A economia e uma estimativa: mostra quanta agua voce deixa de gastar por
+      dia se continuar com os habitos das missoes que ja concluiu. Por mes,
+      isso da cerca de {{ litros_mes }} litros.
+    </p>
+  </div>
+</section>
+
+
+{# ============ HISTORICO ============ #}
+<section class="secao vida-5" style="padding-top:0">
+  <div class="palco">
+    <svg class="planta parallax" viewBox="0 0 200 210" data-parallax="0.07"
+         style="bottom:-8%; left:-7%; width:clamp(150px,19vw,280px); transform:rotate(-18deg)"><use href="#monstera"/></svg>
+  </div>
+
+  <div class="conteudo">
+    <div class="cartao vidro revelar">
+      <span class="etiqueta-secao">Historico</span>
+      <h2 style="font-size:clamp(1.5rem,3vw,2.1rem)">Tudo que voce ja fez</h2>
+
+      {% if historico %}
+        <div class="rolagem-tabela">
+          <table>
+            <thead>
+              <tr>
+                <th>Missao</th><th>Categoria</th><th>XP</th>
+                <th>Economia</th><th>Quando</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in historico %}
+              <tr>
+                <td><strong>{{ item.titulo }}</strong></td>
+                <td>
+                  <span class="etiqueta etiqueta-{{ item.categoria }}">{{ item.categoria }}</span>
+                </td>
+                <td><span class="etiqueta etiqueta-xp">+{{ item.xp_ganho }}</span></td>
+                <td>
+                  {% if item.litros_dia > 0 %}{{ item.litros_dia }} L/dia{% else %}&mdash;{% endif %}
+                </td>
+                {# A data vem como "2026-10-31T18:20:00"; trocamos o T #}
+                <td style="white-space:nowrap">{{ item.concluida_em.replace("T", " as ") }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        {# Empty state: tela vazia que explica o proximo passo #}
+        <div style="text-align:center; padding:28px 0">
+          <span class="icone-bolha" style="width:62px; height:62px; font-size:1.8rem">&#127793;</span>
+          <h3>Nenhuma missao concluida ainda</h3>
+          <p class="legenda" style="margin-left:auto; margin-right:auto">
+            O seu historico comeca com a primeira missao. Leva um minuto.
+          </p>
+          <a class="botao botao-verde magnetico" href="{{ url_for('painel') }}">
+            Ir para o painel <span class="seta">&rarr;</span>
+          </a>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="revelar" style="margin-top:22px">
+      <a class="botao botao-vidro magnetico" href="{{ url_for('rotina') }}">
+        Editar a minha rotina
+      </a>
+    </div>
+  </div>
+</section>
 
 {% endblock %}

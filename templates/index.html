@@ -1,70 +1,271 @@
 {% extends "base.html" %}
-{% block titulo %}T.E.R.R.A. - Inicio{% endblock %}
+{% block titulo %}T.E.R.R.A. - Transforme a sua rotina{% endblock %}
 
 {% block conteudo %}
 
-<section class="cartao destaque">
-  <h1>T.E.R.R.A.</h1>
-  <p class="subtitulo">Tutor Ecologico de Rotinas e Reducoes Ambientais</p>
+{# ===================================================================
+   PRIMEIRA DOBRA
+   As plantas aqui ficam lavadas (vida-1) para o texto ler bem,
+   exatamente como na referencia feita no Canva.
+   =================================================================== #}
+<section class="hero vida-1">
 
-  <p>
-    Quase todo mundo quer ajudar o planeta, mas se perde na hora de comecar.
-    O T.E.R.R.A. resolve isso de um jeito simples: ele olha a
-    <strong>sua rotina de verdade</strong> - quanto tempo voce passa no banho,
-    quantas descargas voce da, como voce joga o lixo fora - calcula quanta
-    agua isso gasta e transforma as mudancas possiveis em
-    <strong>missoes</strong>.
-  </p>
+  <div class="palco">
+    {# Manchas de aguarela nos CANTOS. O centro fica branco de
+       proposito, para o titulo ter contraste.                   #}
+    <div class="borrao borrao-verde"   style="top:-14%; left:-12%; width:34vw; height:34vw"></div>
+    <div class="borrao borrao-verde"   style="bottom:-16%; left:-8%; width:26vw; height:26vw"></div>
+    <div class="borrao borrao-azul"    style="bottom:-18%; right:-12%; width:30vw; height:30vw"></div>
+    <div class="borrao borrao-amarelo" style="top:-6%; right:4%; width:16vw; height:16vw"></div>
 
-  <p>
-    Cada missao concluida vale XP. Com XP voce evolui de
-    <strong>Semente</strong> para <strong>Broto</strong>,
-    <strong>Muda</strong>, <strong>Arvore</strong> e
-    <strong>Floresta</strong>. Sustentabilidade deixa de ser cobranca e
-    vira progresso.
-  </p>
+    {# As folhagens dos cantos. data-parallax faz cada uma andar
+       numa velocidade diferente quando a pagina rola.            #}
+    <svg class="planta planta-no parallax" viewBox="0 0 220 200" data-parallax="0.06"><use href="#folhagem"/></svg>
+    <svg class="planta planta-ne parallax" viewBox="0 0 220 200" data-parallax="0.10"><use href="#arbusto"/></svg>
+    <svg class="planta planta-so parallax" viewBox="0 0 220 200" data-parallax="0.14"><use href="#folhagem"/></svg>
+    <svg class="planta planta-samambaia parallax" viewBox="0 0 160 210" data-parallax="0.18"><use href="#samambaia"/></svg>
+    <svg class="planta planta-girassol parallax" viewBox="0 0 140 140" data-parallax="0.22"><use href="#girassol"/></svg>
+    {# Folha de palmeira no canto de baixo, como na referencia #}
+    <svg class="planta parallax" viewBox="0 0 210 170" data-parallax="0.12"
+         style="bottom:-4%; right:6%; width:clamp(150px,21vw,330px); transform:rotate(8deg)"><use href="#palma"/></svg>
+  </div>
 
-  <p>
-    <a class="botao botao-grande" href="{{ url_for('rotina') }}">
-      {% if tem_perfil %}Editar a minha rotina{% else %}Comecar{% endif %}
-    </a>
-    {% if tem_perfil %}
-      <a class="botao botao-secundario" href="{{ url_for('painel') }}">
-        Ir para o painel
+  <div class="conteudo">
+    <span class="selo vidro entrada" style="--atraso:60ms">
+      <span class="ponto"></span>
+      T.E.R.R.A. &middot; Projeto final Python Pro
+    </span>
+
+    <h1 class="hero-titulo entrada" style="--atraso:140ms">
+      <span class="palavra-viva">Natureza</span>
+    </h1>
+
+    <p class="script hero-script entrada" style="--atraso:260ms">como salvar</p>
+
+    <p class="subtitulo entrada" style="--atraso:380ms">
+      Conte como e o seu dia. O T.E.R.R.A. calcula quantos litros de agua
+      a sua rotina realmente gasta e transforma o que da para mudar em
+      missoes pequenas, com XP e niveis.
+    </p>
+
+    <div class="hero-botoes entrada" style="--atraso:500ms">
+      <a class="botao botao-grande botao-feixe magnetico" href="{{ url_for('rotina') }}">
+        {% if tem_perfil %}Editar a minha rotina{% else %}Comecar agora{% endif %}
+        <span class="seta">&rarr;</span>
       </a>
+      {% if tem_perfil %}
+        <a class="botao botao-grande botao-vidro magnetico" href="{{ url_for('painel') }}">
+          Ir para o painel
+        </a>
+      {% else %}
+        <a class="botao botao-grande botao-vidro magnetico" href="#como-funciona">
+          Ver como funciona
+        </a>
+      {% endif %}
+    </div>
+
+    <p class="role">role para descobrir &#8595;</p>
+  </div>
+</section>
+
+
+{# ===================================================================
+   O PROBLEMA - as plantas comecam a ganhar cor
+   =================================================================== #}
+<section class="secao vida-2">
+  <div class="palco">
+    <svg class="planta parallax" viewBox="0 0 170 180" data-parallax="0.05"
+         style="top:6%; right:-5%; width:clamp(150px,20vw,290px)"><use href="#ramo"/></svg>
+    <svg class="planta parallax" viewBox="0 0 200 210" data-parallax="0.09"
+         style="bottom:-8%; left:-7%; width:clamp(150px,19vw,270px); transform:rotate(18deg)"><use href="#monstera"/></svg>
+  </div>
+
+  <div class="conteudo">
+    <span class="etiqueta-secao revelar">O problema</span>
+    <h2 class="revelar">A conta nao fecha<br>por causa das coisas pequenas</h2>
+    <p class="revelar">
+      O desperdicio quase nunca esta em uma unica atitude gigante. Ele esta
+      nos cinco minutos extras de banho, na torneira aberta durante a
+      escovacao, na pilha jogada no lixo comum. Sao gestos pequenos
+      repetidos todos os dias &mdash; e e exatamente por isso que eles
+      somam tanto.
+    </p>
+
+    <div class="colunas" style="margin-top:36px">
+      <div class="cartao vidro cartao-vivo numero-grande revelar">
+        <span class="valor"><span data-contar="1">1</span>%</span>
+        <span class="unidade">da agua do planeta e doce e facil de acessar</span>
+      </div>
+      <div class="cartao vidro cartao-vivo numero-grande revelar">
+        <span class="valor" data-contar="110">110</span>
+        <span class="unidade">litros por dia e o que a ONU recomenda por pessoa</span>
+      </div>
+      <div class="cartao vidro cartao-vivo numero-grande revelar">
+        <span class="valor" data-contar="46">46</span>
+        <span class="unidade">litros por dia escorrem de uma torneira pingando</span>
+      </div>
+      <div class="cartao vidro cartao-vivo numero-grande revelar">
+        <span class="valor" data-contar="9">9</span>
+        <span class="unidade">litros por minuto saem de um chuveiro eletrico</span>
+      </div>
+    </div>
+
+    <p class="legenda revelar">
+      Campanhas ambientais costumam falar em toneladas e em anos, numeros que
+      ninguem sente no dia a dia. O T.E.R.R.A. faz o contrario: pega a rotina
+      de uma pessoa so e mostra o impacto dela em litros.
+    </p>
+  </div>
+</section>
+
+
+{# ===================================================================
+   COMO FUNCIONA
+   =================================================================== #}
+<section class="secao vida-3" id="como-funciona">
+  <div class="palco">
+    <svg class="planta parallax" viewBox="0 0 210 170" data-parallax="0.07"
+         style="top:-4%; left:-6%; width:clamp(170px,22vw,320px); transform:rotate(-10deg)"><use href="#palma"/></svg>
+    <svg class="planta parallax" viewBox="0 0 160 210" data-parallax="0.12"
+         style="bottom:4%; right:-4%; width:clamp(140px,18vw,250px)"><use href="#samambaia"/></svg>
+    <svg class="planta parallax" viewBox="0 0 100 100" data-parallax="0.16"
+         style="top:22%; right:12%; width:clamp(42px,6vw,76px)"><use href="#flor"/></svg>
+  </div>
+
+  <div class="conteudo">
+    <span class="etiqueta-secao revelar">Como funciona</span>
+    <h2 class="revelar">Tres passos, e so</h2>
+
+    <div class="bento" style="margin-top:32px">
+      <article class="cartao vidro cartao-vivo revelar">
+        <span class="icone-bolha">&#9997;</span>
+        <h3>1. Conte a sua rotina</h3>
+        <p class="legenda">
+          Um formulario rapido sobre banho, descarga, torneira e lixo.
+          Nada de pergunta dificil, e da para editar depois.
+        </p>
+      </article>
+
+      <article class="cartao vidro cartao-vivo revelar">
+        <span class="icone-bolha">
+          <svg viewBox="0 0 100 120" width="17" aria-hidden="true"><use href="#gota"/></svg>
+        </span>
+        <h3>2. Veja os numeros</h3>
+        <p class="legenda">
+          O app calcula quantos litros voce gasta por dia, mes e ano,
+          separados por atividade, e compara com a recomendacao da ONU.
+        </p>
+      </article>
+
+      <article class="cartao vidro cartao-vivo revelar">
+        <span class="icone-bolha">&#127793;</span>
+        <h3>3. Cumpra missoes</h3>
+        <p class="legenda">
+          Voce recebe missoes feitas para a <em>sua</em> rotina. Cada uma
+          mostra quanta agua economiza e quanto XP vale.
+        </p>
+      </article>
+
+      <article class="cartao vidro cartao-vivo revelar bento-largo">
+        <span class="icone-bolha">&#9925;</span>
+        <h3>E o clima entra na conversa</h3>
+        <p class="legenda">
+          O app consulta a previsao da sua cidade na API Open-Meteo. Se
+          estiver chovendo, ele libera a missao de reaproveitar a agua da
+          chuva &mdash; e se a API estiver fora do ar, essa parte
+          simplesmente some, sem quebrar nada.
+        </p>
+      </article>
+
+      <article class="cartao vidro cartao-vivo revelar">
+        <span class="icone-bolha">&#128276;</span>
+        <h3>Lembretes na hora certa</h3>
+        <p class="legenda">
+          De manha o lembrete fala do banho. De noite, do lixo reciclavel.
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+
+{# ===================================================================
+   NIVEIS - quase totalmente vivo
+   =================================================================== #}
+<section class="secao vida-4">
+  <div class="palco">
+    <svg class="planta parallax" viewBox="0 0 200 210" data-parallax="0.06"
+         style="top:0; right:-6%; width:clamp(160px,21vw,300px); transform:rotate(-14deg)"><use href="#monstera"/></svg>
+    <svg class="planta parallax" viewBox="0 0 170 180" data-parallax="0.11"
+         style="bottom:-6%; left:-5%; width:clamp(140px,18vw,250px)"><use href="#ramo"/></svg>
+    <svg class="planta parallax" viewBox="0 0 140 140" data-parallax="0.15"
+         style="bottom:14%; right:14%; width:clamp(50px,7vw,90px)"><use href="#girassol"/></svg>
+  </div>
+
+  <div class="conteudo">
+    <span class="etiqueta-secao revelar">Evolucao</span>
+    <h2 class="revelar">De semente a floresta</h2>
+    <p class="revelar">
+      Cada missao concluida vale XP. O XP nao e um numero solto: ele e a
+      soma de tudo que voce ja fez, guardada no historico. Sustentabilidade
+      deixa de ser cobranca e vira progresso.
+    </p>
+
+    <div class="cartao vidro revelar" style="margin-top:28px">
+      <ol class="trilha">
+        <li class="trilha-feito">Semente <small>0 XP</small></li>
+        <li>Broto <small>50 XP</small></li>
+        <li>Muda <small>120 XP</small></li>
+        <li>Arvore <small>250 XP</small></li>
+        <li>Floresta <small>500 XP</small></li>
+      </ol>
+    </div>
+
+    {% if dica %}
+    <div class="cartao dica revelar" style="margin-top:22px">
+      <h3>Voce sabia?</h3>
+      <p style="margin-bottom:0">{{ dica }}</p>
+    </div>
     {% endif %}
-  </p>
-</section>
-
-<section class="colunas">
-  <div class="cartao">
-    <h2>1. Conte a sua rotina</h2>
-    <p>
-      Um formulario rapido sobre banho, descarga, torneira e lixo.
-      Nada de pergunta dificil.
-    </p>
-  </div>
-  <div class="cartao">
-    <h2>2. Veja os numeros</h2>
-    <p>
-      O app calcula quantos litros voce gasta por dia, mes e ano, e compara
-      com os 110 litros por dia recomendados pela ONU.
-    </p>
-  </div>
-  <div class="cartao">
-    <h2>3. Cumpra missoes</h2>
-    <p>
-      Voce recebe missoes feitas para a sua rotina. Cada uma mostra quanta
-      agua ela economiza e quanto XP ela vale.
-    </p>
   </div>
 </section>
 
-{% if dica %}
-<section class="cartao dica">
-  <h3>Voce sabia?</h3>
-  <p>{{ dica }}</p>
+
+{# ===================================================================
+   COLAGEM FINAL
+   Aqui a paleta e liberada: entram rosa, laranja e roxo, e as
+   plantas ficam 100% vivas e sobrepostas.
+   =================================================================== #}
+<section class="colagem vida-5">
+  <div class="palco">
+    <svg class="planta colagem-c1" viewBox="0 0 200 210"><use href="#monstera"/></svg>
+    <svg class="planta colagem-c2" viewBox="0 0 220 200"><use href="#arbusto"/></svg>
+    <svg class="planta colagem-c3" viewBox="0 0 210 170"
+         style="--c1:#FF9FC4; --c2:#E85A96"><use href="#palma"/></svg>
+    <svg class="planta colagem-c4" viewBox="0 0 160 210"
+         style="--c1:#FFC94A; --c2:#E89A1C"><use href="#samambaia"/></svg>
+    <svg class="planta colagem-c5" viewBox="0 0 170 180"
+         style="--c1:#B49BFF; --c2:#7B5BE0"><use href="#ramo"/></svg>
+    <svg class="planta colagem-c6" viewBox="0 0 140 140"><use href="#girassol"/></svg>
+    <svg class="planta colagem-c7" viewBox="0 0 100 100"
+         style="--c1:#FF8AB3; --c2:#FFDD00"><use href="#flor"/></svg>
+  </div>
+
+  <div class="conteudo">
+    <div class="caixa-colagem vidro revelar">
+      <span class="etiqueta-secao">Bora comecar</span>
+      <h2>O seu primeiro<br><span class="palavra-viva">litro economizado</span></h2>
+      <p class="subtitulo" style="margin-left:auto; margin-right:auto">
+        Leva menos de dois minutos para responder. Depois disso o app
+        mostra os seus numeros e monta as suas missoes.
+      </p>
+      <a class="botao botao-grande botao-verde botao-feixe magnetico"
+         href="{{ url_for('rotina') }}" style="margin-top:12px">
+        {% if tem_perfil %}Rever a minha rotina{% else %}Contar a minha rotina{% endif %}
+        <span class="seta">&rarr;</span>
+      </a>
+    </div>
+  </div>
 </section>
-{% endif %}
 
 {% endblock %}

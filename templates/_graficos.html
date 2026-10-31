@@ -1,0 +1,270 @@
+{#
+  _graficos.html
+  ---------------------------------------------------------------
+  Biblioteca de desenhos do T.E.R.R.A., em SVG.
+
+  Tudo aqui e DESENHO, nao foto: o navegador monta na hora, nao
+  baixa imagem nenhuma e nunca fica borrado, em nenhum tamanho.
+
+  Como usar em qualquer pagina:
+      <svg class="planta planta-ne"><use href="#monstera"/></svg>
+
+  Como trocar a cor de uma planta so:
+      style="--c1:#FF9FC4; --c2:#FFDD00"
+      (--c1 = cor principal, --c2 = cor secundaria, --c3 = detalhe)
+
+  Este arquivo e incluido uma vez no base.html e fica escondido.
+#}
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true" focusable="false">
+
+  <defs>
+    {# Filtro de aguarela: embaralha as bordas para elas ficarem
+       organicas, em vez de perfeitas como um circulo de computador. #}
+    <filter id="f-aguarela" x="-25%" y="-25%" width="150%" height="150%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="4" seed="7" result="ruido"/>
+      <feDisplacementMap in="SourceGraphic" in2="ruido" scale="22"
+                         xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+
+    <filter id="f-aguarela-suave" x="-20%" y="-20%" width="140%" height="140%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="3" seed="19" result="ruido"/>
+      <feDisplacementMap in="SourceGraphic" in2="ruido" scale="12"
+                         xChannelSelector="R" yChannelSelector="G"/>
+      <feGaussianBlur stdDeviation=".7"/>
+    </filter>
+
+    {# Peca reutilizavel: um foliolo (a folhinha pequena da samambaia) #}
+    <path id="p-foliolo" d="M0 0 C 9 -7, 20 -5, 24 0 C 20 5, 9 7, 0 0 Z"/>
+
+    {# Petala arredondada, para as flores.
+       Largura 30 x altura 40: quase tao larga quanto alta, senao
+       a flor vira um asterisco quando aparece pequena na tela. #}
+    <path id="p-petala" d="M0 0 C 14 -8, 16 -28, 0 -40 C -16 -28, -14 -8, 0 0 Z"/>
+
+    {# Petala estreita e comprida, so para o girassol #}
+    <path id="p-petala-fina" d="M0 0 C 8 -12, 8 -32, 0 -46 C -8 -32, -8 -12, 0 0 Z"/>
+  </defs>
+
+
+  <!-- ============================================================
+       MONSTERA - a folha rasgada, cartao postal de planta
+       ============================================================ -->
+  <symbol id="monstera" viewBox="0 0 200 210">
+    <path d="M100 202
+             C 62 178, 30 146, 24 106
+             L 58 115
+             C 44 88, 46 62, 58 40
+             L 82 64
+             C 81 41, 88 20, 100 4
+             C 112 20, 119 41, 118 64
+             L 142 40
+             C 154 62, 156 88, 142 115
+             L 176 106
+             C 170 146, 138 178, 100 202 Z"
+          fill="var(--c1, #8EEE43)"/>
+    <path d="M100 202 L100 14" stroke="var(--c2, #1CFF86)" stroke-width="2.5"
+          fill="none" opacity=".55" stroke-linecap="round"/>
+    <path d="M100 150 L 60 118 M100 150 L140 118
+             M100 110 L 66 76  M100 110 L134 76
+             M100 72  L 84 46  M100 72  L116 46"
+          stroke="var(--c2, #1CFF86)" stroke-width="1.8" fill="none"
+          opacity=".4" stroke-linecap="round"/>
+  </symbol>
+
+
+  <!-- ============================================================
+       SAMAMBAIA - a fronde, feita de folhinhas em sequencia
+       ============================================================ -->
+  <symbol id="samambaia" viewBox="0 0 160 210">
+    <path d="M26 204 C 52 164, 76 110, 104 14" stroke="var(--c2, #5BA832)"
+          stroke-width="3" fill="none" stroke-linecap="round"/>
+    <g fill="var(--c1, #8EEE43)">
+      <use href="#p-foliolo" transform="translate(32,190) rotate(-38) scale(1.00)"/>
+      <use href="#p-foliolo" transform="translate(32,190) rotate(218) scale(0.86)"/>
+      <use href="#p-foliolo" transform="translate(40,174) rotate(-40) scale(0.98)"/>
+      <use href="#p-foliolo" transform="translate(40,174) rotate(216) scale(0.84)"/>
+      <use href="#p-foliolo" transform="translate(48,158) rotate(-42) scale(0.94)"/>
+      <use href="#p-foliolo" transform="translate(48,158) rotate(214) scale(0.80)"/>
+      <use href="#p-foliolo" transform="translate(56,141) rotate(-44) scale(0.88)"/>
+      <use href="#p-foliolo" transform="translate(56,141) rotate(212) scale(0.74)"/>
+      <use href="#p-foliolo" transform="translate(64,124) rotate(-46) scale(0.82)"/>
+      <use href="#p-foliolo" transform="translate(64,124) rotate(210) scale(0.68)"/>
+      <use href="#p-foliolo" transform="translate(72,106) rotate(-48) scale(0.74)"/>
+      <use href="#p-foliolo" transform="translate(72,106) rotate(208) scale(0.60)"/>
+      <use href="#p-foliolo" transform="translate(80,88)  rotate(-50) scale(0.65)"/>
+      <use href="#p-foliolo" transform="translate(80,88)  rotate(206) scale(0.52)"/>
+      <use href="#p-foliolo" transform="translate(87,70)  rotate(-52) scale(0.55)"/>
+      <use href="#p-foliolo" transform="translate(87,70)  rotate(204) scale(0.44)"/>
+      <use href="#p-foliolo" transform="translate(93,52)  rotate(-54) scale(0.45)"/>
+      <use href="#p-foliolo" transform="translate(93,52)  rotate(202) scale(0.35)"/>
+      <use href="#p-foliolo" transform="translate(98,34)  rotate(-56) scale(0.34)"/>
+      <use href="#p-foliolo" transform="translate(98,34)  rotate(200) scale(0.26)"/>
+      <use href="#p-foliolo" transform="translate(102,18) rotate(-62) scale(0.24)"/>
+    </g>
+  </symbol>
+
+
+  <!-- ============================================================
+       PALMA - folha de palmeira, tiras abertas em leque
+       ============================================================ -->
+  <symbol id="palma" viewBox="0 0 210 170">
+    <g stroke="var(--c1, #6FCB3A)" stroke-width="9" stroke-linecap="round" fill="none">
+      <path d="M18 152 C 70 142, 128 120, 196 74"/>
+      <path d="M18 152 C 66 128, 118 100, 182 48"/>
+      <path d="M18 152 C 62 116, 104 80,  160 28"/>
+      <path d="M18 152 C 56 108, 88  66,  130 16"/>
+      <path d="M18 152 C 50 106, 70  60,  96  10"/>
+      <path d="M18 152 C 46 114, 56  70,  62  18"/>
+    </g>
+    <path d="M10 162 L 30 142" stroke="var(--c2, #4F9C27)" stroke-width="7"
+          stroke-linecap="round" fill="none"/>
+  </symbol>
+
+
+  <!-- ============================================================
+       FOLHAGEM - a massa de aguarela dos cantos
+       E o elemento principal da primeira dobra: imita aquela
+       mancha verde desfocada da referencia.
+       ============================================================ -->
+  <symbol id="folhagem" viewBox="0 0 220 200">
+    <g filter="url(#f-aguarela)">
+      <circle cx="72"  cy="86"  r="56" fill="var(--c1, #8EEE43)" opacity=".62"/>
+      <circle cx="132" cy="68"  r="48" fill="var(--c2, #1CFF86)" opacity=".50"/>
+      <circle cx="104" cy="128" r="54" fill="var(--c1, #8EEE43)" opacity=".46"/>
+      <circle cx="166" cy="118" r="38" fill="var(--c3, #59D2FE)" opacity=".34"/>
+      <circle cx="44"  cy="140" r="36" fill="var(--c2, #1CFF86)" opacity=".40"/>
+      <circle cx="150" cy="166" r="30" fill="var(--c1, #8EEE43)" opacity=".44"/>
+    </g>
+    {# Algumas folhinhas nitidas por cima, para a mancha nao ficar
+       so um borrao sem forma #}
+    <g fill="var(--c2, #1CFF86)" opacity=".55">
+      <use href="#p-foliolo" transform="translate(60,70)  rotate(-28) scale(1.5)"/>
+      <use href="#p-foliolo" transform="translate(118,52) rotate(14)  scale(1.3)"/>
+      <use href="#p-foliolo" transform="translate(90,120) rotate(-52) scale(1.6)"/>
+      <use href="#p-foliolo" transform="translate(148,104) rotate(32) scale(1.2)"/>
+    </g>
+  </symbol>
+
+
+  <!-- ============================================================
+       ARBUSTO FLORIDO - massa verde com florzinhas brancas,
+       igual ao canto superior direito da referencia
+       ============================================================ -->
+  <symbol id="arbusto" viewBox="0 0 220 200">
+    <g filter="url(#f-aguarela-suave)">
+      <circle cx="88"  cy="74"  r="58" fill="var(--c1, #7FD93B)" opacity=".66"/>
+      <circle cx="146" cy="96"  r="50" fill="var(--c2, #A8E863)" opacity=".58"/>
+      <circle cx="68"  cy="130" r="46" fill="var(--c1, #7FD93B)" opacity=".52"/>
+      <circle cx="130" cy="150" r="40" fill="var(--c2, #A8E863)" opacity=".48"/>
+    </g>
+    {# As florzinhas brancas espalhadas pelo arbusto.
+       Cada uma e 5 petalas em leque + um miolo amarelo.         #}
+    <g>
+      <g transform="translate(74,60) scale(.30)" fill="var(--c3, #FFFFFF)">
+        <use href="#p-petala"/><use href="#p-petala" transform="rotate(72)"/>
+        <use href="#p-petala" transform="rotate(144)"/><use href="#p-petala" transform="rotate(216)"/>
+        <use href="#p-petala" transform="rotate(288)"/>
+        <circle r="7" fill="var(--c4, #FFDD00)"/>
+      </g>
+      <g transform="translate(136,80) scale(.36)" fill="var(--c3, #FFFFFF)">
+        <use href="#p-petala"/><use href="#p-petala" transform="rotate(72)"/>
+        <use href="#p-petala" transform="rotate(144)"/><use href="#p-petala" transform="rotate(216)"/>
+        <use href="#p-petala" transform="rotate(288)"/>
+        <circle r="7" fill="var(--c4, #FFDD00)"/>
+      </g>
+      <g transform="translate(96,120) scale(.26)" fill="var(--c3, #FFFFFF)">
+        <use href="#p-petala"/><use href="#p-petala" transform="rotate(72)"/>
+        <use href="#p-petala" transform="rotate(144)"/><use href="#p-petala" transform="rotate(216)"/>
+        <use href="#p-petala" transform="rotate(288)"/>
+        <circle r="7" fill="var(--c4, #FFDD00)"/>
+      </g>
+      <g transform="translate(162,132) scale(.31)" fill="var(--c3, #FFFFFF)">
+        <use href="#p-petala"/><use href="#p-petala" transform="rotate(72)"/>
+        <use href="#p-petala" transform="rotate(144)"/><use href="#p-petala" transform="rotate(216)"/>
+        <use href="#p-petala" transform="rotate(288)"/>
+        <circle r="7" fill="var(--c4, #FFDD00)"/>
+      </g>
+      <g transform="translate(54,108) scale(.23)" fill="var(--c3, #FFFFFF)">
+        <use href="#p-petala"/><use href="#p-petala" transform="rotate(72)"/>
+        <use href="#p-petala" transform="rotate(144)"/><use href="#p-petala" transform="rotate(216)"/>
+        <use href="#p-petala" transform="rotate(288)"/>
+        <circle r="7" fill="var(--c4, #FFDD00)"/>
+      </g>
+      <g transform="translate(120,168) scale(.28)" fill="var(--c3, #FFFFFF)">
+        <use href="#p-petala"/><use href="#p-petala" transform="rotate(72)"/>
+        <use href="#p-petala" transform="rotate(144)"/><use href="#p-petala" transform="rotate(216)"/>
+        <use href="#p-petala" transform="rotate(288)"/>
+        <circle r="7" fill="var(--c4, #FFDD00)"/>
+      </g>
+    </g>
+  </symbol>
+
+
+  <!-- ============================================================
+       GIRASSOL
+       ============================================================ -->
+  <symbol id="girassol" viewBox="0 0 140 140">
+    <g transform="translate(70,70)" fill="var(--c1, #FFDD00)">
+      <use href="#p-petala-fina" transform="rotate(0)"/>
+      <use href="#p-petala-fina" transform="rotate(30)"/>
+      <use href="#p-petala-fina" transform="rotate(60)"/>
+      <use href="#p-petala-fina" transform="rotate(90)"/>
+      <use href="#p-petala-fina" transform="rotate(120)"/>
+      <use href="#p-petala-fina" transform="rotate(150)"/>
+      <use href="#p-petala-fina" transform="rotate(180)"/>
+      <use href="#p-petala-fina" transform="rotate(210)"/>
+      <use href="#p-petala-fina" transform="rotate(240)"/>
+      <use href="#p-petala-fina" transform="rotate(270)"/>
+      <use href="#p-petala-fina" transform="rotate(300)"/>
+      <use href="#p-petala-fina" transform="rotate(330)"/>
+    </g>
+    <circle cx="70" cy="70" r="21" fill="var(--c2, #C98B2E)"/>
+    <circle cx="70" cy="70" r="14" fill="var(--c3, #8A5A1B)" opacity=".55"/>
+  </symbol>
+
+
+  <!-- ============================================================
+       FLOR SIMPLES - cinco petalas, para salpicar na colagem
+       ============================================================ -->
+  <symbol id="flor" viewBox="0 0 100 100">
+    <g transform="translate(50,54) scale(.95)" fill="var(--c1, #FF9FC4)">
+      <use href="#p-petala"/>
+      <use href="#p-petala" transform="rotate(72)"/>
+      <use href="#p-petala" transform="rotate(144)"/>
+      <use href="#p-petala" transform="rotate(216)"/>
+      <use href="#p-petala" transform="rotate(288)"/>
+    </g>
+    <circle cx="50" cy="54" r="9" fill="var(--c2, #FFDD00)"/>
+  </symbol>
+
+
+  <!-- ============================================================
+       RAMO - galho com folhas, bom para preencher cantos
+       ============================================================ -->
+  <symbol id="ramo" viewBox="0 0 170 180">
+    <path d="M22 172 C 54 136, 84 96, 142 22" stroke="var(--c2, #5BA832)"
+          stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <g fill="var(--c1, #8EEE43)">
+      <ellipse cx="0" cy="0" rx="26" ry="13" transform="translate(44,146) rotate(-34)"/>
+      <ellipse cx="0" cy="0" rx="24" ry="12" transform="translate(58,128) rotate(28)"/>
+      <ellipse cx="0" cy="0" rx="23" ry="11" transform="translate(72,108) rotate(-38)"/>
+      <ellipse cx="0" cy="0" rx="21" ry="10" transform="translate(88,88)  rotate(24)"/>
+      <ellipse cx="0" cy="0" rx="19" ry="9"  transform="translate(104,66) rotate(-42)"/>
+      <ellipse cx="0" cy="0" rx="16" ry="8"  transform="translate(120,46) rotate(20)"/>
+      <ellipse cx="0" cy="0" rx="12" ry="6"  transform="translate(134,28) rotate(-46)"/>
+    </g>
+  </symbol>
+
+
+  <!-- ============================================================
+       GOTA - simbolo da agua, usado nos numeros e nas missoes
+       ============================================================ -->
+  <symbol id="gota" viewBox="0 0 100 120">
+    <path d="M50 6 C 76 44, 92 64, 92 82 A 42 42 0 0 1 8 82 C 8 64, 24 44, 50 6 Z"
+          fill="var(--c1, #59D2FE)"/>
+    <ellipse cx="36" cy="80" rx="9" ry="13" fill="var(--c2, #FFFFFF)" opacity=".5"/>
+  </symbol>
+
+</svg>

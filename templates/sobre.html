@@ -1,133 +1,238 @@
 {% extends "base.html" %}
-{% block titulo %}T.E.R.R.A. - Sobre{% endblock %}
+{% block titulo %}T.E.R.R.A. - Sobre o projeto{% endblock %}
 
 {% block conteudo %}
 
-<h1>Sobre o T.E.R.R.A.</h1>
+<section class="secao vida-2" style="padding-bottom:40px">
+  <div class="palco">
+    <div class="borrao borrao-verde" style="top:-12%; left:-10%; width:30vw; height:30vw"></div>
+    <div class="borrao borrao-azul"  style="top:20%; right:-12%; width:26vw; height:26vw"></div>
+    <svg class="planta parallax" viewBox="0 0 220 200" data-parallax="0.06"
+         style="top:-6%; right:-7%; width:clamp(160px,21vw,300px)"><use href="#folhagem"/></svg>
+  </div>
 
-<section class="cartao">
-  <h2>O problema</h2>
-  <p>
-    A agua doce e facil de usar e pouca: de toda a agua do planeta, menos de
-    1% esta disponivel em rios e lagos. Mesmo assim, uma pessoa no Brasil
-    consome bem mais do que os
-    {{ referencia_onu | round(0) | int }} litros por dia que a ONU indica
-    como suficiente para viver bem.
-  </p>
-  <p>
-    O problema quase nunca esta em uma unica atitude gigante. Ele esta nos
-    cinco minutos extras de banho, na torneira aberta durante a escovacao,
-    na pilha jogada no lixo comum. Sao gestos pequenos repetidos todos os
-    dias - e e exatamente por isso que eles somam tanto.
-  </p>
-  <p>
-    Campanhas ambientais costumam falar em toneladas e em anos, numeros que
-    ninguem sente no dia a dia. O T.E.R.R.A. faz o contrario: pega a rotina
-    de uma pessoa so, mostra o impacto dela em litros e transforma a mudanca
-    em missoes pequenas, com progresso visivel. Habito novo se constroi por
-    repeticao, nao por culpa.
-  </p>
+  <div class="conteudo">
+    <span class="etiqueta-secao entrada">Sobre</span>
+    <h1 class="entrada" style="--atraso:80ms">
+      Por que o <span class="palavra-viva">T.E.R.R.A.</span> existe
+    </h1>
+    <p class="subtitulo entrada" style="--atraso:180ms">
+      Tutor Ecologico de Rotinas e Reducoes Ambientais
+    </p>
+  </div>
 </section>
 
-<section class="cartao">
-  <h2>Como o app funciona</h2>
-  <ol>
-    <li>
-      <strong>Rotina:</strong> um formulario coleta banho, descarga,
-      torneira, lixo e horarios.
-    </li>
-    <li>
-      <strong>Calculo:</strong> o arquivo <code>calculos.py</code> multiplica
-      esses numeros pelas vazoes de referencia e devolve o consumo por dia,
-      mes e ano.
-    </li>
-    <li>
-      <strong>Missoes:</strong> o arquivo <code>missoes.py</code> compara a
-      rotina com as condicoes de cada uma das {{ total_missoes }} missoes do
-      catalogo e escolhe as que fazem sentido.
-    </li>
-    <li>
-      <strong>Evolucao:</strong> concluir missao da XP. O XP e a soma do
-      historico guardado no SQLite, e os niveis vao de Semente a Floresta.
-    </li>
-    <li>
-      <strong>Clima:</strong> a API Open-Meteo informa se vai chover; se sim,
-      o app libera a missao de reaproveitar agua da chuva.
-    </li>
-  </ol>
+
+{# ============ O PROBLEMA ============ #}
+<section class="secao vida-3" style="padding-top:0">
+  <div class="conteudo">
+    <div class="cartao vidro revelar">
+      <h2 style="font-size:clamp(1.5rem,3vw,2.1rem)">O problema</h2>
+      <p>
+        A agua doce e facil de usar e pouca: de toda a agua do planeta, menos
+        de 1% esta disponivel em rios e lagos. Mesmo assim, uma pessoa no
+        Brasil consome bem mais do que os
+        {{ referencia_onu | round(0) | int }} litros por dia que a ONU indica
+        como suficiente para viver bem.
+      </p>
+      <p>
+        O problema quase nunca esta em uma unica atitude gigante. Ele esta nos
+        cinco minutos extras de banho, na torneira aberta durante a escovacao,
+        na pilha jogada no lixo comum. Sao gestos pequenos repetidos todos os
+        dias &mdash; e e exatamente por isso que eles somam tanto.
+      </p>
+      <p style="margin-bottom:0">
+        Campanhas ambientais costumam falar em toneladas e em anos, numeros
+        que ninguem sente no dia a dia. O T.E.R.R.A. faz o contrario: pega a
+        rotina de uma pessoa so, mostra o impacto dela em litros e transforma
+        a mudanca em missoes pequenas, com progresso visivel. Habito novo se
+        constroi por repeticao, nao por culpa.
+      </p>
+    </div>
+  </div>
 </section>
 
-<section class="cartao">
-  <h2>Fontes dos dados</h2>
-  <table>
-    <thead>
-      <tr><th>Dado usado nas contas</th><th>Valor</th><th>Fonte</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Vazao do chuveiro eletrico</td>
-        <td>{{ vazao_chuveiro }} L por minuto</td>
-        <td>SABESP / ANA - Agencia Nacional de Aguas</td>
-      </tr>
-      <tr>
-        <td>Descarga de caixa acoplada</td>
-        <td>{{ litros_descarga }} L por acionamento</td>
-        <td>ANA - Manual de Conservacao de Agua em Edificacoes</td>
-      </tr>
-      <tr>
-        <td>Torneira de pia aberta</td>
-        <td>{{ vazao_torneira }} L por minuto</td>
-        <td>SABESP - tabela de consumo domestico</td>
-      </tr>
-      <tr>
-        <td>Consumo recomendado por pessoa</td>
-        <td>{{ referencia_onu | round(0) | int }} L por dia</td>
-        <td>ONU / Programa das Nacoes Unidas para o Meio Ambiente</td>
-      </tr>
-      <tr>
-        <td>Previsao do tempo e chuva</td>
-        <td>em tempo real</td>
-        <td>API Open-Meteo (open-meteo.com)</td>
-      </tr>
-    </tbody>
-  </table>
-  <p class="legenda">
-    Todos esses valores estao como constantes no topo do arquivo
-    <code>calculos.py</code>, cada um com a fonte no comentario. Se um orgao
-    atualizar um numero, basta trocar em um lugar.
-  </p>
+
+{# ============ COMO FUNCIONA POR DENTRO ============ #}
+<section class="secao vida-3" style="padding-top:0">
+  <div class="palco">
+    <svg class="planta parallax" viewBox="0 0 160 210" data-parallax="0.09"
+         style="top:10%; left:-7%; width:clamp(130px,17vw,240px); transform:scaleX(-1)"><use href="#samambaia"/></svg>
+  </div>
+
+  <div class="conteudo">
+    <span class="etiqueta-secao revelar">Por dentro</span>
+    <h2 class="revelar">Como o app funciona</h2>
+
+    <div class="bento" style="margin-top:28px">
+      <article class="cartao vidro cartao-vivo revelar">
+        <span class="icone-bolha">1</span>
+        <h3>Rotina</h3>
+        <p class="legenda">
+          Um formulario coleta banho, descarga, torneira, lixo e horarios, e
+          o <code>database.py</code> guarda tudo no SQLite.
+        </p>
+      </article>
+
+      <article class="cartao vidro cartao-vivo revelar">
+        <span class="icone-bolha">2</span>
+        <h3>Calculo</h3>
+        <p class="legenda">
+          O <code>calculos.py</code> multiplica esses numeros pelas vazoes de
+          referencia e devolve o consumo por dia, mes e ano.
+        </p>
+      </article>
+
+      <article class="cartao vidro cartao-vivo revelar">
+        <span class="icone-bolha">3</span>
+        <h3>Missoes</h3>
+        <p class="legenda">
+          O <code>missoes.py</code> compara a rotina com a condicao de cada
+          uma das {{ total_missoes }} missoes do catalogo e escolhe as que
+          fazem sentido.
+        </p>
+      </article>
+
+      <article class="cartao vidro cartao-vivo revelar bento-largo">
+        <span class="icone-bolha">4</span>
+        <h3>Evolucao</h3>
+        <p class="legenda">
+          Concluir missao da XP. O XP nao e um campo solto no banco: ele e a
+          <strong>soma</strong> da tabela de historico. Assim e impossivel o
+          numero do nivel ficar diferente do que a pessoa realmente fez.
+        </p>
+      </article>
+
+      <article class="cartao vidro cartao-vivo revelar">
+        <span class="icone-bolha">5</span>
+        <h3>Clima</h3>
+        <p class="legenda">
+          A API Open-Meteo informa se vai chover. Se sim, o app libera a
+          missao de reaproveitar agua da chuva.
+        </p>
+      </article>
+    </div>
+  </div>
 </section>
 
-<section class="cartao">
-  <h2>Dicas do catalogo</h2>
-  <ul>
-    {% for dica in dicas %}
-      <li>{{ dica }}</li>
-    {% endfor %}
-  </ul>
+
+{# ============ FONTES DOS DADOS ============ #}
+<section class="secao vida-4" style="padding-top:0">
+  <div class="palco">
+    <svg class="planta parallax" viewBox="0 0 200 210" data-parallax="0.06"
+         style="top:0; right:-7%; width:clamp(150px,19vw,280px); transform:rotate(12deg)"><use href="#monstera"/></svg>
+  </div>
+
+  <div class="conteudo">
+    <div class="cartao vidro revelar">
+      <span class="etiqueta-secao">Transparencia</span>
+      <h2 style="font-size:clamp(1.5rem,3vw,2.1rem)">De onde vem cada numero</h2>
+
+      <div class="rolagem-tabela">
+        <table>
+          <thead>
+            <tr><th>Dado usado nas contas</th><th>Valor</th><th>Fonte</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Vazao do chuveiro eletrico</td>
+              <td><strong>{{ vazao_chuveiro }} L/min</strong></td>
+              <td>SABESP / ANA</td>
+            </tr>
+            <tr>
+              <td>Descarga de caixa acoplada</td>
+              <td><strong>{{ litros_descarga }} L</strong></td>
+              <td>ANA &mdash; Manual de Conservacao de Agua</td>
+            </tr>
+            <tr>
+              <td>Torneira de pia aberta</td>
+              <td><strong>{{ vazao_torneira }} L/min</strong></td>
+              <td>SABESP &mdash; consumo domestico</td>
+            </tr>
+            <tr>
+              <td>Consumo recomendado por pessoa</td>
+              <td><strong>{{ referencia_onu | round(0) | int }} L/dia</strong></td>
+              <td>ONU / PNUMA</td>
+            </tr>
+            <tr>
+              <td>Previsao do tempo e chuva</td>
+              <td><strong>tempo real</strong></td>
+              <td>API Open-Meteo</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="legenda" style="margin-bottom:0">
+        Todos esses valores estao como constantes no topo do
+        <code>calculos.py</code>, cada um com a fonte no comentario. Se um
+        orgao atualizar um numero, basta trocar em um lugar so.
+      </p>
+    </div>
+  </div>
 </section>
 
-<section class="cartao">
-  <h2>Tecnologias</h2>
-  <ul>
-    <li><strong>Python 3.11</strong> com <strong>Flask</strong> para o site</li>
-    <li><strong>SQLite</strong> (modulo sqlite3) para guardar perfil e progresso</li>
-    <li><strong>Jinja2</strong> para os templates HTML</li>
-    <li><strong>requests</strong> para falar com as APIs</li>
-    <li><strong>datetime</strong> para lembretes por horario</li>
-    <li><strong>random</strong> para sortear a missao do dia e as dicas</li>
-    <li><strong>json</strong> para ler o catalogo de missoes</li>
-    <li><strong>plyer</strong> para notificacao no computador (opcional)</li>
-    <li><strong>API do Claude</strong> para explicar as missoes (opcional)</li>
-  </ul>
+
+{# ============ DICAS E TECNOLOGIAS ============ #}
+<section class="secao vida-4" style="padding-top:0">
+  <div class="conteudo">
+    <div class="bento">
+      <div class="cartao vidro revelar bento-largo">
+        <h3>Dicas do catalogo</h3>
+        <ul class="legenda">
+          {% for dica in dicas %}<li>{{ dica }}</li>{% endfor %}
+        </ul>
+      </div>
+
+      <div class="cartao vidro revelar">
+        <h3>Tecnologias</h3>
+        <ul class="legenda">
+          <li><strong>Python 3.12</strong> + <strong>Flask</strong></li>
+          <li><strong>SQLite</strong> (sqlite3)</li>
+          <li><strong>Jinja2</strong> para os templates</li>
+          <li><strong>requests</strong> para as APIs</li>
+          <li><strong>datetime</strong> e <strong>random</strong></li>
+          <li><strong>json</strong> para o catalogo</li>
+          <li><strong>plyer</strong> (opcional)</li>
+          <li><strong>API do Claude</strong> (opcional)</li>
+        </ul>
+        <p class="legenda" style="margin-bottom:0">
+          O visual e CSS e JavaScript puros, sem nenhuma biblioteca.
+        </p>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section class="cartao destaque">
-  <h2>Autor</h2>
-  <p>
-    <strong>Teodoro Paro Vinhal</strong><br>
-    Projeto escolar do curso Python Pro - Kodland.
-  </p>
+
+{# ============ AUTOR - na colagem final ============ #}
+<section class="colagem vida-5">
+  <div class="palco">
+    <svg class="planta colagem-c1" viewBox="0 0 200 210"><use href="#monstera"/></svg>
+    <svg class="planta colagem-c2" viewBox="0 0 220 200"><use href="#arbusto"/></svg>
+    <svg class="planta colagem-c3" viewBox="0 0 210 170"
+         style="--c1:#FF9FC4; --c2:#E85A96"><use href="#palma"/></svg>
+    <svg class="planta colagem-c4" viewBox="0 0 160 210"
+         style="--c1:#FFC94A; --c2:#E89A1C"><use href="#samambaia"/></svg>
+    <svg class="planta colagem-c5" viewBox="0 0 170 180"
+         style="--c1:#B49BFF; --c2:#7B5BE0"><use href="#ramo"/></svg>
+    <svg class="planta colagem-c6" viewBox="0 0 140 140"><use href="#girassol"/></svg>
+    <svg class="planta colagem-c7" viewBox="0 0 100 100"
+         style="--c1:#FF8AB3; --c2:#FFDD00"><use href="#flor"/></svg>
+  </div>
+
+  <div class="conteudo">
+    <div class="caixa-colagem vidro revelar">
+      <span class="etiqueta-secao">Autor</span>
+      <h2>Teodoro<br><span class="palavra-viva">Paro Vinhal</span></h2>
+      <p class="subtitulo" style="margin-left:auto; margin-right:auto">
+        Projeto final do curso Python Pro &mdash; Kodland.
+      </p>
+      <a class="botao botao-grande botao-verde magnetico" href="{{ url_for('rotina') }}">
+        Testar o app <span class="seta">&rarr;</span>
+      </a>
+    </div>
+  </div>
 </section>
 
 {% endblock %}

@@ -3,21 +3,41 @@
 
 {% block conteudo %}
 
-<section class="cartao destaque">
-  <h1>404</h1>
-  <h2>Essa pagina nao existe</h2>
-  <p>
-    O endereco que voce digitou nao faz parte do T.E.R.R.A.
-    Talvez seja um erro de digitacao.
-  </p>
-  <p>
-    <a class="botao botao-grande" href="{{ url_for('inicio') }}">
-      Voltar para o inicio
-    </a>
-    <a class="botao botao-secundario" href="{{ url_for('painel') }}">
-      Ir para o painel
-    </a>
-  </p>
+<section class="hero vida-3">
+  <div class="palco">
+    <div class="borrao borrao-verde"   style="top:-10%; left:-10%; width:32vw; height:32vw"></div>
+    <div class="borrao borrao-amarelo" style="bottom:-14%; right:-8%; width:28vw; height:28vw"></div>
+    <svg class="planta parallax" viewBox="0 0 220 200" data-parallax="0.08"
+         style="top:-8%; right:-6%; width:clamp(160px,21vw,300px)"><use href="#folhagem"/></svg>
+    <svg class="planta parallax" viewBox="0 0 160 210" data-parallax="0.14"
+         style="bottom:-6%; left:-5%; width:clamp(130px,17vw,240px)"><use href="#samambaia"/></svg>
+  </div>
+
+  <div class="conteudo">
+    <span class="selo vidro entrada" style="--atraso:60ms">
+      <span class="ponto"></span> Erro 404
+    </span>
+
+    <h1 class="hero-titulo entrada" style="--atraso:140ms; font-size:clamp(3rem,11vw,8rem)">
+      <span class="palavra-viva">Perdido</span>
+    </h1>
+
+    <p class="script entrada" style="--atraso:260ms">no mato</p>
+
+    <p class="subtitulo entrada" style="--atraso:380ms">
+      O endereco que voce digitou nao faz parte do T.E.R.R.A.
+      Deve ter sido um erro de digitacao.
+    </p>
+
+    <div class="hero-botoes entrada" style="--atraso:500ms">
+      <a class="botao botao-grande botao-feixe magnetico" href="{{ url_for('inicio') }}">
+        Voltar para o inicio <span class="seta">&rarr;</span>
+      </a>
+      <a class="botao botao-grande botao-vidro magnetico" href="{{ url_for('painel') }}">
+        Ir para o painel
+      </a>
+    </div>
+  </div>
 </section>
 
 {% endblock %}

@@ -124,16 +124,20 @@ a escolha com base nos seus números.
 ├── database.py         # cria as tabelas, salva e lê os dados
 ├── requirements.txt    # bibliotecas que precisam ser instaladas
 ├── .env.example        # modelo para a chave da API (sem a chave real)
-├── templates/          # as 8 páginas em HTML + Jinja2
+├── templates/
 │   ├── base.html       # molde com o menu, usado por todas as outras
-│   ├── index.html      # apresentação do projeto
+│   ├── _graficos.html  # biblioteca de plantas em SVG (monstera, samambaia...)
+│   ├── index.html      # apresentação, com o hero e a colagem final
 │   ├── rotina.html     # formulário
 │   ├── resultado.html  # consumo, comparação com a ONU e missões
 │   ├── painel.html     # missão do dia, lembrete, clima
 │   ├── perfil.html     # nível, XP, histórico
 │   ├── sobre.html      # problema, fontes e autor
 │   └── 404.html        # página de erro
-├── static/style.css    # layout básico e neutro
+├── static/
+│   ├── style.css       # o sistema de design inteiro, em 20 blocos
+│   ├── efeitos.js      # efeitos de interface, JavaScript puro
+│   └── fontes/         # onde entram as fontes pagas (veja o LEIA-ME de lá)
 ├── docs/PROPOSTA.md    # o planejamento original entregue no curso
 └── extras/             # exercícios anteriores, fora do escopo do T.E.R.R.A.
 ```
@@ -237,6 +241,115 @@ o XP.
 - Integração com WhatsApp ou Telegram
 - Versão para celular
 - Missões em grupo para escolas, com metas coletivas
+
+---
+
+## 🎨 Identidade visual
+
+### Paleta
+
+A [paleta oficial](https://coolors.co/ffdd00-8eee43-1cff86-ffffff-59d2fe-4a8fe7-384296)
+está como variáveis CSS no topo do `static/style.css`:
+
+| | Cor | Uso |
+|:--:|---|---|
+| 🟡 | `#FFDD00` amarelo | missões de descarte, girassol |
+| 🟢 | `#8EEE43` verde-folha | folhagem, degradês |
+| 💚 | `#1CFF86` verde-neon | destaque, XP, a palavra viva |
+| ⚪ | `#FFFFFF` branco | superfícies e vidro |
+| 🔵 | `#59D2FE` azul-céu | água, clima |
+| 🔷 | `#4A8FE7` azul | botões |
+| 🔹 | `#384296` azul-noite | **a tinta de todo o texto** |
+
+> ⚠️ O verde-neon tem contraste de **1,4:1** no branco. É ilegível em texto
+> corrido, então ele só aparece em título gigante e em preenchimento. O texto
+> usa sempre o azul-noite, que dá 10:1.
+
+### Tipografia
+
+| Papel | Fonte | Fallback livre |
+|---|---|---|
+| Display | **TAN Meringue** (paga) | Playfair Display |
+| Script | **Sloop Script** (paga) | Pinyon Script |
+| Texto | **Noto Serif Bengali** | — (é livre) |
+
+Detalhes e como ativar as fontes pagas: [`static/fontes/LEIA-ME.md`](static/fontes/LEIA-ME.md).
+
+### A progressão de vida
+
+A ideia central do visual: no **topo da página** os elementos de natureza
+ficam lavados, quase brancos, para o texto ter contraste. Conforme a pessoa
+desce, eles vão ganhando cor, até a **colagem final**, onde a paleta é
+liberada (entram rosa, roxo e laranja) e as folhas ficam 100% vivas e
+sobrepostas.
+
+Isso é uma variável CSS só. Cada seção declara quanta vida ela tem:
+
+```css
+.vida-1 { --vida: .18; }   /* hero: quase branco  */
+.vida-5 { --vida: 1; }     /* colagem: tudo vivo  */
+
+.planta {
+  opacity: calc(.25 + var(--vida) * .75);
+  filter: saturate(calc(.12 + var(--vida) * .88));
+}
+```
+
+### Os desenhos
+
+Todas as plantas são **SVG desenhado à mão** em `templates/_graficos.html` —
+monstera, samambaia, palmeira, arbusto florido, girassol, flor, ramo e gota.
+Nenhuma imagem é baixada, nada fica borrado em tela grande, e dá para
+recolorir qualquer uma pelo CSS:
+
+```html
+<svg class="planta" style="--c1:#FF9FC4"><use href="#palma"/></svg>
+```
+
+As manchas de aquarela usam um filtro SVG (`feTurbulence` +
+`feDisplacementMap`) que embaralha as bordas, para elas não ficarem com
+cara de círculo de computador.
+
+---
+
+## ✨ Efeitos de interface
+
+Tudo em **CSS e JavaScript puros**. Nenhuma biblioteca, nenhum CDN, nenhum
+build step — o que também significa que dá para explicar cada linha.
+
+| Efeito | Onde está |
+|---|---|
+| **Liquid glass** | `.vidro` — blur + `saturate(185%)` + reflexo na borda de cima |
+| **Cursor tracking glow** | brilho que segue o mouse dentro dos cartões |
+| **Hover lift** | o botão sobe e a sombra cresce junto |
+| **Magnetic hover** | `.magnetico` — o botão é atraído pelo cursor |
+| **Spring animation** | curva `--mola` com overshoot, dá peso físico |
+| **Icon slide** | a setinha `→` desliza no hover |
+| **Shimmer** | reflexo que atravessa o botão |
+| **Border beam** | feixe girando na borda (`@property --angulo`) |
+| **Scroll reveal** | entrada em sequência via `IntersectionObserver` |
+| **Parallax** | as plantas andam mais devagar que a página |
+| **Number counter** | os litros sobem de 0 até o valor |
+| **Scroll progress** | barra fininha no topo |
+| **Back to top** | botão flutuante depois de meia tela |
+| **Toasts** | os avisos do Flask somem sozinhos |
+| **Floating label** | o rótulo do campo sobe quando você digita |
+| **Film grain** | ruído de 3,5% por cima de tudo |
+
+### Três decisões que valem explicar
+
+**1. O conteúdo do topo não depende de JavaScript.** O resto da página usa
+`.revelar` (que precisa do JS para aparecer), mas o hero usa `.entrada`, que é
+animação de CSS puro. Se o JS falhar, a primeira coisa que a pessoa vê não
+pode ser uma tela em branco.
+
+**2. O contador nunca mostra número errado.** O valor verdadeiro já vem no
+HTML. O JavaScript só zera e anima os números que estão visíveis na tela
+naquele momento. Se a animação não rodar, a pessoa vê `520.0` — nunca `0,0`.
+
+**3. `prefers-reduced-motion` é respeitado.** Quem pediu menos animação no
+sistema recebe a página sem movimento nenhum. Não é enfeite: excesso de
+animação causa enjoo em algumas pessoas.
 
 ---
 
