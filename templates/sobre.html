@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_graficos.html" import planta %}
 {% block titulo %}T.E.R.R.A. - Sobre{% endblock %}
 
 {% block conteudo %}
@@ -7,8 +8,7 @@
   <div class="palco">
     <div class="borrao borrao-verde" style="top:-12%; left:-10%; width:30vw; height:30vw"></div>
     <div class="borrao borrao-azul"  style="top:20%; right:-12%; width:26vw; height:26vw"></div>
-    <svg class="planta parallax" viewBox="0 0 220 200" data-parallax="0.06"
-         style="top:-6%; right:-7%; width:clamp(160px,21vw,300px)"><use href="#folhagem"/></svg>
+    {{ planta("folhagem", posicao="top:-6%; right:-7%; width:clamp(160px,21vw,300px)", parallax="0.06") }}
   </div>
 
   <div class="conteudo">
@@ -56,8 +56,7 @@
 {# ============ COMO FUNCIONA POR DENTRO ============ #}
 <section class="secao vida-3" style="padding-top:0">
   <div class="palco">
-    <svg class="planta parallax" viewBox="0 0 160 210" data-parallax="0.09"
-         style="top:10%; left:-7%; width:clamp(130px,17vw,240px); transform:scaleX(-1)"><use href="#samambaia"/></svg>
+    {{ planta("samambaia", posicao="top:10%; left:-7%; width:clamp(130px,17vw,240px); transform:scaleX(-1)", parallax="0.09") }}
   </div>
 
   <div class="conteudo">
@@ -119,8 +118,7 @@
 {# ============ FONTES DOS DADOS ============ #}
 <section class="secao vida-4" style="padding-top:0">
   <div class="palco">
-    <svg class="planta parallax" viewBox="0 0 200 210" data-parallax="0.06"
-         style="top:0; right:-7%; width:clamp(150px,19vw,280px); transform:rotate(12deg)"><use href="#monstera"/></svg>
+    {{ planta("monstera", posicao="top:0; right:-7%; width:clamp(150px,19vw,280px); transform:rotate(12deg)", parallax="0.06") }}
   </div>
 
   <div class="conteudo">
@@ -208,17 +206,13 @@
 {# ============ AUTOR - na colagem final ============ #}
 <section class="colagem vida-5">
   <div class="palco">
-    <svg class="planta colagem-c1" viewBox="0 0 200 210"><use href="#monstera"/></svg>
-    <svg class="planta colagem-c2" viewBox="0 0 220 200"><use href="#arbusto"/></svg>
-    <svg class="planta colagem-c3" viewBox="0 0 210 170"
-         style="--c1:#FF9FC4; --c2:#E85A96"><use href="#palma"/></svg>
-    <svg class="planta colagem-c4" viewBox="0 0 160 210"
-         style="--c1:#FFC94A; --c2:#E89A1C"><use href="#samambaia"/></svg>
-    <svg class="planta colagem-c5" viewBox="0 0 170 180"
-         style="--c1:#B49BFF; --c2:#7B5BE0"><use href="#ramo"/></svg>
-    <svg class="planta colagem-c6" viewBox="0 0 140 140"><use href="#girassol"/></svg>
-    <svg class="planta colagem-c7" viewBox="0 0 100 100"
-         style="--c1:#FF8AB3; --c2:#FFDD00"><use href="#flor"/></svg>
+    {{ planta("monstera", classes="colagem-c1") }}
+    {{ planta("arbusto", classes="colagem-c2") }}
+    {{ planta("palma", classes="colagem-c3", posicao="--c1:#FF9FC4; --c2:#E85A96") }}
+    {{ planta("samambaia", classes="colagem-c4", posicao="--c1:#FFC94A; --c2:#E89A1C") }}
+    {{ planta("ramo", classes="colagem-c5", posicao="--c1:#B49BFF; --c2:#7B5BE0") }}
+    {{ planta("girassol", classes="colagem-c6") }}
+    {{ planta("flor", classes="colagem-c7", posicao="--c1:#FF8AB3; --c2:#FFDD00") }}
   </div>
 
   <div class="conteudo">

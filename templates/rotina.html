@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_graficos.html" import planta %}
 {% from "_personagens.html" import agente %}
 {% block titulo %}T.E.R.R.A. - Minha rotina{% endblock %}
 
@@ -6,10 +7,8 @@
 
 <section class="secao vida-2">
   <div class="palco">
-    <svg class="planta parallax" viewBox="0 0 220 200" data-parallax="0.05"
-         style="top:-6%; right:-8%; width:clamp(170px,22vw,330px)"><use href="#folhagem"/></svg>
-    <svg class="planta parallax" viewBox="0 0 160 210" data-parallax="0.10"
-         style="bottom:-4%; left:-7%; width:clamp(140px,18vw,250px); transform:scaleX(-1)"><use href="#samambaia"/></svg>
+    {{ planta("folhagem", posicao="top:-6%; right:-8%; width:clamp(170px,22vw,330px)", parallax="0.05") }}
+    {{ planta("samambaia", posicao="bottom:-4%; left:-7%; width:clamp(140px,18vw,250px); transform:scaleX(-1)", parallax="0.10") }}
   </div>
 
   <div class="conteudo">

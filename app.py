@@ -65,23 +65,41 @@ def usuario_atual():
     return usuario
 
 
-def validar_rotina(formulario):
-    """
-    Confere os dados do formulario.
+# Os campos numericos do formulario, com o limite de cada um.
+# Cada item e: (nome_do_campo, texto_amigavel, minimo, maximo)
+CAMPOS_NUMERICOS = [
+    ("minutos_banho", "minutos de banho", 1, 120),
+    ("banhos_dia", "banhos por dia", 1, 10),
+    ("descargas_dia", "descargas por dia", 1, 40),
+]
 
-    Devolve uma tupla (dados, erros):
-      dados -> dicionario pronto para salvar no banco
-      erros -> lista de mensagens; se estiver vazia, esta tudo certo.
-    """
+# Os campos de sim/nao, que viram 1 ou 0 para o SQLite.
+CAMPOS_SIM_NAO = ("torneira_escovar", "torneira_louca", "separa_lixo")
+
+# Os horarios, com o valor de reserva caso a pessoa mande algo invalido.
+CAMPOS_HORARIO = [
+    ("hora_acorda", "acorda", "07:00"),
+    ("hora_dorme", "dorme", "22:00"),
+]
+
+TAMANHO_MAXIMO_DO_NOME = 60
+
+
+# --- Cada funcao abaixo valida UM tipo de campo ---------------------
+# Todas seguem o mesmo contrato: recebem o formulario, escrevem no
+# dicionario "dados" e devolvem a lista de erros que encontraram.
+# Fica facil de ler, de testar e de acrescentar um campo novo.
+
+def _validar_textos(formulario, dados):
+    """Nome e cidade: nao podem ficar vazios."""
     erros = []
-    dados = {}
 
-    # --- Campos de texto: nao podem ficar vazios ---
     nome = formulario.get("nome", "").strip()
     if not nome:
         erros.append("Preencha o seu nome.")
-    elif len(nome) > 60:
-        erros.append("O nome está muito longo (máximo 60 letras).")
+    elif len(nome) > TAMANHO_MAXIMO_DO_NOME:
+        erros.append("O nome está muito longo (máximo "
+                     + str(TAMANHO_MAXIMO_DO_NOME) + " letras).")
     dados["nome"] = nome
 
     cidade = formulario.get("cidade", "").strip()
@@ -89,52 +107,63 @@ def validar_rotina(formulario):
         erros.append("Preencha a sua cidade.")
     dados["cidade"] = cidade
 
-    # --- Campos numericos: precisam ser numeros dentro de um limite ---
-    # Cada item e: (nome_do_campo, texto_amigavel, minimo, maximo)
-    campos_numericos = [
-        ("minutos_banho", "minutos de banho", 1, 120),
-        ("banhos_dia", "banhos por dia", 1, 10),
-        ("descargas_dia", "descargas por dia", 1, 40),
-    ]
+    return erros
 
-    for campo, rotulo, minimo, maximo in campos_numericos:
+
+def _validar_numeros(formulario, dados):
+    """Banho, banhos por dia e descargas: numero inteiro dentro do limite."""
+    erros = []
+
+    for campo, rotulo, minimo, maximo in CAMPOS_NUMERICOS:
         texto = formulario.get(campo, "").strip()
+        dados[campo] = minimo   # valor de reserva, trocado se der certo
+
         if not texto:
             erros.append("Preencha o campo de " + rotulo + ".")
-            dados[campo] = minimo
             continue
+
         try:
             numero = int(texto)
         except ValueError:
             erros.append("O campo de " + rotulo + " precisa ser um número.")
-            dados[campo] = minimo
             continue
 
         if numero < minimo:
-            erros.append(
-                "O campo de " + rotulo + " não pode ser menor que "
-                + str(minimo) + "."
-            )
+            erros.append("O campo de " + rotulo + " não pode ser menor que "
+                         + str(minimo) + ".")
         elif numero > maximo:
-            erros.append(
-                "O campo de " + rotulo + " não pode passar de "
-                + str(maximo) + "."
-            )
+            erros.append("O campo de " + rotulo + " não pode passar de "
+                         + str(maximo) + ".")
         dados[campo] = numero
 
-    # --- Campos de sim/nao: viram 1 ou 0 para o SQLite ---
-    for campo in ("torneira_escovar", "torneira_louca", "separa_lixo"):
-        dados[campo] = 1 if formulario.get(campo) == "sim" else 0
+    return erros
 
-    # --- Campo de escolha: precisa ser uma das opcoes conhecidas ---
+
+def _validar_sim_nao(formulario, dados):
+    """Converte os sim/nao em 1 ou 0. Nunca da erro: o que nao for 'sim' e 0."""
+    for campo in CAMPOS_SIM_NAO:
+        dados[campo] = 1 if formulario.get(campo) == "sim" else 0
+    return []
+
+
+def _validar_descarte(formulario, dados):
+    """O descarte precisa ser uma das opcoes que o app conhece."""
+    erros = []
+
     descarte = formulario.get("descarte_especial", "")
     if descarte not in OPCOES_DESCARTE:
         erros.append("Escolha como você descarta pilhas, óleo e eletrônicos.")
         descarte = "lixo_comum"
     dados["descarte_especial"] = descarte
 
-    # --- Horarios: precisam estar no formato HH:MM ---
-    for campo, rotulo in (("hora_acorda", "acorda"), ("hora_dorme", "dorme")):
+    return erros
+
+
+def _validar_horarios(formulario, dados):
+    """Os horarios precisam estar no formato HH:MM."""
+    erros = []
+
+    for campo, rotulo, reserva in CAMPOS_HORARIO:
         texto = formulario.get(campo, "").strip()
         try:
             # strptime da erro se o texto nao for um horario valido.
@@ -142,7 +171,25 @@ def validar_rotina(formulario):
             dados[campo] = texto
         except ValueError:
             erros.append("Informe o horário em que você " + rotulo + ".")
-            dados[campo] = "07:00" if campo == "hora_acorda" else "22:00"
+            dados[campo] = reserva
+
+    return erros
+
+
+def validar_rotina(formulario):
+    """
+    Confere os dados do formulario, chamando um validador por tipo de campo.
+
+    Devolve uma tupla (dados, erros):
+      dados -> dicionario pronto para salvar no banco
+      erros -> lista de mensagens; se estiver vazia, esta tudo certo.
+    """
+    dados = {}
+    erros = []
+
+    for validar in (_validar_textos, _validar_numeros, _validar_sim_nao,
+                    _validar_descarte, _validar_horarios):
+        erros.extend(validar(formulario, dados))
 
     return dados, erros
 

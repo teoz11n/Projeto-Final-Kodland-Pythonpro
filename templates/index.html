@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_graficos.html" import planta %}
 {% block titulo %}T.E.R.R.A. - Transforme a sua rotina{% endblock %}
 
 {% block conteudo %}
@@ -20,14 +21,13 @@
 
     {# As folhagens dos cantos. data-parallax faz cada uma andar
        numa velocidade diferente quando a pagina rola.            #}
-    <svg class="planta planta-no parallax" viewBox="0 0 220 200" data-parallax="0.06"><use href="#folhagem"/></svg>
-    <svg class="planta planta-ne parallax" viewBox="0 0 220 200" data-parallax="0.10"><use href="#arbusto"/></svg>
-    <svg class="planta planta-so parallax" viewBox="0 0 220 200" data-parallax="0.14"><use href="#folhagem"/></svg>
-    <svg class="planta planta-samambaia parallax" viewBox="0 0 160 210" data-parallax="0.18"><use href="#samambaia"/></svg>
-    <svg class="planta planta-girassol parallax" viewBox="0 0 140 140" data-parallax="0.22"><use href="#girassol"/></svg>
+    {{ planta("folhagem", classes="planta-no", parallax="0.06") }}
+    {{ planta("arbusto", classes="planta-ne", parallax="0.10") }}
+    {{ planta("folhagem", classes="planta-so", parallax="0.14") }}
+    {{ planta("samambaia", classes="planta-samambaia", parallax="0.18") }}
+    {{ planta("girassol", classes="planta-girassol", parallax="0.22") }}
     {# Folha de palmeira no canto de baixo, como na referencia #}
-    <svg class="planta parallax" viewBox="0 0 210 170" data-parallax="0.12"
-         style="bottom:-4%; right:6%; width:clamp(150px,21vw,330px); transform:rotate(8deg)"><use href="#palma"/></svg>
+    {{ planta("palma", posicao="bottom:-4%; right:6%; width:clamp(150px,21vw,330px); transform:rotate(8deg)", parallax="0.12") }}
   </div>
 
   <div class="conteudo">
@@ -73,10 +73,8 @@
    =================================================================== #}
 <section class="secao vida-2">
   <div class="palco">
-    <svg class="planta parallax" viewBox="0 0 170 180" data-parallax="0.05"
-         style="top:6%; right:-5%; width:clamp(150px,20vw,290px)"><use href="#ramo"/></svg>
-    <svg class="planta parallax" viewBox="0 0 200 210" data-parallax="0.09"
-         style="bottom:-8%; left:-7%; width:clamp(150px,19vw,270px); transform:rotate(18deg)"><use href="#monstera"/></svg>
+    {{ planta("ramo", posicao="top:6%; right:-5%; width:clamp(150px,20vw,290px)", parallax="0.05") }}
+    {{ planta("monstera", posicao="bottom:-8%; left:-7%; width:clamp(150px,19vw,270px); transform:rotate(18deg)", parallax="0.09") }}
   </div>
 
   <div class="conteudo">
@@ -123,12 +121,9 @@
    =================================================================== #}
 <section class="secao vida-3" id="como-funciona">
   <div class="palco">
-    <svg class="planta parallax" viewBox="0 0 210 170" data-parallax="0.07"
-         style="top:-4%; left:-6%; width:clamp(170px,22vw,320px); transform:rotate(-10deg)"><use href="#palma"/></svg>
-    <svg class="planta parallax" viewBox="0 0 160 210" data-parallax="0.12"
-         style="bottom:4%; right:-4%; width:clamp(140px,18vw,250px)"><use href="#samambaia"/></svg>
-    <svg class="planta parallax" viewBox="0 0 100 100" data-parallax="0.16"
-         style="top:22%; right:12%; width:clamp(42px,6vw,76px)"><use href="#flor"/></svg>
+    {{ planta("palma", posicao="top:-4%; left:-6%; width:clamp(170px,22vw,320px); transform:rotate(-10deg)", parallax="0.07") }}
+    {{ planta("samambaia", posicao="bottom:4%; right:-4%; width:clamp(140px,18vw,250px)", parallax="0.12") }}
+    {{ planta("flor", posicao="top:22%; right:12%; width:clamp(42px,6vw,76px)", parallax="0.16") }}
   </div>
 
   <div class="conteudo">
@@ -193,12 +188,9 @@
    =================================================================== #}
 <section class="secao vida-4">
   <div class="palco">
-    <svg class="planta parallax" viewBox="0 0 200 210" data-parallax="0.06"
-         style="top:0; right:-6%; width:clamp(160px,21vw,300px); transform:rotate(-14deg)"><use href="#monstera"/></svg>
-    <svg class="planta parallax" viewBox="0 0 170 180" data-parallax="0.11"
-         style="bottom:-6%; left:-5%; width:clamp(140px,18vw,250px)"><use href="#ramo"/></svg>
-    <svg class="planta parallax" viewBox="0 0 140 140" data-parallax="0.15"
-         style="bottom:14%; right:14%; width:clamp(50px,7vw,90px)"><use href="#girassol"/></svg>
+    {{ planta("monstera", posicao="top:0; right:-6%; width:clamp(160px,21vw,300px); transform:rotate(-14deg)", parallax="0.06") }}
+    {{ planta("ramo", posicao="bottom:-6%; left:-5%; width:clamp(140px,18vw,250px)", parallax="0.11") }}
+    {{ planta("girassol", posicao="bottom:14%; right:14%; width:clamp(50px,7vw,90px)", parallax="0.15") }}
   </div>
 
   <div class="conteudo">
@@ -237,17 +229,13 @@
    =================================================================== #}
 <section class="colagem vida-5">
   <div class="palco">
-    <svg class="planta colagem-c1" viewBox="0 0 200 210"><use href="#monstera"/></svg>
-    <svg class="planta colagem-c2" viewBox="0 0 220 200"><use href="#arbusto"/></svg>
-    <svg class="planta colagem-c3" viewBox="0 0 210 170"
-         style="--c1:#FF9FC4; --c2:#E85A96"><use href="#palma"/></svg>
-    <svg class="planta colagem-c4" viewBox="0 0 160 210"
-         style="--c1:#FFC94A; --c2:#E89A1C"><use href="#samambaia"/></svg>
-    <svg class="planta colagem-c5" viewBox="0 0 170 180"
-         style="--c1:#B49BFF; --c2:#7B5BE0"><use href="#ramo"/></svg>
-    <svg class="planta colagem-c6" viewBox="0 0 140 140"><use href="#girassol"/></svg>
-    <svg class="planta colagem-c7" viewBox="0 0 100 100"
-         style="--c1:#FF8AB3; --c2:#FFDD00"><use href="#flor"/></svg>
+    {{ planta("monstera", classes="colagem-c1") }}
+    {{ planta("arbusto", classes="colagem-c2") }}
+    {{ planta("palma", classes="colagem-c3", posicao="--c1:#FF9FC4; --c2:#E85A96") }}
+    {{ planta("samambaia", classes="colagem-c4", posicao="--c1:#FFC94A; --c2:#E89A1C") }}
+    {{ planta("ramo", classes="colagem-c5", posicao="--c1:#B49BFF; --c2:#7B5BE0") }}
+    {{ planta("girassol", classes="colagem-c6") }}
+    {{ planta("flor", classes="colagem-c7", posicao="--c1:#FF8AB3; --c2:#FFDD00") }}
   </div>
 
   <div class="conteudo">

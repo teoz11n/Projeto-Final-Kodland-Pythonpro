@@ -126,7 +126,8 @@ a escolha com base nos seus números.
 ├── .env.example        # modelo para a chave da API (sem a chave real)
 ├── templates/
 │   ├── base.html       # molde com o menu, usado por todas as outras
-│   ├── _graficos.html  # biblioteca de plantas em SVG (monstera, samambaia...)
+│   ├── _graficos.html  # plantas em SVG + a macro planta() que as posiciona
+│   ├── _personagens.html # a macro agente(), que desenha a ficha de fala
 │   ├── index.html      # apresentação, com o hero e a colagem final
 │   ├── rotina.html     # formulário
 │   ├── resultado.html  # consumo, comparação com a ONU e missões
@@ -135,9 +136,9 @@ a escolha com base nos seus números.
 │   ├── sobre.html      # problema, fontes e autor
 │   └── 404.html        # página de erro
 ├── static/
-│   ├── style.css       # o sistema de design inteiro, em 20 blocos
+│   ├── style.css       # o sistema de design inteiro, em 21 blocos
 │   ├── efeitos.js      # efeitos de interface, JavaScript puro
-│   └── fontes/         # onde entram as fontes pagas (veja o LEIA-ME de lá)
+│   └── personagens/    # as 5 ilustrações da equipe da Estação
 ├── docs/PROPOSTA.md    # o planejamento original entregue no curso
 └── extras/             # exercícios anteriores, fora do escopo do T.E.R.R.A.
 ```
@@ -273,7 +274,8 @@ está como variáveis CSS no topo do `static/style.css`:
 | Script | **Sloop Script** (paga) | Pinyon Script |
 | Texto | **Noto Serif Bengali** | — (é livre) |
 
-Detalhes e como ativar as fontes pagas: [`static/fontes/LEIA-ME.md`](static/fontes/LEIA-ME.md).
+Como ativar as fontes pagas está explicado no bloco **02 FONTES** do
+`static/style.css` — junto do código que usa elas.
 
 ### A progressão de vida
 

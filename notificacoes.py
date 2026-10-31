@@ -53,10 +53,3 @@ def notificar_missao_do_dia(missao):
     mensagem = missao["titulo"] + "\n" + missao["descricao"]
     return notificar("Missao do dia - T.E.R.R.A.", mensagem)
 
-
-def notificar_lembrete(lembrete):
-    """Avisa a pessoa com o lembrete do horario atual."""
-    if not lembrete:
-        return False
-
-    return notificar(lembrete["titulo"], lembrete["texto"])

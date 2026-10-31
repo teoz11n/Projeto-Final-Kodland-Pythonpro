@@ -1,16 +1,14 @@
 {% extends "base.html" %}
+{% from "_graficos.html" import planta %}
 {% block titulo %}T.E.R.R.A. - Meu perfil{% endblock %}
 
 {% block conteudo %}
 
 <section class="secao vida-4" style="padding-bottom:40px">
   <div class="palco">
-    <svg class="planta parallax" viewBox="0 0 220 200" data-parallax="0.05"
-         style="top:-8%; left:-8%; width:clamp(170px,22vw,320px)"><use href="#arbusto"/></svg>
-    <svg class="planta parallax" viewBox="0 0 140 140" data-parallax="0.13"
-         style="top:16%; right:8%; width:clamp(48px,7vw,88px)"><use href="#girassol"/></svg>
-    <svg class="planta parallax" viewBox="0 0 160 210" data-parallax="0.09"
-         style="bottom:-6%; right:-6%; width:clamp(140px,18vw,260px)"><use href="#samambaia"/></svg>
+    {{ planta("arbusto", posicao="top:-8%; left:-8%; width:clamp(170px,22vw,320px)", parallax="0.05") }}
+    {{ planta("girassol", posicao="top:16%; right:8%; width:clamp(48px,7vw,88px)", parallax="0.13") }}
+    {{ planta("samambaia", posicao="bottom:-6%; right:-6%; width:clamp(140px,18vw,260px)", parallax="0.09") }}
   </div>
 
   <div class="conteudo">
@@ -85,8 +83,7 @@
 {# ============ HISTORICO ============ #}
 <section class="secao vida-5" style="padding-top:0">
   <div class="palco">
-    <svg class="planta parallax" viewBox="0 0 200 210" data-parallax="0.07"
-         style="bottom:-8%; left:-7%; width:clamp(150px,19vw,280px); transform:rotate(-18deg)"><use href="#monstera"/></svg>
+    {{ planta("monstera", posicao="bottom:-8%; left:-7%; width:clamp(150px,19vw,280px); transform:rotate(-18deg)", parallax="0.07") }}
   </div>
 
   <div class="conteudo">

@@ -45,7 +45,6 @@
   /* Versoes em RGB, para conseguir usar com transparencia.
      Exemplo de uso:  rgba(var(--azul-noite-rgb), .25)            */
   --azul-noite-rgb: 56, 66, 150;
-  --azul-rgb:       74, 143, 231;
   --azul-ceu-rgb:   89, 210, 254;
   --verde-neon-rgb: 28, 255, 134;
   --verde-folha-rgb:142, 238, 67;
@@ -73,8 +72,6 @@
               0 8px 20px -6px rgba(var(--azul-noite-rgb), .14);
   --sombra-3: 0 4px 8px rgba(var(--azul-noite-rgb), .06),
               0 20px 44px -16px rgba(var(--azul-noite-rgb), .26);
-  --sombra-4: 0 8px 16px rgba(var(--azul-noite-rgb), .08),
-              0 36px 70px -24px rgba(var(--azul-noite-rgb), .34);
 
   /* --- Curvas de animacao ----------------------------------------
      --mola tem overshoot: o elemento passa do ponto e volta,
@@ -103,17 +100,28 @@
 /* ===================================================================
    02 FONTES
    -------------------------------------------------------------------
-   TAN Meringue e Sloop Script sao fontes PAGAS e nao estao no
-   Google Fonts. A cascata abaixo resolve isso em tres niveis:
+   TAN Meringue e Sloop Script sao fontes PAGAS e nao estao no Google
+   Fonts, entao nao vem junto com o projeto. Os substitutos livres
+   abaixo seguram o visual enquanto elas nao existirem.
 
-     1. local()      -> usa a fonte se ela estiver instalada no PC
-     2. url()        -> usa o arquivo em static/fontes/, se existir
-     3. fallback     -> cai no substituto livre do Google Fonts
+     TAN Meringue  -> Playfair Display  (serifada de alto contraste)
+     Sloop Script  -> Pinyon Script     (caligrafica)
+     Noto Serif Bengali e livre e vem do Google Fonts normalmente.
 
-   Para ativar as fontes de verdade, coloque os arquivos em
-   static/fontes/ com estes nomes e pronto, nada mais muda:
-     static/fontes/TANMeringue.woff2
-     static/fontes/SloopScriptOne.woff2
+   COMO ATIVAR AS FONTES DE VERDADE, se um dia voce comprar:
+
+     Jeito facil - instalar no Windows (clique duplo > Instalar).
+       Pronto, o local() abaixo acha sozinho. So vale no seu PC.
+
+     Jeito completo - para qualquer pessoa que abrir o site:
+       1. converta para .woff2 (fontsquirrel.com/tools/webfont-generator)
+       2. crie a pasta static/fontes/ e salve com estes nomes:
+            TANMeringue.woff2  e  SloopScriptOne.woff2
+       3. descomente as duas linhas url() aqui embaixo
+
+   CUIDADO COM A LICENCA: subir o arquivo de uma fonte paga para um
+   repositorio publico e DISTRIBUIR a fonte, e quase toda licenca
+   comercial proibe isso. Para o trabalho, o jeito facil e o seguro.
    =================================================================== */
 
 @font-face {
@@ -321,7 +329,6 @@ body::after {
 .planta-ne  { top: -6%;  right: -4%;  width: clamp(230px, 32vw, 430px); }
 .planta-no  { top: -10%; left: -8%;   width: clamp(190px, 26vw, 340px); }
 .planta-so  { bottom: -12%; left: -6%; width: clamp(220px, 30vw, 400px); }
-.planta-se  { bottom: -8%; right: -7%; width: clamp(200px, 27vw, 360px); }
 .planta-girassol { top: 4%; left: 3%;  width: clamp(80px, 11vw, 140px); }
 .planta-samambaia{ bottom: 6%; right: 4%; width: clamp(150px, 20vw, 280px); transform: rotate(-12deg); }
 
@@ -399,7 +406,6 @@ body::after {
    =================================================================== */
 
 .botao {
-  --brilho: 0;
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -475,11 +481,6 @@ body::after {
 }
 .botao-verde:hover { color: var(--azul-noite); }
 
-.botao-sol {
-  color: var(--azul-noite);
-  background: linear-gradient(135deg, var(--amarelo) 0%, var(--verde-folha) 120%);
-}
-.botao-sol:hover { color: var(--azul-noite); }
 
 /* Botao de vidro: para acoes secundarias */
 .botao-vidro {
@@ -623,7 +624,6 @@ body::after {
   color: var(--verde-texto);
 }
 
-.hero-script { margin: -.1em 0 .5em; }
 
 .hero p { margin-left: auto; margin-right: auto; }
 
@@ -1334,12 +1334,14 @@ tfoot th { font-weight: 700; border-top: 2px solid rgba(var(--azul-noite-rgb), .
 
 :root {
   /* Paleta dos personagens. Vive SO dentro da ficha do agente -
-     nunca em botao, titulo ou qualquer parte da interface.        */
+     nunca em botao, titulo ou qualquer parte da interface.
+     A paleta completa da biblia de arte e:
+       #233B35 verde floresta   #D3A64D mostarda   #D76D48 terracota
+       #E9DFC7 creme vintage    #577C91 azul poeira #A7A66B oliva
+     Aqui embaixo ficam so as tres que o CSS realmente usa.        */
   --tinta-cartoon:   #2B2622;   /* o preto do contorno, quente    */
   --papel-cartoon:   #F2E7CE;   /* o creme do fundo do desenho    */
   --verde-cartoon:   #233B35;
-  --mostarda:        #D3A64D;
-  --terracota:       #D76D48;
 }
 
 .agente {

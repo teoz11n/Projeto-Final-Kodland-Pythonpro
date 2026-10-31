@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_graficos.html" import planta %}
 {% from "_personagens.html" import agente %}
 {% block titulo %}T.E.R.R.A. - Meu resultado{% endblock %}
 
@@ -7,10 +8,8 @@
 {# ============ OS NUMEROS ============ #}
 <section class="secao vida-2" style="padding-bottom:0">
   <div class="palco">
-    <svg class="planta parallax" viewBox="0 0 220 200" data-parallax="0.05"
-         style="top:-8%; left:-9%; width:clamp(160px,21vw,300px)"><use href="#folhagem"/></svg>
-    <svg class="planta parallax" viewBox="0 0 170 180" data-parallax="0.09"
-         style="top:8%; right:-6%; width:clamp(140px,18vw,260px); transform:scaleX(-1)"><use href="#ramo"/></svg>
+    {{ planta("folhagem", posicao="top:-8%; left:-9%; width:clamp(160px,21vw,300px)", parallax="0.05") }}
+    {{ planta("ramo", posicao="top:8%; right:-6%; width:clamp(140px,18vw,260px); transform:scaleX(-1)", parallax="0.09") }}
   </div>
 
   <div class="conteudo">
@@ -79,8 +78,7 @@
 {# ============ CONSUMO POR ATIVIDADE ============ #}
 <section class="secao vida-3" style="padding-top:0">
   <div class="palco">
-    <svg class="planta parallax" viewBox="0 0 200 210" data-parallax="0.07"
-         style="bottom:-10%; right:-7%; width:clamp(150px,19vw,280px); transform:rotate(-16deg)"><use href="#monstera"/></svg>
+    {{ planta("monstera", posicao="bottom:-10%; right:-7%; width:clamp(150px,19vw,280px); transform:rotate(-16deg)", parallax="0.07") }}
   </div>
 
   <div class="conteudo">
@@ -129,10 +127,8 @@
 {# ============ MISSOES SUGERIDAS ============ #}
 <section class="secao vida-4" style="padding-top:0">
   <div class="palco">
-    <svg class="planta parallax" viewBox="0 0 160 210" data-parallax="0.06"
-         style="top:4%; left:-6%; width:clamp(130px,17vw,240px)"><use href="#samambaia"/></svg>
-    <svg class="planta parallax" viewBox="0 0 100 100" data-parallax="0.14"
-         style="top:40%; right:6%; width:clamp(38px,5vw,66px)"><use href="#flor"/></svg>
+    {{ planta("samambaia", posicao="top:4%; left:-6%; width:clamp(130px,17vw,240px)", parallax="0.06") }}
+    {{ planta("flor", posicao="top:40%; right:6%; width:clamp(38px,5vw,66px)", parallax="0.14") }}
   </div>
 
   <div class="conteudo">

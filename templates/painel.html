@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_graficos.html" import planta %}
 {% from "_personagens.html" import agente %}
 {% block titulo %}T.E.R.R.A. - Painel{% endblock %}
 
@@ -6,10 +7,8 @@
 
 <section class="secao vida-3" style="padding-bottom:40px">
   <div class="palco">
-    <svg class="planta parallax" viewBox="0 0 220 200" data-parallax="0.05"
-         style="top:-10%; right:-8%; width:clamp(170px,22vw,320px)"><use href="#arbusto"/></svg>
-    <svg class="planta parallax" viewBox="0 0 210 170" data-parallax="0.10"
-         style="top:30%; left:-8%; width:clamp(140px,19vw,270px); transform:rotate(-8deg) scaleX(-1)"><use href="#palma"/></svg>
+    {{ planta("arbusto", posicao="top:-10%; right:-8%; width:clamp(170px,22vw,320px)", parallax="0.05") }}
+    {{ planta("palma", posicao="top:30%; left:-8%; width:clamp(140px,19vw,270px); transform:rotate(-8deg) scaleX(-1)", parallax="0.10") }}
   </div>
 
   <div class="conteudo">
@@ -124,10 +123,8 @@
 {# ============ MISSOES ATIVAS ============ #}
 <section class="secao vida-4" style="padding-top:0">
   <div class="palco">
-    <svg class="planta parallax" viewBox="0 0 200 210" data-parallax="0.06"
-         style="top:10%; right:-7%; width:clamp(150px,19vw,280px); transform:rotate(14deg)"><use href="#monstera"/></svg>
-    <svg class="planta parallax" viewBox="0 0 170 180" data-parallax="0.11"
-         style="bottom:2%; left:-6%; width:clamp(130px,17vw,240px)"><use href="#ramo"/></svg>
+    {{ planta("monstera", posicao="top:10%; right:-7%; width:clamp(150px,19vw,280px); transform:rotate(14deg)", parallax="0.06") }}
+    {{ planta("ramo", posicao="bottom:2%; left:-6%; width:clamp(130px,17vw,240px)", parallax="0.11") }}
   </div>
 
   <div class="conteudo">

@@ -7,14 +7,52 @@
   baixa imagem nenhuma e nunca fica borrado, em nenhum tamanho.
 
   Como usar em qualquer pagina:
-      <svg class="planta planta-ne"><use href="#monstera"/></svg>
+
+      {% from "_graficos.html" import planta %}
+      {{ planta("monstera", classes="planta-ne", parallax="0.08") }}
 
   Como trocar a cor de uma planta so:
-      style="--c1:#FF9FC4; --c2:#FFDD00"
+      {{ planta("palma", posicao="--c1:#FF9FC4; --c2:#FFDD00") }}
       (--c1 = cor principal, --c2 = cor secundaria, --c3 = detalhe)
 
-  Este arquivo e incluido uma vez no base.html e fica escondido.
+  Este arquivo e usado de DUAS formas:
+    1. {% include %} no base.html -> imprime os desenhos escondidos
+    2. {% from ... import planta %} -> pega so a macro, sem imprimir nada
 #}
+
+
+{#
+  Cada desenho tem o proprio viewBox, e errar esse numero deforma a
+  planta. Em vez de repetir o viewBox em toda tag <svg> espalhada
+  pelas paginas, ele mora AQUI, num lugar so, e a macro busca.
+#}
+{% set VIEWBOX = {
+  "monstera":  "0 0 200 210",
+  "samambaia": "0 0 160 210",
+  "palma":     "0 0 210 170",
+  "folhagem":  "0 0 220 200",
+  "arbusto":   "0 0 220 200",
+  "girassol":  "0 0 140 140",
+  "flor":      "0 0 100 100",
+  "ramo":      "0 0 170 180",
+  "gota":      "0 0 100 120"
+} %}
+
+
+{#
+  planta() - coloca um desenho de fundo numa pagina.
+
+    qual      nome do desenho (as chaves do VIEWBOX acima)
+    classes   classes extras de posicao, ex.: "planta-ne" ou "colagem-c1"
+    posicao   CSS solto, ex.: "top:6%; right:-5%; width:clamp(...)"
+    parallax  velocidade do parallax, ex.: "0.08". Sem isso, fica parada.
+#}
+{% macro planta(qual, classes="", posicao="", parallax=None) -%}
+<svg class="planta{% if classes %} {{ classes }}{% endif %}{% if parallax %} parallax{% endif %}"
+     viewBox="{{ VIEWBOX[qual] }}"
+     {%- if parallax %} data-parallax="{{ parallax }}"{% endif %}
+     {%- if posicao %} style="{{ posicao }}"{% endif %}><use href="#{{ qual }}"/></svg>
+{%- endmacro %}
 
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true" focusable="false">
 

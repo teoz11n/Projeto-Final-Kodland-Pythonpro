@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% from "_graficos.html" import planta %}
 {% block titulo %}T.E.R.R.A. - Página não encontrada{% endblock %}
 
 {% block conteudo %}
@@ -7,10 +8,8 @@
   <div class="palco">
     <div class="borrao borrao-verde"   style="top:-10%; left:-10%; width:32vw; height:32vw"></div>
     <div class="borrao borrao-amarelo" style="bottom:-14%; right:-8%; width:28vw; height:28vw"></div>
-    <svg class="planta parallax" viewBox="0 0 220 200" data-parallax="0.08"
-         style="top:-8%; right:-6%; width:clamp(160px,21vw,300px)"><use href="#folhagem"/></svg>
-    <svg class="planta parallax" viewBox="0 0 160 210" data-parallax="0.14"
-         style="bottom:-6%; left:-5%; width:clamp(130px,17vw,240px)"><use href="#samambaia"/></svg>
+    {{ planta("folhagem", posicao="top:-8%; right:-6%; width:clamp(160px,21vw,300px)", parallax="0.08") }}
+    {{ planta("samambaia", posicao="bottom:-6%; left:-5%; width:clamp(130px,17vw,240px)", parallax="0.14") }}
   </div>
 
   <div class="conteudo">
