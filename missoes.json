@@ -12,18 +12,20 @@
     "  condicao   -> quando a missao aparece (as regras estao em missoes.py)",
     "  economia   -> como calcular a economia (as contas estao em calculos.py)"
   ],
-
   "missoes": [
     {
       "id": "banho_15_para_10",
       "titulo": "Corte 5 minutos do banho",
-      "descricao": "Seu banho esta bem longo. Coloque um cronometro ou uma musica de 10 minutos e desligue o chuveiro quando ela acabar.",
+      "descricao": "Seu banho está bem longo. Coloque um cronômetro ou uma música de 10 minutos e desligue o chuveiro quando ela acabar.",
       "categoria": "agua",
       "grupo": "banho",
       "dificuldade": "media",
       "xp": 25,
       "condicao": "banho_muito_longo",
-      "economia": { "tipo": "banho_reduzir", "valor": 5 }
+      "economia": {
+        "tipo": "banho_reduzir",
+        "valor": 5
+      }
     },
     {
       "id": "banho_desafio_5",
@@ -34,161 +36,206 @@
       "dificuldade": "dificil",
       "xp": 40,
       "condicao": "banho_longo",
-      "economia": { "tipo": "banho_reduzir", "valor": 3 }
+      "economia": {
+        "tipo": "banho_reduzir",
+        "valor": 3
+      }
     },
     {
       "id": "banho_fecha_ensaboar",
       "titulo": "Chuveiro fechado na hora do sabonete",
-      "descricao": "Desligue o chuveiro enquanto passa sabonete e shampoo. Ligue de novo so para enxaguar.",
+      "descricao": "Desligue o chuveiro enquanto passa sabonete e shampoo. Ligue de novo só para enxaguar.",
       "categoria": "agua",
       "grupo": "banho",
       "dificuldade": "facil",
       "xp": 15,
       "condicao": "sempre",
-      "economia": { "tipo": "fixo", "valor": 18 }
+      "economia": {
+        "tipo": "fixo",
+        "valor": 18
+      }
     },
     {
       "id": "banho_um_por_dia",
       "titulo": "Um banho por dia",
-      "descricao": "Hoje tome apenas um banho. Em dias de calor, um banho rapido de agua fria resolve melhor do que dois longos.",
+      "descricao": "Hoje tome apenas um banho. Em dias de calor, um banho rápido de água fria resolve melhor do que dois longos.",
       "categoria": "agua",
       "grupo": "banho",
       "dificuldade": "media",
       "xp": 30,
       "condicao": "muitos_banhos",
-      "economia": { "tipo": "banho_remover", "valor": 1 }
+      "economia": {
+        "tipo": "banho_remover",
+        "valor": 1
+      }
     },
     {
       "id": "torneira_copo_escovar",
-      "titulo": "Copo de agua na escovacao",
-      "descricao": "Encha um copo, feche a torneira e escove os dentes. A torneira so volta a abrir no fim.",
+      "titulo": "Copo de água na escovacao",
+      "descricao": "Encha um copo, feche a torneira e escove os dentes. A torneira só volta a abrir no fim.",
       "categoria": "agua",
       "grupo": "escovacao",
       "dificuldade": "facil",
       "xp": 15,
       "condicao": "torneira_escovar",
-      "economia": { "tipo": "torneira_escovar", "valor": 0 }
+      "economia": {
+        "tipo": "torneira_escovar",
+        "valor": 0
+      }
     },
     {
       "id": "louca_torneira_fechada",
-      "titulo": "Ensaboe a louca com a torneira fechada",
-      "descricao": "Junte toda a louca, passe detergente em tudo com a torneira fechada e enxague de uma vez no final.",
+      "titulo": "Ensaboe a louça com a torneira fechada",
+      "descricao": "Junte toda a louça, passe detergente em tudo com a torneira fechada e enxágue de uma vez no final.",
       "categoria": "agua",
       "grupo": "louca",
       "dificuldade": "media",
       "xp": 25,
       "condicao": "torneira_louca",
-      "economia": { "tipo": "torneira_louca", "valor": 0 }
+      "economia": {
+        "tipo": "torneira_louca",
+        "valor": 0
+      }
     },
     {
       "id": "descarga_garrafa",
       "titulo": "Garrafa dentro da caixa de descarga",
-      "descricao": "Coloque uma garrafa de 2 litros cheia de agua dentro da caixa acoplada. Ela ocupa espaco e cada descarga gasta menos.",
+      "descricao": "Coloque uma garrafa de 2 litros cheia de água dentro da caixa acoplada. Ela ocupa espaço e cada descarga gasta menos.",
       "categoria": "agua",
       "grupo": "descarga",
       "dificuldade": "facil",
       "xp": 20,
       "condicao": "muitas_descargas",
-      "economia": { "tipo": "descarga_reduzir", "valor": 2 }
+      "economia": {
+        "tipo": "descarga_reduzir",
+        "valor": 2
+      }
     },
     {
       "id": "descarga_consciente",
-      "titulo": "Descarga so quando precisa",
-      "descricao": "Nao use a descarga como lixeira. Papel, cabelo e fio dental vao para o lixo, nao para o vaso.",
+      "titulo": "Descarga só quando precisa",
+      "descricao": "Não use a descarga como lixeira. Papel, cabelo e fio dental vao para o lixo, não para o vaso.",
       "categoria": "agua",
       "grupo": "descarga",
       "dificuldade": "facil",
       "xp": 15,
       "condicao": "muitas_descargas",
-      "economia": { "tipo": "descarga_remover", "valor": 2 }
+      "economia": {
+        "tipo": "descarga_remover",
+        "valor": 2
+      }
     },
     {
       "id": "balde_no_banho",
       "titulo": "Balde no banho",
-      "descricao": "Deixe um balde no chao do banheiro enquanto a agua do chuveiro esquenta. Use essa agua para lavar o quintal ou dar descarga.",
+      "descricao": "Deixe um balde no chão do banheiro enquanto a água do chuveiro esquenta. Use essa água para lavar o quintal ou dar descarga.",
       "categoria": "agua",
       "grupo": "reuso",
       "dificuldade": "facil",
       "xp": 20,
       "condicao": "sempre",
-      "economia": { "tipo": "fixo", "valor": 10 }
+      "economia": {
+        "tipo": "fixo",
+        "valor": 10
+      }
     },
     {
       "id": "agua_da_chuva",
-      "titulo": "Reaproveite a agua da chuva",
-      "descricao": "Esta chovendo na sua cidade. Deixe um balde ou bacia do lado de fora e use essa agua para regar plantas, lavar o chao ou dar descarga.",
+      "titulo": "Reaproveite a água da chuva",
+      "descricao": "Está chovendo na sua cidade. Deixe um balde ou bacia do lado de fora e use essa água para regar plantas, lavar o chão ou dar descarga.",
       "categoria": "agua",
       "grupo": "reuso",
       "dificuldade": "facil",
       "xp": 25,
       "condicao": "chuva",
-      "economia": { "tipo": "fixo", "valor": 20 }
+      "economia": {
+        "tipo": "fixo",
+        "valor": 20
+      }
     },
     {
       "id": "caca_vazamento",
       "titulo": "Cace vazamentos em casa",
-      "descricao": "Feche todas as torneiras e olhe o relogio de agua. Se os numeros continuarem girando, existe um vazamento escondido.",
+      "descricao": "Feche todas as torneiras e olhe o relógio de água. Se os números continuarem girando, existe um vazamento escondido.",
       "categoria": "agua",
       "grupo": "vazamento",
       "dificuldade": "media",
       "xp": 30,
       "condicao": "sempre",
-      "economia": { "tipo": "fixo", "valor": 12 }
+      "economia": {
+        "tipo": "fixo",
+        "valor": 12
+      }
     },
     {
       "id": "maquina_cheia",
-      "titulo": "Maquina de lavar sempre cheia",
-      "descricao": "Espere juntar roupa suficiente para encher a maquina. Duas lavagens pela metade gastam muito mais que uma cheia.",
+      "titulo": "Máquina de lavar sempre cheia",
+      "descricao": "Espere juntar roupa suficiente para encher a máquina. Duas lavagens pela metade gastam muito mais que uma cheia.",
       "categoria": "agua",
       "grupo": "roupa",
       "dificuldade": "facil",
       "xp": 20,
       "condicao": "sempre",
-      "economia": { "tipo": "fixo", "valor": 25 }
+      "economia": {
+        "tipo": "fixo",
+        "valor": 25
+      }
     },
     {
       "id": "vassoura_em_vez_de_mangueira",
       "titulo": "Vassoura em vez de mangueira",
-      "descricao": "Limpe a calcada e o quintal com vassoura. Use a mangueira so no final, se for muito necessario.",
+      "descricao": "Limpe a calçada e o quintal com vassoura. Use a mangueira só no final, se for muito necessário.",
       "categoria": "agua",
       "grupo": "limpeza",
       "dificuldade": "facil",
       "xp": 20,
       "condicao": "sempre",
-      "economia": { "tipo": "fixo", "valor": 40 }
+      "economia": {
+        "tipo": "fixo",
+        "valor": 40
+      }
     },
     {
       "id": "regar_de_manha",
-      "titulo": "Regue as plantas no inicio da manha",
-      "descricao": "Regue antes das 9h ou depois das 17h. No sol forte, boa parte da agua evapora antes de chegar na raiz.",
+      "titulo": "Regue as plantas no inicio da manhã",
+      "descricao": "Regue antes das 9h ou depois das 17h. No sol forte, boa parte da água evapora antes de chegar na raiz.",
       "categoria": "agua",
       "grupo": "jardim",
       "dificuldade": "facil",
       "xp": 10,
       "condicao": "acorda_cedo",
-      "economia": { "tipo": "fixo", "valor": 6 }
+      "economia": {
+        "tipo": "fixo",
+        "valor": 6
+      }
     },
     {
       "id": "separar_reciclavel",
-      "titulo": "Separe reciclavel e organico",
-      "descricao": "Separe duas sacolas ou caixas: uma para reciclaveis secos (papel, plastico, metal, vidro) e outra para restos de comida.",
+      "titulo": "Separe reciclável e orgânico",
+      "descricao": "Separe duas sacolas ou caixas: uma para recicláveis secos (papel, plástico, metal, vidro) e outra para restos de comida.",
       "categoria": "descarte",
       "grupo": "descarte",
       "dificuldade": "media",
       "xp": 30,
       "condicao": "nao_separa_lixo",
-      "economia": { "tipo": "zero", "valor": 0 }
+      "economia": {
+        "tipo": "zero",
+        "valor": 0
+      }
     },
     {
       "id": "oleo_na_pet",
-      "titulo": "Oleo usado na garrafa PET",
-      "descricao": "Nunca jogue oleo na pia. Guarde numa garrafa PET fechada e leve a um ponto de coleta. Um litro de oleo pode contaminar milhares de litros de agua.",
+      "titulo": "Óleo usado na garrafa PET",
+      "descricao": "Nunca jogue óleo na pia. Guarde numa garrafa PET fechada e leve a um ponto de coleta. Um litro de óleo pode contaminar milhares de litros de água.",
       "categoria": "descarte",
       "grupo": "descarte",
       "dificuldade": "facil",
       "xp": 25,
       "condicao": "descarte_errado",
-      "economia": { "tipo": "zero", "valor": 0 }
+      "economia": {
+        "tipo": "zero",
+        "valor": 0
+      }
     },
     {
       "id": "pilhas_ponto_coleta",
@@ -199,40 +246,52 @@
       "dificuldade": "media",
       "xp": 30,
       "condicao": "descarte_errado",
-      "economia": { "tipo": "zero", "valor": 0 }
+      "economia": {
+        "tipo": "zero",
+        "valor": 0
+      }
     },
     {
       "id": "eletronico_ecoponto",
-      "titulo": "Eletronico velho no ecoponto",
-      "descricao": "Procure um ecoponto da sua cidade e leve aquele carregador, fone ou celular quebrado que esta na gaveta.",
+      "titulo": "Eletrônico velho no ecoponto",
+      "descricao": "Procure um ecoponto da sua cidade e leve aquele carregador, fone ou celular quebrado que está na gaveta.",
       "categoria": "descarte",
       "grupo": "descarte",
       "dificuldade": "dificil",
       "xp": 40,
       "condicao": "sempre",
-      "economia": { "tipo": "zero", "valor": 0 }
+      "economia": {
+        "tipo": "zero",
+        "valor": 0
+      }
     },
     {
       "id": "dia_sem_descartavel",
-      "titulo": "Um dia sem descartavel",
-      "descricao": "Passe o dia inteiro sem usar copo, canudo, prato ou talher de plastico descartavel.",
+      "titulo": "Um dia sem descartável",
+      "descricao": "Passe o dia inteiro sem usar copo, canudo, prato ou talher de plástico descartável.",
       "categoria": "descarte",
       "grupo": "descarte",
       "dificuldade": "media",
       "xp": 25,
       "condicao": "sempre",
-      "economia": { "tipo": "zero", "valor": 0 }
+      "economia": {
+        "tipo": "zero",
+        "valor": 0
+      }
     },
     {
       "id": "sacola_retornavel",
-      "titulo": "Sacola retornavel na compra",
-      "descricao": "Deixe uma sacola de pano dobrada na mochila e use ela na proxima ida ao mercado.",
+      "titulo": "Sacola retornável na compra",
+      "descricao": "Deixe uma sacola de pano dobrada na mochila e use ela na próxima ida ao mercado.",
       "categoria": "descarte",
       "grupo": "descarte",
       "dificuldade": "facil",
       "xp": 15,
       "condicao": "sempre",
-      "economia": { "tipo": "zero", "valor": 0 }
+      "economia": {
+        "tipo": "zero",
+        "valor": 0
+      }
     },
     {
       "id": "compostagem_caseira",
@@ -243,29 +302,34 @@
       "dificuldade": "dificil",
       "xp": 40,
       "condicao": "separa_lixo",
-      "economia": { "tipo": "zero", "valor": 0 }
+      "economia": {
+        "tipo": "zero",
+        "valor": 0
+      }
     },
     {
       "id": "lixo_noturno",
-      "titulo": "Lixo na rua so perto da coleta",
-      "descricao": "Voce dorme tarde: aproveite para colocar o lixo para fora so perto do horario da coleta. Sacola na rua o dia todo atrai bichos e espalha residuo.",
+      "titulo": "Lixo na rua só perto da coleta",
+      "descricao": "Você dorme tarde: aproveite para colocar o lixo para fora só perto do horário da coleta. Sacola na rua o dia todo atrai bichos e espalha resíduo.",
       "categoria": "descarte",
       "grupo": "descarte",
       "dificuldade": "facil",
       "xp": 15,
       "condicao": "dorme_tarde",
-      "economia": { "tipo": "zero", "valor": 0 }
+      "economia": {
+        "tipo": "zero",
+        "valor": 0
+      }
     }
   ],
-
   "dicas": [
-    "Um banho de 15 minutos gasta mais agua do que uma pessoa deveria usar em um dia inteiro.",
-    "Uma torneira pingando desperdica cerca de 46 litros por dia - mais de 1.300 litros por mes.",
-    "So 1% da agua do planeta e doce e facil de acessar. O resto e salgada ou esta congelada.",
-    "Um litro de oleo de cozinha jogado na pia pode contaminar ate 25 mil litros de agua.",
+    "Um banho de 15 minutos gasta mais água do que uma pessoa deveria usar em um dia inteiro.",
+    "Uma torneira pingando desperdiça cerca de 46 litros por dia - mais de 1.300 litros por mes.",
+    "So 1% da água do planeta e doce e facil de acessar. O resto e salgada ou está congelada.",
+    "Um litro de óleo de cozinha jogado na pia pode contaminar até 25 mil litros de água.",
     "Pilhas no lixo comum liberam metais pesados que chegam ao solo e aos rios.",
-    "Reciclar uma lata de aluminio economiza energia suficiente para 3 horas de TV.",
-    "Lavar o carro com balde em vez de mangueira economiza cerca de 400 litros de agua.",
-    "O plastico que voce usa por 5 minutos pode levar mais de 400 anos para se decompor."
+    "Reciclar uma lata de alumínio economiza energia suficiente para 3 horas de TV.",
+    "Lavar o carro com balde em vez de mangueira economiza cerca de 400 litros de água.",
+    "O plástico que você usa por 5 minutos pode levar mais de 400 anos para se decompor."
   ]
 }

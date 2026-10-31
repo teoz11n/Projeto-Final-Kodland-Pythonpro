@@ -160,7 +160,7 @@
 html {
   scroll-behavior: smooth;
   /* Compensa a navbar fixa quando o link pula para uma ancora */
-  scroll-padding-top: 90px;
+  scroll-padding-top: 84px;
 }
 
 body {
@@ -371,21 +371,11 @@ body::after {
   overflow: hidden;
 }
 
-/* Brilho especular que segue o cursor (Cursor Tracking Glow).
-   O JS atualiza --mx e --my com a posicao do mouse.               */
-.vidro::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity .45s var(--suave);
-  background: radial-gradient(300px circle at var(--mx, 50%) var(--my, 50%),
-              rgba(var(--verde-neon-rgb), .20),
-              rgba(var(--azul-ceu-rgb), .10) 40%,
-              transparent 70%);
-}
-.vidro:hover::after { opacity: 1; }
+/* NOTA: aqui existia um "brilho que segue o cursor" - uma mancha
+   verde que acendia dentro do cartao quando o mouse passava.
+   Foi REMOVIDO de proposito: sujava a leitura do conteudo e dava
+   um ar de demonstracao de efeito, nao de produto. O destaque no
+   hover agora e so a sombra crescendo, que e mais discreto.      */
 
 /* Variante mais densa, para a navbar e o dock */
 .vidro-denso {
@@ -437,14 +427,17 @@ body::after {
 /* Hover Lift: o botao sobe e a sombra cresce junto.
    Os dois precisam andar juntos, senao parece colado na tela.   */
 .botao:hover {
-  transform: translateY(-3px) scale(1.015);
-  box-shadow: var(--sombra-3);
-  filter: brightness(1.06);
+  /* So 2px de subida e sem scale. O exagero no hover e o que faz
+     um site parecer brinquedo: o movimento tem que ser sentido,
+     nao visto.                                                   */
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-2);
+  filter: brightness(1.03);
   color: var(--branco);
 }
 
 /* Squishy: ao clicar, o botao afunda. Resposta tatil.           */
-.botao:active { transform: translateY(-1px) scale(.985); transition-duration: .1s; }
+.botao:active { transform: translateY(0) scale(.99); transition-duration: .1s; }
 
 .botao:focus-visible {
   outline: 3px solid rgba(var(--azul-ceu-rgb), .75);
@@ -459,7 +452,7 @@ body::after {
   z-index: -1;
   background: linear-gradient(105deg,
               transparent 35%,
-              rgba(255, 255, 255, .42) 50%,
+              rgba(255, 255, 255, .22) 50%,
               transparent 65%);
   transform: translateX(-120%);
   transition: transform .85s var(--expo);
@@ -471,7 +464,7 @@ body::after {
   display: inline-block;
   transition: transform .4s var(--mola);
 }
-.botao:hover .seta { transform: translateX(5px); }
+.botao:hover .seta { transform: translateX(3px); }
 
 /* --- Variantes ---------------------------------------------------- */
 
@@ -501,58 +494,44 @@ body::after {
 .botao-grande { padding: 17px 36px; font-size: 1.05rem; }
 .botao-pequeno { padding: 9px 18px; font-size: .86rem; }
 
-/* Border Beam: um feixe de luz percorre a borda do botao.
-   Usa @property para o navegador conseguir animar o angulo.     */
-@property --angulo {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
-
-.botao-feixe { position: relative; z-index: 1; }
-.botao-feixe::after {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  z-index: -2;
-  border-radius: inherit;
-  background: conic-gradient(from var(--angulo),
-              transparent 0deg,
-              var(--verde-neon) 40deg,
-              var(--azul-ceu) 80deg,
-              transparent 130deg);
-  animation: girar-feixe 3.5s linear infinite;
-  opacity: 0;
-  transition: opacity .4s;
-}
-.botao-feixe:hover::after { opacity: 1; }
-
-@keyframes girar-feixe { to { --angulo: 360deg; } }
+/* NOTA: aqui existia um "border beam" - um feixe verde e azul que
+   girava na borda do botao no hover. Foi REMOVIDO: chamava muito
+   mais atencao do que a propria acao do botao, e num site sobre
+   natureza aquilo parecia luz de gamer, fora do tom.            */
 
 
 /* ===================================================================
    08 NAVBAR
    =================================================================== */
 
+/* A barra ocupa a LARGURA INTEIRA da tela e fica colada no topo.
+   Ela usa o vidro, mas sem cantos arredondados e sem bordas nas
+   laterais - o unico tracinho e o de baixo, separando do conteudo. */
 .topo {
   position: sticky;
-  top: 14px;
+  top: 0;
   z-index: 900;
-  width: calc(100% - 32px);
-  max-width: var(--larg-conteudo);
-  margin: 14px auto 0;
-  padding: 11px 14px 11px 22px;
+  width: 100%;
+  margin: 0;
+  padding: 14px clamp(20px, 4vw, 54px);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  border-radius: var(--raio-pilula);
+  border-radius: 0;
+  border-width: 0 0 1px 0;
+  border-color: rgba(255, 255, 255, .7);
   transition: box-shadow .4s var(--suave), padding .4s var(--suave);
 }
 
 /* O JS adiciona .rolou quando a pagina desce: a barra encolhe
    um pouquinho e ganha sombra. Detalhe pequeno, efeito grande.  */
-.topo.rolou { box-shadow: var(--sombra-3); padding-top: 8px; padding-bottom: 8px; }
+.topo.rolou {
+  box-shadow: 0 2px 20px -8px rgba(var(--azul-noite-rgb), .22);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom-color: var(--borda);
+}
 
 .logo {
   font-family: var(--fonte-display);
@@ -617,10 +596,30 @@ body::after {
 .hero .conteudo { display: flex; flex-direction: column; align-items: center; }
 
 .hero-titulo {
-  font-size: clamp(3.6rem, 15vw, 11rem);
-  line-height: .88;
-  letter-spacing: -.035em;
+  /* A sigla tem pontos entre as letras, entao ocupa mais largura
+     que uma palavra comum: o tamanho maximo e menor por isso.    */
+  font-size: clamp(2.6rem, 11vw, 8rem);
+  line-height: .95;
+  letter-spacing: -.01em;
   margin: 0;
+}
+
+/* O significado da sigla, logo abaixo do titulo.
+   As letras iniciais ficam em verde para a pessoa ligar cada uma
+   a uma letra da sigla sem precisar de explicacao.               */
+.hero-sigla {
+  max-width: none;
+  margin: .5em 0 1.1em;
+  font-family: var(--fonte-ui);
+  font-size: clamp(.82rem, 1.7vw, 1.08rem);
+  font-weight: 400;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--tinta-fraca);
+}
+.hero-sigla b {
+  font-weight: 700;
+  color: var(--verde-texto);
 }
 
 .hero-script { margin: -.1em 0 .5em; }
@@ -686,7 +685,7 @@ body::after {
 }
 
 /* Hover Lift nos cartoes clicaveis */
-.cartao-vivo:hover { transform: translateY(-5px); box-shadow: var(--sombra-3); }
+.cartao-vivo:hover { transform: translateY(-3px); box-shadow: var(--sombra-2); }
 
 .cartao h2, .cartao h3 { margin-top: 0; }
 .cartao > :last-child { margin-bottom: 0; }
@@ -874,7 +873,6 @@ body::after {
   font-weight: 600;
   background: linear-gradient(135deg, rgba(var(--verde-neon-rgb), .28), rgba(var(--azul-ceu-rgb), .24));
   border-color: var(--verde-neon);
-  transform: translateY(-2px);
   box-shadow: var(--sombra-1);
 }
 .escolhas input:focus-visible + span { outline: 3px solid rgba(var(--azul-ceu-rgb), .75); outline-offset: 2px; }
@@ -947,7 +945,6 @@ body::after {
   font-weight: 700;
   background: linear-gradient(160deg, rgba(var(--verde-neon-rgb), .24), rgba(var(--azul-ceu-rgb), .18));
   border-color: var(--verde-neon);
-  transform: translateY(-3px);
   box-shadow: var(--sombra-1);
 }
 
@@ -968,7 +965,7 @@ body::after {
   transition: transform .5s var(--mola), box-shadow .45s var(--suave), border-color .3s;
   overflow: hidden;
 }
-.missao:hover { transform: translateY(-4px); box-shadow: var(--sombra-2); border-color: rgba(var(--verde-neon-rgb), .5); }
+.missao:hover { transform: translateY(-2px); box-shadow: var(--sombra-2); }
 
 /* Faixa colorida na lateral, por categoria */
 .missao::before {
@@ -1144,7 +1141,7 @@ tfoot th { font-weight: 700; border-top: 2px solid rgba(var(--azul-noite-rgb), .
   transition: all .5s var(--mola);
 }
 .voltar-topo.aparece { opacity: 1; visibility: visible; transform: none; }
-.voltar-topo:hover { transform: translateY(-4px) scale(1.06); box-shadow: var(--sombra-3); }
+.voltar-topo:hover { transform: translateY(-2px); box-shadow: var(--sombra-3); }
 
 
 /* ===================================================================

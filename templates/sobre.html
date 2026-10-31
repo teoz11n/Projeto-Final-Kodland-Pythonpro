@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block titulo %}T.E.R.R.A. - Sobre o projeto{% endblock %}
+{% block titulo %}T.E.R.R.A. - Sobre{% endblock %}
 
 {% block conteudo %}
 
@@ -17,7 +17,7 @@
       Por que o <span class="palavra-viva">T.E.R.R.A.</span> existe
     </h1>
     <p class="subtitulo entrada" style="--atraso:180ms">
-      Tutor Ecologico de Rotinas e Reducoes Ambientais
+      Tutor Ecológico de Rotinas e Reduções Ambientais
     </p>
   </div>
 </section>
@@ -29,24 +29,24 @@
     <div class="cartao vidro revelar">
       <h2 style="font-size:clamp(1.5rem,3vw,2.1rem)">O problema</h2>
       <p>
-        A agua doce e facil de usar e pouca: de toda a agua do planeta, menos
-        de 1% esta disponivel em rios e lagos. Mesmo assim, uma pessoa no
+        A água doce e fácil de usar é pouca: de toda a água do planeta, menos
+        de 1% está disponível em rios e lagos. Mesmo assim, uma pessoa no
         Brasil consome bem mais do que os
         {{ referencia_onu | round(0) | int }} litros por dia que a ONU indica
         como suficiente para viver bem.
       </p>
       <p>
-        O problema quase nunca esta em uma unica atitude gigante. Ele esta nos
-        cinco minutos extras de banho, na torneira aberta durante a escovacao,
-        na pilha jogada no lixo comum. Sao gestos pequenos repetidos todos os
-        dias &mdash; e e exatamente por isso que eles somam tanto.
+        O problema quase nunca está em uma única atitude gigante. Ele está nos
+        cinco minutos extras de banho, na torneira aberta durante a escovação,
+        na pilha jogada no lixo comum. São gestos pequenos repetidos todos os
+        dias &mdash; e é exatamente por isso que eles somam tanto.
       </p>
       <p style="margin-bottom:0">
-        Campanhas ambientais costumam falar em toneladas e em anos, numeros
-        que ninguem sente no dia a dia. O T.E.R.R.A. faz o contrario: pega a
-        rotina de uma pessoa so, mostra o impacto dela em litros e transforma
-        a mudanca em missoes pequenas, com progresso visivel. Habito novo se
-        constroi por repeticao, nao por culpa.
+        Campanhas ambientais costumam falar em toneladas e em anos, números
+        que ninguém sente no dia a dia. O T.E.R.R.A. faz o contrário: pega a
+        rotina de uma pessoa só, mostra o impacto dela em litros e transforma
+        a mudança em missões pequenas, com progresso visível. Hábito novo se
+        constrói por repetição, não por culpa.
       </p>
     </div>
   </div>
@@ -69,37 +69,37 @@
         <span class="icone-bolha">1</span>
         <h3>Rotina</h3>
         <p class="legenda">
-          Um formulario coleta banho, descarga, torneira, lixo e horarios, e
+          Um formulário coleta banho, descarga, torneira, lixo e horários, e
           o <code>database.py</code> guarda tudo no SQLite.
         </p>
       </article>
 
       <article class="cartao vidro cartao-vivo revelar">
         <span class="icone-bolha">2</span>
-        <h3>Calculo</h3>
+        <h3>Cálculo</h3>
         <p class="legenda">
-          O <code>calculos.py</code> multiplica esses numeros pelas vazoes de
-          referencia e devolve o consumo por dia, mes e ano.
+          O <code>calculos.py</code> multiplica esses números pelas vazões de
+          referência e devolve o consumo por dia, mês e ano.
         </p>
       </article>
 
       <article class="cartao vidro cartao-vivo revelar">
         <span class="icone-bolha">3</span>
-        <h3>Missoes</h3>
+        <h3>Missões</h3>
         <p class="legenda">
-          O <code>missoes.py</code> compara a rotina com a condicao de cada
-          uma das {{ total_missoes }} missoes do catalogo e escolhe as que
+          O <code>missoes.py</code> compara a rotina com a condição de cada
+          uma das {{ total_missoes }} missões do catálogo e escolhe as que
           fazem sentido.
         </p>
       </article>
 
       <article class="cartao vidro cartao-vivo revelar bento-largo">
         <span class="icone-bolha">4</span>
-        <h3>Evolucao</h3>
+        <h3>Evolução</h3>
         <p class="legenda">
-          Concluir missao da XP. O XP nao e um campo solto no banco: ele e a
-          <strong>soma</strong> da tabela de historico. Assim e impossivel o
-          numero do nivel ficar diferente do que a pessoa realmente fez.
+          Concluir missão dá XP. O XP não é um campo solto no banco: ele é a
+          <strong>soma</strong> da tabela de histórico. Assim é impossível o
+          número do nível ficar diferente do que a pessoa realmente fez.
         </p>
       </article>
 
@@ -108,7 +108,7 @@
         <h3>Clima</h3>
         <p class="legenda">
           A API Open-Meteo informa se vai chover. Se sim, o app libera a
-          missao de reaproveitar agua da chuva.
+          missão de reaproveitar água da chuva.
         </p>
       </article>
     </div>
@@ -125,8 +125,8 @@
 
   <div class="conteudo">
     <div class="cartao vidro revelar">
-      <span class="etiqueta-secao">Transparencia</span>
-      <h2 style="font-size:clamp(1.5rem,3vw,2.1rem)">De onde vem cada numero</h2>
+      <span class="etiqueta-secao">Transparência</span>
+      <h2 style="font-size:clamp(1.5rem,3vw,2.1rem)">De onde vem cada número</h2>
 
       <div class="rolagem-tabela">
         <table>
@@ -135,19 +135,19 @@
           </thead>
           <tbody>
             <tr>
-              <td>Vazao do chuveiro eletrico</td>
+              <td>Vazão do chuveiro elétrico</td>
               <td><strong>{{ vazao_chuveiro }} L/min</strong></td>
               <td>SABESP / ANA</td>
             </tr>
             <tr>
               <td>Descarga de caixa acoplada</td>
               <td><strong>{{ litros_descarga }} L</strong></td>
-              <td>ANA &mdash; Manual de Conservacao de Agua</td>
+              <td>ANA &mdash; Manual de Conservação de Água</td>
             </tr>
             <tr>
               <td>Torneira de pia aberta</td>
               <td><strong>{{ vazao_torneira }} L/min</strong></td>
-              <td>SABESP &mdash; consumo domestico</td>
+              <td>SABESP &mdash; consumo doméstico</td>
             </tr>
             <tr>
               <td>Consumo recomendado por pessoa</td>
@@ -155,7 +155,7 @@
               <td>ONU / PNUMA</td>
             </tr>
             <tr>
-              <td>Previsao do tempo e chuva</td>
+              <td>Previsão do tempo e chuva</td>
               <td><strong>tempo real</strong></td>
               <td>API Open-Meteo</td>
             </tr>
@@ -164,9 +164,9 @@
       </div>
 
       <p class="legenda" style="margin-bottom:0">
-        Todos esses valores estao como constantes no topo do
-        <code>calculos.py</code>, cada um com a fonte no comentario. Se um
-        orgao atualizar um numero, basta trocar em um lugar so.
+        Todos esses valores estão como constantes no topo do
+        <code>calculos.py</code>, cada um com a fonte no comentário. Se um
+        órgão atualizar um número, basta trocar em um lugar só.
       </p>
     </div>
   </div>
@@ -178,7 +178,7 @@
   <div class="conteudo">
     <div class="bento">
       <div class="cartao vidro revelar bento-largo">
-        <h3>Dicas do catalogo</h3>
+        <h3>Dicas do catálogo</h3>
         <ul class="legenda">
           {% for dica in dicas %}<li>{{ dica }}</li>{% endfor %}
         </ul>
@@ -192,12 +192,12 @@
           <li><strong>Jinja2</strong> para os templates</li>
           <li><strong>requests</strong> para as APIs</li>
           <li><strong>datetime</strong> e <strong>random</strong></li>
-          <li><strong>json</strong> para o catalogo</li>
+          <li><strong>json</strong> para o catálogo</li>
           <li><strong>plyer</strong> (opcional)</li>
           <li><strong>API do Claude</strong> (opcional)</li>
         </ul>
         <p class="legenda" style="margin-bottom:0">
-          O visual e CSS e JavaScript puros, sem nenhuma biblioteca.
+          O visual é CSS e JavaScript puros, sem nenhuma biblioteca.
         </p>
       </div>
     </div>
@@ -223,10 +223,11 @@
 
   <div class="conteudo">
     <div class="caixa-colagem vidro revelar">
-      <span class="etiqueta-secao">Autor</span>
+      <span class="etiqueta-secao">Quem fez</span>
       <h2>Teodoro<br><span class="palavra-viva">Paro Vinhal</span></h2>
       <p class="subtitulo" style="margin-left:auto; margin-right:auto">
-        Projeto final do curso Python Pro &mdash; Kodland.
+        O T.E.R.R.A. nasceu de uma ideia simples: cobrar menos e mostrar
+        mais. Se você consegue ver os seus litros, consegue mudá-los.
       </p>
       <a class="botao botao-grande botao-verde magnetico" href="{{ url_for('rotina') }}">
         Testar o app <span class="seta">&rarr;</span>

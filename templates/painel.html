@@ -20,7 +20,7 @@
     {# ============ NIVEL ============ #}
     <div class="cartao vidro faixa-nivel entrada" style="--atraso:180ms; margin-top:22px">
       <div class="topo-faixa">
-        <strong>Nivel {{ nivel.numero }} &middot; {{ nivel.nome }}</strong>
+        <strong>Nível {{ nivel.numero }} &middot; {{ nivel.nome }}</strong>
         <span class="legenda">{{ nivel.xp }} XP acumulados</span>
       </div>
       <div class="barra barra-grande">
@@ -31,7 +31,7 @@
           Faltam <strong>{{ nivel.falta }} XP</strong> para virar {{ nivel.nome_proximo }}.
         </p>
       {% else %}
-        <p class="legenda" style="margin:0">Voce chegou ao nivel maximo. Voce e uma Floresta!</p>
+        <p class="legenda" style="margin:0">Você chegou ao nível máximo. Você é uma Floresta!</p>
       {% endif %}
     </div>
 
@@ -44,7 +44,7 @@
       {# Notificacao no computador (plyer). So funciona rodando local. #}
       <form method="post" action="{{ url_for('notificar') }}" style="margin:0">
         <button type="submit" class="botao botao-pequeno botao-vidro">
-          Mandar para a minha area de trabalho
+          Mandar para a minha área de trabalho
         </button>
       </form>
     </div>
@@ -57,7 +57,7 @@
 <section class="secao vida-4" style="padding-top:0; padding-bottom:40px">
   <div class="conteudo">
     <div class="cartao vidro destaque revelar">
-      <span class="etiqueta-secao">Missao do dia</span>
+      <span class="etiqueta-secao">Missão do dia</span>
       <h2 style="font-size:clamp(1.5rem,3vw,2.2rem)">{{ missao_do_dia.titulo }}</h2>
       <p>{{ missao_do_dia.descricao }}</p>
 
@@ -70,12 +70,12 @@
 
       {% if missao_do_dia.feita_hoje %}
         <p class="texto-ok" style="margin-bottom:0">
-          &#10003; Voce ja concluiu a missao de hoje. Muito bem!
+          &#10003; Você já concluiu a missão de hoje. Muito bem!
         </p>
       {% else %}
         <form method="post" action="{{ url_for('concluir', missao_id=missao_do_dia.id) }}" style="margin:0">
-          <button type="submit" class="botao botao-grande botao-verde botao-feixe magnetico">
-            Concluir a missao do dia <span class="seta">&rarr;</span>
+          <button type="submit" class="botao botao-grande botao-verde magnetico">
+            Concluir a missão do dia <span class="seta">&rarr;</span>
           </button>
         </form>
       {% endif %}
@@ -101,9 +101,9 @@
 
       {% if tempo.esta_chovendo %}
         <p class="texto-ok" style="margin-bottom:0">
-          Esta chovendo ou vai chover hoje! Coloque um balde para fora e use
-          essa agua para regar plantas ou lavar o chao. A missao de
-          reaproveitar agua da chuva foi liberada na sua lista.
+          Está chovendo ou vai chover hoje! Coloque um balde para fora e use
+          essa água para regar plantas ou lavar o chão. A missão de
+          reaproveitar água da chuva foi liberada na sua lista.
         </p>
       {% endif %}
     </div>
@@ -122,14 +122,14 @@
   </div>
 
   <div class="conteudo">
-    <span class="etiqueta-secao revelar">Missoes ativas</span>
-    <h2 class="revelar">{{ missoes_ativas | length }} missoes para a sua rotina</h2>
+    <span class="etiqueta-secao revelar">Missões ativas</span>
+    <h2 class="revelar">{{ missoes_ativas | length }} missões para a sua rotina</h2>
 
     <p class="legenda revelar">
       {% if origem == 'ia' %}
         Ordenadas com ajuda da IA do Claude.
       {% elif ia_ligada %}
-        Ordenadas pelas regras do app (a IA nao respondeu agora).
+        Ordenadas pelas regras do app (a IA não respondeu agora).
       {% else %}
         Ordenadas pelas regras do app.
       {% endif %}
@@ -149,19 +149,19 @@
         <p>{{ missao.descricao }}</p>
 
         {% if missao.motivo %}
-          <p class="motivo">Por que para voce: {{ missao.motivo }}</p>
+          <p class="motivo">Por que para você: {{ missao.motivo }}</p>
         {% endif %}
 
         {% if missao.economia_dia > 0 %}
           <p class="economia">
             Economiza cerca de {{ missao.economia_dia }} L/dia
-            ({{ missao.economia_mes }} L/mes).
+            ({{ missao.economia_mes }} L/mês).
           </p>
         {% endif %}
 
         {% if missao.feita_hoje %}
           <p class="texto-ok" style="margin-bottom:0">
-            &#10003; Concluida hoje. Volte amanha para repetir!
+            &#10003; Concluída hoje. Volte amanhã para repetir!
           </p>
         {% else %}
           <form method="post" action="{{ url_for('concluir', missao_id=missao.id) }}" style="margin:0">

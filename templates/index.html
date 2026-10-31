@@ -31,26 +31,25 @@
   </div>
 
   <div class="conteudo">
-    <span class="selo vidro entrada" style="--atraso:60ms">
-      <span class="ponto"></span>
-      T.E.R.R.A. &middot; Projeto final Python Pro
-    </span>
-
-    <h1 class="hero-titulo entrada" style="--atraso:140ms">
-      <span class="palavra-viva">Natureza</span>
+    <h1 class="hero-titulo entrada" style="--atraso:60ms">
+      <span class="palavra-viva">T.E.R.R.A.</span>
     </h1>
 
-    <p class="script hero-script entrada" style="--atraso:260ms">como salvar</p>
+    {# O significado da sigla, letra por letra em destaque #}
+    <p class="hero-sigla entrada" style="--atraso:180ms">
+      <b>T</b>utor <b>E</b>cológico de <b>R</b>otinas
+      e <b>R</b>eduções <b>A</b>mbientais
+    </p>
 
-    <p class="subtitulo entrada" style="--atraso:380ms">
-      Conte como e o seu dia. O T.E.R.R.A. calcula quantos litros de agua
-      a sua rotina realmente gasta e transforma o que da para mudar em
-      missoes pequenas, com XP e niveis.
+    <p class="subtitulo entrada" style="--atraso:320ms">
+      Conte como é o seu dia. O T.E.R.R.A. calcula quantos litros de água
+      a sua rotina realmente gasta e transforma o que dá para mudar em
+      missões pequenas, com XP e níveis.
     </p>
 
     <div class="hero-botoes entrada" style="--atraso:500ms">
-      <a class="botao botao-grande botao-feixe magnetico" href="{{ url_for('rotina') }}">
-        {% if tem_perfil %}Editar a minha rotina{% else %}Comecar agora{% endif %}
+      <a class="botao botao-grande magnetico" href="{{ url_for('rotina') }}">
+        {% if tem_perfil %}Editar a minha rotina{% else %}Começar agora{% endif %}
         <span class="seta">&rarr;</span>
       </a>
       {% if tem_perfil %}
@@ -82,23 +81,23 @@
 
   <div class="conteudo">
     <span class="etiqueta-secao revelar">O problema</span>
-    <h2 class="revelar">A conta nao fecha<br>por causa das coisas pequenas</h2>
+    <h2 class="revelar">A conta não fecha<br>por causa das coisas pequenas</h2>
     <p class="revelar">
-      O desperdicio quase nunca esta em uma unica atitude gigante. Ele esta
+      O desperdício quase nunca está em uma única atitude gigante. Ele está
       nos cinco minutos extras de banho, na torneira aberta durante a
-      escovacao, na pilha jogada no lixo comum. Sao gestos pequenos
-      repetidos todos os dias &mdash; e e exatamente por isso que eles
+      escovação, na pilha jogada no lixo comum. São gestos pequenos
+      repetidos todos os dias &mdash; e é exatamente por isso que eles
       somam tanto.
     </p>
 
     <div class="colunas" style="margin-top:36px">
       <div class="cartao vidro cartao-vivo numero-grande revelar">
         <span class="valor"><span data-contar="1">1</span>%</span>
-        <span class="unidade">da agua do planeta e doce e facil de acessar</span>
+        <span class="unidade">da água do planeta é doce e fácil de acessar</span>
       </div>
       <div class="cartao vidro cartao-vivo numero-grande revelar">
         <span class="valor" data-contar="110">110</span>
-        <span class="unidade">litros por dia e o que a ONU recomenda por pessoa</span>
+        <span class="unidade">litros por dia é o que a ONU recomenda por pessoa</span>
       </div>
       <div class="cartao vidro cartao-vivo numero-grande revelar">
         <span class="valor" data-contar="46">46</span>
@@ -106,14 +105,14 @@
       </div>
       <div class="cartao vidro cartao-vivo numero-grande revelar">
         <span class="valor" data-contar="9">9</span>
-        <span class="unidade">litros por minuto saem de um chuveiro eletrico</span>
+        <span class="unidade">litros por minuto saem de um chuveiro elétrico</span>
       </div>
     </div>
 
     <p class="legenda revelar">
-      Campanhas ambientais costumam falar em toneladas e em anos, numeros que
-      ninguem sente no dia a dia. O T.E.R.R.A. faz o contrario: pega a rotina
-      de uma pessoa so e mostra o impacto dela em litros.
+      Campanhas ambientais costumam falar em toneladas e em anos, números que
+      ninguém sente no dia a dia. O T.E.R.R.A. faz o contrário: pega a rotina
+      de uma pessoa só e mostra o impacto dela em litros.
     </p>
   </div>
 </section>
@@ -134,15 +133,15 @@
 
   <div class="conteudo">
     <span class="etiqueta-secao revelar">Como funciona</span>
-    <h2 class="revelar">Tres passos, e so</h2>
+    <h2 class="revelar">Três passos, e pronto</h2>
 
     <div class="bento" style="margin-top:32px">
       <article class="cartao vidro cartao-vivo revelar">
         <span class="icone-bolha">&#9997;</span>
         <h3>1. Conte a sua rotina</h3>
         <p class="legenda">
-          Um formulario rapido sobre banho, descarga, torneira e lixo.
-          Nada de pergunta dificil, e da para editar depois.
+          Um formulário rápido sobre banho, descarga, torneira e lixo.
+          Nada de pergunta difícil, e dá para editar depois.
         </p>
       </article>
 
@@ -150,19 +149,19 @@
         <span class="icone-bolha">
           <svg viewBox="0 0 100 120" width="17" aria-hidden="true"><use href="#gota"/></svg>
         </span>
-        <h3>2. Veja os numeros</h3>
+        <h3>2. Veja os números</h3>
         <p class="legenda">
-          O app calcula quantos litros voce gasta por dia, mes e ano,
-          separados por atividade, e compara com a recomendacao da ONU.
+          O app calcula quantos litros você gasta por dia, mês e ano,
+          separados por atividade, e compara com a recomendação da ONU.
         </p>
       </article>
 
       <article class="cartao vidro cartao-vivo revelar">
         <span class="icone-bolha">&#127793;</span>
-        <h3>3. Cumpra missoes</h3>
+        <h3>3. Cumpra missões</h3>
         <p class="legenda">
-          Voce recebe missoes feitas para a <em>sua</em> rotina. Cada uma
-          mostra quanta agua economiza e quanto XP vale.
+          Você recebe missões feitas para a <em>sua</em> rotina. Cada uma
+          mostra quanta água economiza e quanto XP vale.
         </p>
       </article>
 
@@ -171,7 +170,7 @@
         <h3>E o clima entra na conversa</h3>
         <p class="legenda">
           O app consulta a previsao da sua cidade na API Open-Meteo. Se
-          estiver chovendo, ele libera a missao de reaproveitar a agua da
+          estiver chovendo, ele libera a missão de reaproveitar a água da
           chuva &mdash; e se a API estiver fora do ar, essa parte
           simplesmente some, sem quebrar nada.
         </p>
@@ -181,7 +180,7 @@
         <span class="icone-bolha">&#128276;</span>
         <h3>Lembretes na hora certa</h3>
         <p class="legenda">
-          De manha o lembrete fala do banho. De noite, do lixo reciclavel.
+          De manhã o lembrete fala do banho. De noite, do lixo reciclável.
         </p>
       </article>
     </div>
@@ -203,12 +202,12 @@
   </div>
 
   <div class="conteudo">
-    <span class="etiqueta-secao revelar">Evolucao</span>
+    <span class="etiqueta-secao revelar">Evolução</span>
     <h2 class="revelar">De semente a floresta</h2>
     <p class="revelar">
-      Cada missao concluida vale XP. O XP nao e um numero solto: ele e a
-      soma de tudo que voce ja fez, guardada no historico. Sustentabilidade
-      deixa de ser cobranca e vira progresso.
+      Cada missão concluída vale XP. O XP não é um número solto: ele é a
+      soma de tudo que você já fez, guardada no histórico. Sustentabilidade
+      deixa de ser cobrança e vira progresso.
     </p>
 
     <div class="cartao vidro revelar" style="margin-top:28px">
@@ -216,14 +215,14 @@
         <li class="trilha-feito">Semente <small>0 XP</small></li>
         <li>Broto <small>50 XP</small></li>
         <li>Muda <small>120 XP</small></li>
-        <li>Arvore <small>250 XP</small></li>
+        <li>Árvore <small>250 XP</small></li>
         <li>Floresta <small>500 XP</small></li>
       </ol>
     </div>
 
     {% if dica %}
     <div class="cartao dica revelar" style="margin-top:22px">
-      <h3>Voce sabia?</h3>
+      <h3>Você sabia?</h3>
       <p style="margin-bottom:0">{{ dica }}</p>
     </div>
     {% endif %}
@@ -253,13 +252,13 @@
 
   <div class="conteudo">
     <div class="caixa-colagem vidro revelar">
-      <span class="etiqueta-secao">Bora comecar</span>
+      <span class="etiqueta-secao">Bora começar</span>
       <h2>O seu primeiro<br><span class="palavra-viva">litro economizado</span></h2>
       <p class="subtitulo" style="margin-left:auto; margin-right:auto">
         Leva menos de dois minutos para responder. Depois disso o app
-        mostra os seus numeros e monta as suas missoes.
+        mostra os seus números e monta as suas missões.
       </p>
-      <a class="botao botao-grande botao-verde botao-feixe magnetico"
+      <a class="botao botao-grande botao-verde magnetico"
          href="{{ url_for('rotina') }}" style="margin-top:12px">
         {% if tem_perfil %}Rever a minha rotina{% else %}Contar a minha rotina{% endif %}
         <span class="seta">&rarr;</span>

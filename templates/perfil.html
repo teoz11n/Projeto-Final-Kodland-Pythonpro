@@ -23,7 +23,7 @@
     {# ============ NIVEL E TRILHA ============ #}
     <div class="cartao vidro destaque entrada" style="--atraso:240ms; margin-top:24px">
       <h2 style="font-size:clamp(1.5rem,3vw,2.2rem)">
-        Nivel {{ nivel.numero }} de {{ nivel.total_niveis }} &middot;
+        Nível {{ nivel.numero }} de {{ nivel.total_niveis }} &middot;
         <span class="palavra-viva">{{ nivel.nome }}</span>
       </h2>
 
@@ -38,7 +38,7 @@
           {{ nivel.nome_proximo }} ({{ nivel.xp_proximo }} XP).
         </p>
       {% else %}
-        <p><strong>{{ nivel.xp }} XP</strong> acumulados. Voce alcancou o nivel maximo!</p>
+        <p><strong>{{ nivel.xp }} XP</strong> acumulados. Você alcançou o nível máximo!</p>
       {% endif %}
 
       {# Caminho completo dos niveis, para a pessoa ver onde esta #}
@@ -61,7 +61,7 @@
     <div class="colunas revelar">
       <div class="cartao vidro cartao-vivo numero-grande">
         <span class="valor" data-contar="{{ total_missoes }}">{{ total_missoes }}</span>
-        <span class="unidade">missoes concluidas</span>
+        <span class="unidade">missões concluídas</span>
       </div>
       <div class="cartao vidro cartao-vivo numero-grande">
         <span class="valor" data-contar="{{ litros_dia }}">{{ litros_dia }}</span>
@@ -74,8 +74,8 @@
     </div>
 
     <p class="legenda revelar">
-      A economia e uma estimativa: mostra quanta agua voce deixa de gastar por
-      dia se continuar com os habitos das missoes que ja concluiu. Por mes,
+      A economia é uma estimativa: mostra quanta água você deixa de gastar por
+      dia se continuar com os hábitos das missões que já concluiu. Por mês,
       isso da cerca de {{ litros_mes }} litros.
     </p>
   </div>
@@ -91,15 +91,15 @@
 
   <div class="conteudo">
     <div class="cartao vidro revelar">
-      <span class="etiqueta-secao">Historico</span>
-      <h2 style="font-size:clamp(1.5rem,3vw,2.1rem)">Tudo que voce ja fez</h2>
+      <span class="etiqueta-secao">Histórico</span>
+      <h2 style="font-size:clamp(1.5rem,3vw,2.1rem)">Tudo que você já fez</h2>
 
       {% if historico %}
         <div class="rolagem-tabela">
           <table>
             <thead>
               <tr>
-                <th>Missao</th><th>Categoria</th><th>XP</th>
+                <th>Missão</th><th>Categoria</th><th>XP</th>
                 <th>Economia</th><th>Quando</th>
               </tr>
             </thead>
@@ -125,9 +125,9 @@
         {# Empty state: tela vazia que explica o proximo passo #}
         <div style="text-align:center; padding:28px 0">
           <span class="icone-bolha" style="width:62px; height:62px; font-size:1.8rem">&#127793;</span>
-          <h3>Nenhuma missao concluida ainda</h3>
+          <h3>Nenhuma missão concluída ainda</h3>
           <p class="legenda" style="margin-left:auto; margin-right:auto">
-            O seu historico comeca com a primeira missao. Leva um minuto.
+            O seu histórico começa com a primeira missão. Leva um minuto.
           </p>
           <a class="botao botao-verde magnetico" href="{{ url_for('painel') }}">
             Ir para o painel <span class="seta">&rarr;</span>

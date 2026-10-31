@@ -51,7 +51,7 @@ NIVEIS = [
     (0, "Semente"),
     (50, "Broto"),
     (120, "Muda"),
-    (250, "Arvore"),
+    (250, "Árvore"),
     (500, "Floresta"),
 ]
 
@@ -101,7 +101,7 @@ def calcular_consumo(rotina):
         "Banho": litros_banho(rotina["minutos_banho"], rotina["banhos_dia"]),
         "Descarga": litros_descargas(rotina["descargas_dia"]),
         "Escovar os dentes": litros_escovacao(rotina["torneira_escovar"]),
-        "Lavar louca": litros_louca(rotina["torneira_louca"]),
+        "Lavar louça": litros_louca(rotina["torneira_louca"]),
     }
 
     # 2) Soma tudo para achar o consumo do dia.
@@ -145,14 +145,14 @@ def comparar_com_onu(total_dia):
     if diferenca > 0:
         situacao = "acima"
         mensagem = (
-            "Voce gasta " + str(round(diferenca, 1)) + " litros por dia ACIMA "
+            "Você gasta " + str(round(diferenca, 1)) + " litros por dia ACIMA "
             "do recomendado pela ONU (" + str(int(CONSUMO_RECOMENDADO_ONU))
             + " L/dia)."
         )
     else:
         situacao = "dentro"
         mensagem = (
-            "Parabens! Voce esta " + str(round(abs(diferenca), 1)) + " litros "
+            "Parabéns! Você está " + str(round(abs(diferenca), 1)) + " litros "
             "por dia ABAIXO do limite recomendado pela ONU ("
             + str(int(CONSUMO_RECOMENDADO_ONU)) + " L/dia)."
         )

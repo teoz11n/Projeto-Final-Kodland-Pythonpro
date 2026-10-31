@@ -181,15 +181,15 @@ def lembrete_do_momento(rotina, agora=None):
             )
         else:
             texto = (
-                "Seu banho ja e rapido. Hoje tente fechar o chuveiro "
+                "Seu banho já é rápido. Hoje tente fechar o chuveiro "
                 "enquanto se ensaboa."
             )
     elif hora < HORA_FIM_DA_TARDE:
         periodo = "Boa tarde"
         if rotina["torneira_louca"] == 1:
             texto = (
-                "Hora do almoco: ensaboe a louca com a torneira fechada "
-                "e enxague tudo de uma vez."
+                "Hora do almoço: ensaboe a louça com a torneira fechada "
+                "e enxágue tudo de uma vez."
             )
         else:
             texto = (
@@ -200,12 +200,12 @@ def lembrete_do_momento(rotina, agora=None):
         periodo = "Boa noite"
         if rotina["separa_lixo"] == 0:
             texto = (
-                "Antes de dormir: separe os reciclaveis do lixo organico. "
+                "Antes de dormir: separe os recicláveis do lixo orgânico. "
                 "Duas sacolas resolvem."
             )
         else:
             texto = (
-                "Antes de dormir: confira se o lixo reciclavel esta separado "
+                "Antes de dormir: confira se o lixo reciclável está separado "
                 "para a coleta."
             )
 

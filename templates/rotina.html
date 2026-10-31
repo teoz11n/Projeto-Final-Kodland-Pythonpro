@@ -14,11 +14,11 @@
   <div class="conteudo">
     <span class="etiqueta-secao entrada">{% if editando %}Editar{% else %}Passo 1 de 3{% endif %}</span>
     <h1 class="entrada" style="--atraso:80ms; font-size:clamp(2.1rem,5vw,3.4rem)">
-      {% if editando %}Ajustar a minha rotina{% else %}Como e o seu <span class="palavra-viva">dia</span>?{% endif %}
+      {% if editando %}Ajustar a minha rotina{% else %}Como é o seu <span class="palavra-viva">dia</span>?{% endif %}
     </h1>
     <p class="subtitulo entrada" style="--atraso:180ms">
-      Responda pensando num dia normal. Nao precisa ser exato, precisa ser
-      honesto &mdash; os calculos sao estimativas baseadas em dados da
+      Responda pensando num dia normal. Não precisa ser exato, precisa ser
+      honesto &mdash; os cálculos são estimativas baseadas em dados da
       SABESP e da ANA.
     </p>
 
@@ -30,7 +30,7 @@
       {% endif %}
 
       <fieldset>
-        <legend>Sobre voce</legend>
+        <legend>Sobre você</legend>
 
         {# O placeholder=" " (um espaco) e o truque do rotulo
            flutuante: quando o campo esta vazio, o CSS detecta
@@ -47,12 +47,12 @@
                  placeholder=" " autocomplete="address-level2"
                  value="{{ usuario.cidade if usuario else '' }}">
           <label for="cidade">Sua cidade</label>
-          <small>Usamos a cidade so para buscar o clima na API Open-Meteo.</small>
+          <small>Usamos a cidade só para buscar o clima na API Open-Meteo.</small>
         </div>
       </fieldset>
 
       <fieldset>
-        <legend>Agua</legend>
+        <legend>Água</legend>
 
         <div class="campo">
           <input type="number" id="minutos_banho" name="minutos_banho"
@@ -65,17 +65,17 @@
           <input type="number" id="banhos_dia" name="banhos_dia"
                  min="1" max="10" required placeholder=" "
                  value="{{ usuario.banhos_dia if usuario else 1 }}">
-          <label for="banhos_dia">Quantos banhos voce toma por dia?</label>
+          <label for="banhos_dia">Quantos banhos você toma por dia?</label>
         </div>
 
         <div class="campo">
           <input type="number" id="descargas_dia" name="descargas_dia"
                  min="1" max="40" required placeholder=" "
                  value="{{ usuario.descargas_dia if usuario else 5 }}">
-          <label for="descargas_dia">Quantas descargas voce da por dia?</label>
+          <label for="descargas_dia">Quantas descargas você dá por dia?</label>
         </div>
 
-        <span class="pergunta">Voce escova os dentes com a torneira aberta?</span>
+        <span class="pergunta">Você escova os dentes com a torneira aberta?</span>
         <div class="escolhas">
           <label class="radio">
             <input type="radio" name="torneira_escovar" value="sim"
@@ -85,11 +85,11 @@
           <label class="radio">
             <input type="radio" name="torneira_escovar" value="nao"
                    {% if not usuario or not usuario.torneira_escovar %}checked{% endif %}>
-            <span>Nao</span>
+            <span>Não</span>
           </label>
         </div>
 
-        <span class="pergunta">Voce lava louca com a torneira aberta o tempo todo?</span>
+        <span class="pergunta">Você lava louça com a torneira aberta o tempo todo?</span>
         <div class="escolhas">
           <label class="radio">
             <input type="radio" name="torneira_louca" value="sim"
@@ -99,7 +99,7 @@
           <label class="radio">
             <input type="radio" name="torneira_louca" value="nao"
                    {% if not usuario or not usuario.torneira_louca %}checked{% endif %}>
-            <span>Nao</span>
+            <span>Não</span>
           </label>
         </div>
       </fieldset>
@@ -107,7 +107,7 @@
       <fieldset>
         <legend>Lixo e descarte</legend>
 
-        <span class="pergunta">Voce separa o lixo reciclavel do organico?</span>
+        <span class="pergunta">Você separa o lixo reciclável do orgânico?</span>
         <div class="escolhas">
           <label class="radio">
             <input type="radio" name="separa_lixo" value="sim"
@@ -117,7 +117,7 @@
           <label class="radio">
             <input type="radio" name="separa_lixo" value="nao"
                    {% if not usuario or not usuario.separa_lixo %}checked{% endif %}>
-            <span>Nao</span>
+            <span>Não</span>
           </label>
         </div>
 
@@ -130,28 +130,28 @@
               </option>
             {% endfor %}
           </select>
-          <label for="descarte_especial">Pilhas, oleo de cozinha e eletronicos</label>
+          <label for="descarte_especial">Pilhas, óleo de cozinha e eletrônicos</label>
         </div>
       </fieldset>
 
       <fieldset>
-        <legend>Horarios</legend>
+        <legend>Horários</legend>
 
         <div class="campo">
           <input type="time" id="hora_acorda" name="hora_acorda" required
                  placeholder=" " value="{{ usuario.hora_acorda if usuario else '07:00' }}">
-          <label for="hora_acorda">A que horas voce acorda?</label>
+          <label for="hora_acorda">A que horas você acorda?</label>
         </div>
 
         <div class="campo">
           <input type="time" id="hora_dorme" name="hora_dorme" required
                  placeholder=" " value="{{ usuario.hora_dorme if usuario else '22:30' }}">
-          <label for="hora_dorme">A que horas voce dorme?</label>
-          <small>Os horarios definem os lembretes que voce recebe no painel.</small>
+          <label for="hora_dorme">A que horas você dorme?</label>
+          <small>Os horários definem os lembretes que você recebe no painel.</small>
         </div>
       </fieldset>
 
-      <button type="submit" class="botao botao-grande botao-feixe magnetico">
+      <button type="submit" class="botao botao-grande magnetico">
         Calcular o meu consumo
         <span class="seta">&rarr;</span>
       </button>

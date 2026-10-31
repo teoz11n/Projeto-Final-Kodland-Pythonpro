@@ -34,7 +34,7 @@ app.secret_key = "terra-projeto-escolar-kodland"
 # Opcoes aceitas no campo de descarte (usadas na validacao e no template).
 OPCOES_DESCARTE = {
     "lixo_comum": "Jogo no lixo comum",
-    "guardo": "Guardo em casa, mas nao levo a lugar nenhum",
+    "guardo": "Guardo em casa, mas não levo a lugar nenhum",
     "ponto_coleta": "Levo a um ponto de coleta ou ecoponto",
 }
 
@@ -81,7 +81,7 @@ def validar_rotina(formulario):
     if not nome:
         erros.append("Preencha o seu nome.")
     elif len(nome) > 60:
-        erros.append("O nome esta muito longo (maximo 60 letras).")
+        erros.append("O nome está muito longo (máximo 60 letras).")
     dados["nome"] = nome
 
     cidade = formulario.get("cidade", "").strip()
@@ -106,18 +106,18 @@ def validar_rotina(formulario):
         try:
             numero = int(texto)
         except ValueError:
-            erros.append("O campo de " + rotulo + " precisa ser um numero.")
+            erros.append("O campo de " + rotulo + " precisa ser um número.")
             dados[campo] = minimo
             continue
 
         if numero < minimo:
             erros.append(
-                "O campo de " + rotulo + " nao pode ser menor que "
+                "O campo de " + rotulo + " não pode ser menor que "
                 + str(minimo) + "."
             )
         elif numero > maximo:
             erros.append(
-                "O campo de " + rotulo + " nao pode passar de "
+                "O campo de " + rotulo + " não pode passar de "
                 + str(maximo) + "."
             )
         dados[campo] = numero
@@ -129,7 +129,7 @@ def validar_rotina(formulario):
     # --- Campo de escolha: precisa ser uma das opcoes conhecidas ---
     descarte = formulario.get("descarte_especial", "")
     if descarte not in OPCOES_DESCARTE:
-        erros.append("Escolha como voce descarta pilhas, oleo e eletronicos.")
+        erros.append("Escolha como você descarta pilhas, óleo e eletrônicos.")
         descarte = "lixo_comum"
     dados["descarte_especial"] = descarte
 
@@ -141,7 +141,7 @@ def validar_rotina(formulario):
             datetime.strptime(texto, "%H:%M")
             dados[campo] = texto
         except ValueError:
-            erros.append("Informe o horario em que voce " + rotulo + ".")
+            erros.append("Informe o horário em que você " + rotulo + ".")
             dados[campo] = "07:00" if campo == "hora_acorda" else "22:00"
 
     return dados, erros
@@ -306,12 +306,12 @@ def concluir(missao_id):
             break
 
     if escolhida is None:
-        flash("Missao nao encontrada.", "erro")
+        flash("Missão não encontrada.", "erro")
         return redirect(url_for("painel"))
 
     # Nao deixa ganhar XP duas vezes com a mesma missao no mesmo dia.
     if database.concluida_hoje(usuario["id"], missao_id):
-        flash("Voce ja concluiu essa missao hoje. Volte amanha!", "erro")
+        flash("Você já concluiu essa missão hoje. Volte amanhã!", "erro")
         return redirect(url_for("painel"))
 
     # Guarda o nivel antes para saber se a pessoa subiu de nivel agora.
@@ -323,10 +323,10 @@ def concluir(missao_id):
     nivel_depois = calculos.calcular_nivel(database.total_xp(usuario["id"]))
 
     flash(
-        "Missao concluida! +" + str(escolhida["xp"]) + " XP", "ok"
+        "Missão concluída! +" + str(escolhida["xp"]) + " XP", "ok"
     )
     if nivel_depois["numero"] > nivel_antes["numero"]:
-        flash("Voce subiu de nivel: agora voce e " + nivel_depois["nome"] + "!", "ok")
+        flash("Você subiu de nível: agora você é " + nivel_depois["nome"] + "!", "ok")
 
     return redirect(url_for("painel"))
 
@@ -386,11 +386,11 @@ def notificar():
     missao_do_dia = missoes.sortear_missao_do_dia(lista)
 
     if notificacoes.notificar_missao_do_dia(missao_do_dia):
-        flash("Notificacao enviada para a sua area de trabalho!", "ok")
+        flash("Notificação enviada para a sua área de trabalho!", "ok")
     else:
         flash(
-            "Nao foi possivel notificar. Isso so funciona rodando o app "
-            "no seu proprio computador com o plyer instalado.", "erro"
+            "Não foi possível notificar. Isso só funciona rodando o app "
+            "no seu próprio computador com o plyer instalado.", "erro"
         )
 
     return redirect(url_for("painel"))

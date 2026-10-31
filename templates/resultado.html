@@ -18,8 +18,8 @@
       O resultado de {{ usuario.nome }}
     </h1>
     <p class="subtitulo entrada" style="--atraso:180ms">
-      Isto e o que a sua rotina consome de agua, somando banho, descarga,
-      escovacao e louca.
+      Isto é o que a sua rotina consome de água, somando banho, descarga,
+      escovação e louça.
     </p>
 
     <div class="colunas entrada" style="--atraso:280ms; margin-top:30px">
@@ -29,7 +29,7 @@
       </div>
       <div class="cartao vidro cartao-vivo numero-grande">
         <span class="valor" data-contar="{{ consumo.total_mes }}">{{ consumo.total_mes }}</span>
-        <span class="unidade">litros por mes</span>
+        <span class="unidade">litros por mês</span>
       </div>
       <div class="cartao vidro cartao-vivo numero-grande">
         <span class="valor" data-contar="{{ consumo.total_ano }}">{{ consumo.total_ano }}</span>
@@ -47,9 +47,9 @@
       <span class="etiqueta-secao">Comparando com a ONU</span>
       <h2 style="font-size:clamp(1.5rem,3vw,2.1rem)">
         {% if comparacao.situacao == 'acima' %}
-          Voce esta <span class="palavra-viva">acima</span> do recomendado
+          Você está <span class="palavra-viva">acima</span> do recomendado
         {% else %}
-          Voce esta <span class="palavra-viva">dentro</span> do recomendado
+          Você esta <span class="palavra-viva">dentro</span> do recomendado
         {% endif %}
       </h2>
 
@@ -61,9 +61,9 @@
         <div class="barra-preenchida" style="width: {{ comparacao.barra }}%"></div>
       </div>
       <p class="legenda" style="margin-bottom:0">
-        Voce usa <strong>{{ comparacao.porcentagem }}%</strong> do que a ONU
+        Você usa <strong>{{ comparacao.porcentagem }}%</strong> do que a ONU
         recomenda ({{ comparacao.referencia_onu | round(0) | int }} litros por
-        pessoa por dia). A barra para em 200% para nao estourar a tela.
+        pessoa por dia). A barra para em 200% para não estourar a tela.
       </p>
     </div>
   </div>
@@ -79,13 +79,13 @@
 
   <div class="conteudo">
     <div class="cartao vidro revelar">
-      <h2 style="font-size:clamp(1.5rem,3vw,2.1rem)">Onde a sua agua vai</h2>
+      <h2 style="font-size:clamp(1.5rem,3vw,2.1rem)">Onde a sua água vai</h2>
 
       <div class="rolagem-tabela">
         <table>
           <thead>
             <tr>
-              <th>Atividade</th><th>Por dia</th><th>Por mes</th>
+              <th>Atividade</th><th>Por dia</th><th>Por mês</th>
               <th>Por ano</th><th>Fatia</th>
             </tr>
           </thead>
@@ -131,28 +131,28 @@
 
   <div class="conteudo">
     <span class="etiqueta-secao revelar">Passo 3 de 3</span>
-    <h2 class="revelar">As suas {{ missoes_sugeridas | length }} missoes</h2>
+    <h2 class="revelar">As suas {{ missoes_sugeridas | length }} missões</h2>
 
     <p class="legenda revelar">
       {% if origem == 'ia' %}
         Escolhidas pelas regras do app e organizadas com ajuda da IA do Claude.
       {% else %}
-        Escolhidas pelas regras do app, comparando a sua rotina com o catalogo.
+        Escolhidas pelas regras do app, comparando a sua rotina com o catálogo.
       {% endif %}
     </p>
 
     {% if economia_total > 0 %}
     <div class="cartao vidro destaque revelar">
       <h3 style="margin-bottom:6px">
-        Cumprindo todas, voce economiza
+        Cumprindo todas, você economiza
         <span class="palavra-viva" style="font-size:1.4em">{{ economia_total }} L</span>
         por dia
       </h3>
       <p class="legenda" style="margin-bottom:0">
-        Sao cerca de {{ economia_total_mes }} litros por mes. Esse total nao e
-        a soma simples das missoes: varias delas mexem na mesma coisa (tres
-        missoes diferentes economizam no chuveiro), entao o app conta so a
-        melhor de cada grupo para nao inflar o numero.
+        São cerca de {{ economia_total_mes }} litros por mês. Esse total não é
+        a soma simples das missões: várias delas mexem na mesma coisa (três
+        missões diferentes economizam no chuveiro), então o app conta só a
+        melhor de cada grupo para não inflar o número.
       </p>
     </div>
     {% endif %}
@@ -170,19 +170,19 @@
         <p>{{ missao.descricao }}</p>
 
         {% if missao.motivo %}
-          <p class="motivo">Por que para voce: {{ missao.motivo }}</p>
+          <p class="motivo">Por que para você: {{ missao.motivo }}</p>
         {% endif %}
 
         {% if missao.economia_dia > 0 %}
           <p class="economia">
             Economia estimada:
             <strong>{{ missao.economia_dia }} L/dia</strong>
-            &middot; {{ missao.economia_mes }} L/mes
+            &middot; {{ missao.economia_mes }} L/mês
             &middot; {{ missao.economia_ano }} L/ano
           </p>
         {% else %}
           <p class="economia">
-            Esta missao nao economiza agua, mas evita que residuos perigosos
+            Esta missão não economiza água, mas evita que resíduos perigosos
             cheguem ao solo e aos rios.
           </p>
         {% endif %}
@@ -191,8 +191,8 @@
     </ul>
 
     <div class="revelar" style="margin-top:30px">
-      <a class="botao botao-grande botao-verde botao-feixe magnetico" href="{{ url_for('painel') }}">
-        Comecar as missoes <span class="seta">&rarr;</span>
+      <a class="botao botao-grande botao-verde magnetico" href="{{ url_for('painel') }}">
+        Começar as missões <span class="seta">&rarr;</span>
       </a>
       <a class="botao botao-grande botao-vidro magnetico" href="{{ url_for('rotina') }}">
         Corrigir a minha rotina

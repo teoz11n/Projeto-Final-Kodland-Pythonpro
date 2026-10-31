@@ -12,7 +12,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="T.E.R.R.A. - Tutor Ecologico de Rotinas e Reducoes Ambientais. Descubra quanta agua voce gasta e transforme habitos sustentaveis em missoes.">
+  <meta name="description" content="T.E.R.R.A. - Tutor Ecológico de Rotinas e Reduções Ambientais. Descubra quanta água a sua rotina gasta e transforme hábitos sustentáveis em missões.">
   <meta name="theme-color" content="#FBFDFA">
   <title>{% block titulo %}T.E.R.R.A.{% endblock %}</title>
 
@@ -33,7 +33,7 @@
   {% include "_graficos.html" %}
 
   {# Atalho para quem navega so com o teclado #}
-  <a class="pular-para-conteudo" href="#principal">Pular para o conteudo</a>
+  <a class="pular-para-conteudo" href="#principal">Pular para o conteúdo</a>
 
   {# Barra fininha no topo: mostra quanto da pagina ja foi lido #}
   <div class="progresso-scroll" aria-hidden="true"></div>
@@ -47,7 +47,7 @@
     {# request.endpoint diz qual rota esta aberta agora. Usamos isso
        para marcar o link da pagina atual com a pilula verde.        #}
     <nav aria-label="Menu principal">
-      <a href="{{ url_for('inicio') }}"    {% if request.endpoint == 'inicio' %}class="ativo" aria-current="page"{% endif %}>Inicio</a>
+      <a href="{{ url_for('inicio') }}"    {% if request.endpoint == 'inicio' %}class="ativo" aria-current="page"{% endif %}>Início</a>
       <a href="{{ url_for('rotina') }}"    {% if request.endpoint == 'rotina' %}class="ativo" aria-current="page"{% endif %}>Rotina</a>
       <a href="{{ url_for('resultado') }}" {% if request.endpoint == 'resultado' %}class="ativo" aria-current="page"{% endif %}>Resultado</a>
       <a href="{{ url_for('painel') }}"    {% if request.endpoint == 'painel' %}class="ativo" aria-current="page"{% endif %}>Painel</a>
@@ -77,10 +77,12 @@
 
   <footer class="rodape">
     <span class="logo-rodape">T.E.R.R.A.</span>
-    <p>Tutor Ecologico de Rotinas e Reducoes Ambientais</p>
-    <p>Projeto final de <strong>Teodoro Paro Vinhal</strong> &middot; Curso Python Pro (Kodland)</p>
-    <p class="legenda" style="color:rgba(255,255,255,.45); margin-top:14px">
-      Dados de referencia: SABESP, ANA e ONU &middot; Clima pela API Open-Meteo
+    <p>Tutor Ecológico de Rotinas e Reduções Ambientais</p>
+    <p class="legenda" style="color:rgba(255,255,255,.5); margin-top:16px">
+      Dados de referência: SABESP, ANA e ONU &middot; Clima pela API Open-Meteo
+    </p>
+    <p class="legenda" style="color:rgba(255,255,255,.4)">
+      Criado por Teodoro Paro Vinhal
     </p>
   </footer>
 

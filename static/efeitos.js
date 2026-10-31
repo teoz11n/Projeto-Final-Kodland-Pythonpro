@@ -10,11 +10,10 @@
      3. Barra de progresso de leitura
      4. Botao de voltar ao topo
      5. Revelacao no scroll (com entrada em sequencia)
-     6. Brilho que segue o cursor
-     7. Botao magnetico
-     8. Contador de numeros
-     9. Parallax das plantas
-    10. Avisos que somem sozinhos
+     6. Botao magnetico
+     7. Contador de numeros
+     8. Parallax das plantas
+     9. Avisos que somem sozinhos
 
    Regra geral deste arquivo: TUDO e opcional. Se um elemento nao
    existir na pagina, a funcao simplesmente nao faz nada. Assim o
@@ -153,42 +152,32 @@
 
       observador.observe(el);
     });
-  }
 
-
-  /* =================================================================
-     6. BRILHO QUE SEGUE O CURSOR
-     -----------------------------------------------------------------
-     O JS so escreve a posicao do mouse em duas variaveis CSS.
-     Quem desenha o brilho e o CSS (.vidro::after). Dividir assim
-     deixa o efeito suave, porque o navegador nao precisa recalcular
-     layout nenhum - so repinta um gradiente.
-     ================================================================= */
-
-  function brilhoNoCursor() {
-    if (menosMovimento) return;
-
-    const cartoes = pegarTodos(".vidro, .cartao-vivo, .missao");
-    if (!cartoes.length) return;
-
-    cartoes.forEach(function (cartao) {
-      cartao.addEventListener("pointermove", function (evento) {
-        const caixa = cartao.getBoundingClientRect();
-        const x = evento.clientX - caixa.left;
-        const y = evento.clientY - caixa.top;
-        cartao.style.setProperty("--mx", x + "px");
-        cartao.style.setProperty("--my", y + "px");
+    // REDE DE SEGURANCA: se passados 2,5 segundos existe elemento na
+    // tela e NENHUM foi revelado, o observador nao esta funcionando
+    // neste navegador. Mostra tudo de uma vez.
+    // Conteudo que nao aparece e muito pior do que conteudo sem
+    // animacao - e o visitante nem saberia que tem texto ali.
+    setTimeout(function () {
+      const algumNaTela = alvos.some(function (el) {
+        const caixa = el.getBoundingClientRect();
+        return caixa.top < window.innerHeight && caixa.bottom > 0;
       });
-    });
+      const algumRevelado = alvos.some((el) => el.classList.contains("visivel"));
+
+      if (algumNaTela && !algumRevelado) {
+        alvos.forEach((el) => el.classList.add("visivel"));
+      }
+    }, 2500);
   }
 
 
   /* =================================================================
-     7. BOTAO MAGNETICO
+     6. BOTAO MAGNETICO
      -----------------------------------------------------------------
      O botao se desloca um pouco na direcao do cursor, como se
-     fosse atraido. O segredo e o FATOR baixo (0.22): exagerar aqui
-     deixa o efeito engracado em vez de elegante.
+     fosse atraido. O segredo e o FATOR baixo: exagerar aqui deixa
+     o efeito engracado em vez de elegante.
      ================================================================= */
 
   function botaoMagnetico() {
@@ -198,7 +187,9 @@
     // e ainda atrapalharia o toque.
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
 
-    const FATOR = 0.22;
+    // 0.10 em vez de 0.22: o botao so "respira" na direcao do cursor.
+    // Acima disso o efeito deixa de ser elegante e vira brincadeira.
+    const FATOR = 0.10;
     const botoes = pegarTodos(".magnetico");
 
     botoes.forEach(function (botao) {
@@ -207,7 +198,7 @@
         // Distancia do cursor ate o CENTRO do botao
         const dx = evento.clientX - (caixa.left + caixa.width / 2);
         const dy = evento.clientY - (caixa.top + caixa.height / 2);
-        botao.style.transform = "translate(" + (dx * FATOR) + "px, " + (dy * FATOR - 3) + "px)";
+        botao.style.transform = "translate(" + (dx * FATOR) + "px, " + (dy * FATOR - 2) + "px)";
       });
 
       // Ao sair, limpa o transform e o CSS devolve o botao ao lugar
@@ -220,7 +211,7 @@
 
 
   /* =================================================================
-     8. CONTADOR DE NUMEROS
+     7. CONTADOR DE NUMEROS
      -----------------------------------------------------------------
      Um numero que sobe de 0 ate o valor final quando entra na tela.
      Funciona em qualquer elemento com data-contar="123.4".
@@ -244,6 +235,7 @@
       const destino = parseFloat(el.dataset.contar);
       if (isNaN(destino)) return;
 
+      el.dataset.contado = "1";   // marca que a animacao comecou
       const casas = casasDe(el);
       const duracao = 1300;
       const inicio = performance.now();
@@ -290,13 +282,25 @@
         // aparecer depois que a pessoa rolar ate ele.
         escrever(el, 0, casasDe(el));
         observador.observe(el);
+
+        // REDE DE SEGURANCA: se em 4 segundos a animacao nem comecou,
+        // escreve o numero certo e desiste do efeito.
+        // Isso cobre o caso raro em que o navegador congela o desenho
+        // da pagina (aba em segundo plano, janela atras de outra) e o
+        // observador nunca dispara. Um numero sem animacao e chato;
+        // um zero no lugar do numero certo e informacao errada.
+        setTimeout(function () {
+          if (!el.dataset.contado) {
+            escrever(el, parseFloat(el.dataset.contar), casasDe(el));
+          }
+        }, 4000);
       }
     });
   }
 
 
   /* =================================================================
-     9. PARALLAX DAS PLANTAS
+     8. PARALLAX DAS PLANTAS
      -----------------------------------------------------------------
      As folhas sobem mais devagar que o resto da pagina, o que cria
      sensacao de profundidade. Cada planta tem a propria velocidade
@@ -333,7 +337,7 @@
 
 
   /* =================================================================
-     10. AVISOS QUE SOMEM SOZINHOS
+     9. AVISOS QUE SOMEM SOZINHOS
      ================================================================= */
 
   function avisosSomem() {
@@ -369,7 +373,6 @@
     aoRolar();
     voltarAoTopo();
     revelarNoScroll();
-    brilhoNoCursor();
     botaoMagnetico();
     contarNumeros();
     parallaxPlantas();
