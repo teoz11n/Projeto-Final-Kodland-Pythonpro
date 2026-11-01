@@ -55,6 +55,7 @@
   --terracota:    #D76D48;
   --creme:        #E9DFC7;
   --azul-poeira:  #577C91;
+  --azul-poeira-claro: #A9C6D6;   /* a mesma cor, lavada */
   --oliva:        #A7A66B;
 
   /* --- Paleta oficial do projeto --------------------------------
@@ -77,12 +78,38 @@
 
   --destaque:     #233B35;   /* a cor que lidera               */
   --destaque-2:   #D3A64D;   /* o apoio                        */
-  --agua:         #577C91;   /* categoria agua                 */
+  /* Usa a versao LAVADA: a etiqueta tem texto escuro em cima, e
+     sobre o azul-poeira cheio isso dava so 3.35:1.               */
+  --agua:         #A9C6D6;   /* categoria agua                 */
   --descarte:     #D3A64D;   /* categoria descarte             */
   --xp:           #A7A66B;   /* as etiquetas de XP             */
 
   --ok:           #2F6B3F;
   --alerta:       #A8421F;
+
+  /* --- CONTRASTE: o erro que estes tokens corrigem ---------------
+     O amarelo e o mostarda sao cores CLARAS nos dois temas. Se o
+     texto em cima deles seguisse a --tinta, no tema escuro ele
+     viraria creme sobre amarelo, que e ilegivel.
+     Por isso tudo que fica em cima de uma cor de destaque usa os
+     tokens abaixo, que NAO acompanham a troca de tema.           */
+  --sobre-claro:  #2B2622;   /* texto sobre amarelo e mostarda  */
+  --sobre-escuro: #FBF4E4;   /* texto sobre o verde-mata        */
+
+  /* O terracota #D76D48 e otimo como PREENCHIMENTO, mas como texto
+     pequeno sobre papel creme da so 3.1:1. Esta versao escurecida
+     sobe para 5.4:1 e continua da mesma familia.                 */
+  --terracota-texto: #A8421F;
+
+  /* O rodape e o atalho de teclado sao blocos de tinta solida nos
+     DOIS temas. Sem tokens proprios eles inverteriam no escuro e
+     o texto sumiria no fundo.                                    */
+  --bloco-fundo:  #2B2622;
+  --bloco-texto:  #F2E7CE;
+
+  /* A sombra do texto de destaque. Tres camadas claras viravam
+     borrao; agora e uma so, e no escuro ela quase nao aparece.  */
+  --sombra-texto: #2B2622;
 
   /* Quanto o grao de papel aparece */
   --grao: .085;
@@ -137,6 +164,14 @@
     --ok:           #5BE39A;
     --alerta:       #FF9A6B;
 
+    /* --sobre-claro nao muda: amarelo continua amarelo, e texto
+       escuro continua sendo o legivel em cima dele.             */
+    --sobre-escuro: #1A1714;
+  --terracota-texto: #FF9A6B;   /* o verde virou neon: texto escuro */
+    --terracota-texto: #FF9A6B;
+    --bloco-fundo:  #0F0D0C;
+    --sombra-texto: #0B0A09;
+
     --grao: .055;
 
     color-scheme: dark;
@@ -159,6 +194,10 @@
 
   --ok:           #5BE39A;
   --alerta:       #FF9A6B;
+
+  --sobre-escuro: #1A1714;
+  --bloco-fundo:  #0F0D0C;
+  --sombra-texto: #0B0A09;
 
   --grao: .055;
 
@@ -225,7 +264,7 @@ h3 { font-size: clamp(1.1rem, 1.9vw, 1.35rem); margin: 0 0 .35em; }
 p { margin: 0 0 1em; max-width: var(--larg-texto); }
 
 a { color: var(--destaque); text-underline-offset: 3px; text-decoration-thickness: 2px; }
-a:hover { color: var(--terracota); }
+a:hover { color: var(--terracota-texto); }
 
 code {
   font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
@@ -238,10 +277,18 @@ code {
 
 /* A palavra de destaque do cartaz: letra cheia com contorno em
    camadas, que e como se fazia letreiro antes do computador.      */
+/* Uma sombra so. A versao de tres camadas (verde + amarelo +
+   tinta) virava borrao em texto do tamanho de um paragrafo.      */
 .palavra-viva {
   color: var(--destaque);
-  text-shadow: 2px 2px 0 var(--destaque-2),
-               4px 4px 0 var(--tinta);
+  text-shadow: 2px 2px 0 var(--sombra-texto);
+}
+
+/* O titulo gigante do hero AGUENTA a camada dupla, porque a letra
+   tem corpo suficiente para as duas sombras nao se encostarem.   */
+.hero-titulo .palavra-viva {
+  text-shadow: 3px 3px 0 var(--destaque-2),
+               6px 6px 0 var(--sombra-texto);
 }
 
 .script {
@@ -273,7 +320,7 @@ code {
   font-weight: 800;
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: var(--tinta);
+  color: var(--sobre-claro);
   background: var(--destaque-2);
   border: var(--traco-fino) solid var(--tinta);
   border-radius: var(--raio-pilula);
@@ -412,7 +459,7 @@ body::after {
   font-weight: 800;
   letter-spacing: .02em;
   text-decoration: none;
-  color: var(--tinta);
+  color: var(--sobre-claro);
   background: var(--destaque-2);
   border: var(--traco) solid var(--tinta);
   border-radius: var(--raio-pilula);
@@ -427,7 +474,7 @@ body::after {
 .botao:hover {
   transform: translate(2px, 2px);
   box-shadow: 3px 3px 0 var(--sombra-dura);
-  color: var(--tinta);
+  color: var(--sobre-claro);
 }
 .botao:active {
   transform: translate(var(--salto), var(--salto));
@@ -441,9 +488,13 @@ body::after {
 .botao .seta { display: inline-block; transition: transform .25s var(--mola); }
 .botao:hover .seta { transform: translateX(3px); }
 
-.botao-verde       { background: var(--destaque); color: var(--superficie); }
-.botao-verde:hover { color: var(--superficie); }
-.botao-vidro       { background: var(--superficie); }
+/* O --destaque troca de claridade entre os temas: verde-mata
+   escuro no claro, neon no escuro. Por isso o texto dele tem
+   token proprio em vez de seguir a --tinta.                     */
+.botao-verde       { background: var(--destaque); color: var(--sobre-escuro); }
+.botao-verde:hover { color: var(--sobre-escuro); }
+.botao-vidro       { background: var(--superficie); color: var(--tinta); }
+.botao-vidro:hover { color: var(--tinta); }
 .botao-grande      { padding: 15px 32px; font-size: 1rem; }
 .botao-pequeno     { padding: 8px 17px; font-size: .84rem; --salto: 3px; }
 
@@ -479,7 +530,7 @@ body::after {
   text-decoration: none;
   white-space: nowrap;
 }
-.logo:hover { color: var(--terracota); }
+.logo:hover { color: var(--terracota-texto); }
 
 .topo nav { display: flex; align-items: center; gap: 3px; flex-wrap: wrap; }
 
@@ -495,7 +546,7 @@ body::after {
 }
 .topo nav a:hover { color: var(--tinta); border-color: var(--tinta); }
 .topo nav a.ativo {
-  color: var(--tinta);
+  color: var(--sobre-claro);
   background: var(--destaque-2);
   border-color: var(--tinta);
 }
@@ -544,7 +595,7 @@ body::after {
   text-transform: uppercase;
   color: var(--tinta-fraca);
 }
-.hero-sigla b { color: var(--terracota); }
+.hero-sigla b { color: var(--terracota-texto); }
 
 .hero p { margin-left: auto; margin-right: auto; }
 .hero-botoes { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 22px; }
@@ -655,14 +706,15 @@ body::after {
   width: 48px; height: 48px;
   margin-bottom: 14px;
   font-size: 1.3rem;
+  color: var(--sobre-claro);
   background: var(--destaque-2);
   border: var(--traco-fino) solid var(--tinta);
   border-radius: 12px;
   box-shadow: 3px 3px 0 var(--sombra-dura);
 }
 
-.dica { background: var(--destaque-2); }
-.dica .legenda, .dica p { color: var(--tinta); }
+.dica { background: var(--destaque-2); color: var(--sobre-claro); }
+.dica .legenda, .dica p, .dica h3 { color: var(--sobre-claro); }
 
 
 /* ===================================================================
@@ -683,7 +735,7 @@ body::after {
   font-weight: 800;
   letter-spacing: .12em;
   text-transform: uppercase;
-  color: var(--tinta);
+  color: var(--sobre-claro);
   background: var(--destaque-2);
   border: var(--traco-fino) solid var(--tinta);
   border-radius: var(--raio-pilula);
@@ -723,7 +775,7 @@ body::after {
   font-weight: 800;
   letter-spacing: .04em;
   text-transform: uppercase;
-  color: var(--terracota);
+  color: var(--terracota-texto);
   pointer-events: none;
   transition: all .2s var(--suave);
 }
@@ -783,7 +835,7 @@ body::after {
   transition: all .18s var(--mola);
 }
 .escolhas input:checked + span {
-  color: var(--tinta);
+  color: var(--sobre-claro);
   background: var(--destaque-2);
   box-shadow: 3px 3px 0 var(--sombra-dura);
 }
@@ -855,7 +907,7 @@ body::after {
 }
 .trilha li small { display: block; font-size: .7rem; opacity: .8; }
 .trilha-feito {
-  color: var(--tinta);
+  color: var(--sobre-claro);
   font-weight: 800;
   background: var(--destaque-2);
   box-shadow: 3px 3px 0 var(--sombra-dura);
@@ -929,9 +981,10 @@ body::after {
   border-radius: var(--raio-pilula);
   white-space: nowrap;
 }
-.etiqueta-agua     { background: var(--agua); }
-.etiqueta-descarte { background: var(--descarte); }
-.etiqueta-xp       { background: var(--xp); }
+/* As tres cores de categoria sao claras nos dois temas */
+.etiqueta-agua     { background: var(--agua);     color: var(--sobre-claro); }
+.etiqueta-descarte { background: var(--descarte); color: var(--sobre-claro); }
+.etiqueta-xp       { background: var(--xp);       color: var(--sobre-claro); }
 
 
 /* ===================================================================
@@ -961,13 +1014,16 @@ th, td {
 }
 tbody tr:last-child td { border-bottom: none; }
 
+/* O cabecalho da tabela usa o papel, nao o amarelo: faixa larga de
+   amarelo com texto pequeno em cima cansa a vista.              */
 thead th {
   font-size: .68rem;
   font-weight: 800;
   letter-spacing: .1em;
   text-transform: uppercase;
   color: var(--tinta);
-  background: var(--destaque-2);
+  background: var(--fundo);
+  border-bottom: var(--traco) solid var(--tinta);
 }
 
 tbody tr { transition: background .2s; }
@@ -1067,7 +1123,7 @@ tfoot th {
   place-items: center;
   width: 50px; height: 50px;
   font-size: 1.2rem;
-  color: var(--tinta);
+  color: var(--sobre-claro);
   background: var(--destaque-2);
   border: var(--traco) solid var(--tinta);
   border-radius: 50%;
@@ -1091,12 +1147,15 @@ tfoot th {
   padding: clamp(80px, 12vw, 150px) 0;
   overflow: hidden;
   text-align: center;
-  background: var(--destaque-2);
+  /* Era amarelo chapado, e as folhas verdes por cima sumiam. Agora
+     o fundo e papel e QUEM da a cor sao as proprias plantas, que e
+     o que a palavra "colagem" queria dizer desde o comeco.       */
+  background: var(--fundo);
   border-top: var(--traco) solid var(--tinta);
   border-bottom: var(--traco) solid var(--tinta);
 }
 
-.colagem .planta { opacity: .95; }
+.colagem .planta { opacity: .9; }
 
 .colagem-c1 { top: -4%;  left: -5%;  width: clamp(200px, 27vw, 380px); transform: rotate(-8deg); }
 .colagem-c2 { top: -8%;  right: -4%; width: clamp(230px, 30vw, 420px); }
@@ -1125,10 +1184,11 @@ tfoot th {
   text-align: center;
   font-size: .86rem;
   font-weight: 600;
-  color: var(--superficie);
-  background: var(--tinta);
-  border-top: var(--traco) solid var(--tinta);
+  color: var(--bloco-texto);
+  background: var(--bloco-fundo);
+  border-top: var(--traco) solid var(--bloco-fundo);
 }
+.rodape .legenda { color: rgba(242, 231, 206, .62); }
 .rodape .logo-rodape {
   display: block;
   margin-bottom: 8px;
@@ -1171,11 +1231,11 @@ tfoot th {
   left: -9999px;
   z-index: 1000;
   padding: 12px 20px;
-  color: var(--superficie);
-  background: var(--tinta);
+  color: var(--bloco-texto);
+  background: var(--bloco-fundo);
   border-radius: 0 0 var(--raio-p) 0;
 }
-.pular-para-conteudo:focus { left: 0; top: 0; color: var(--superficie); }
+.pular-para-conteudo:focus { left: 0; top: 0; color: var(--bloco-texto); }
 
 :focus-visible { outline: var(--traco-fino) solid var(--terracota); outline-offset: 2px; }
 
@@ -1294,7 +1354,7 @@ tfoot th {
 .agente-assinatura strong {
   display: block;
   font-weight: 800;
-  color: var(--terracota);
+  color: var(--terracota-texto);
   letter-spacing: .02em;
 }
 .agente-assinatura span { color: var(--tinta-fraca); font-weight: 600; }

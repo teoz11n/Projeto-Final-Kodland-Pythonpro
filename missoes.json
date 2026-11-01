@@ -155,7 +155,7 @@
     },
     {
       "id": "caca_vazamento",
-      "titulo": "Cace vazamentos em casa",
+      "titulo": "Procure vazamentos em casa",
       "descricao": "Feche todas as torneiras e olhe o relógio de água. Se os números continuarem girando, existe um vazamento escondido.",
       "categoria": "agua",
       "grupo": "vazamento",
