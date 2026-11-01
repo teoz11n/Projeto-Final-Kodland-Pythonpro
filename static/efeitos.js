@@ -14,6 +14,7 @@
      7. Contador de numeros
      8. Parallax das plantas
      9. Avisos que somem sozinhos
+    10. Trocar o tema claro e escuro
 
    Regra geral deste arquivo: TUDO e opcional. Se um elemento nao
    existir na pagina, a funcao simplesmente nao faz nada. Assim o
@@ -187,9 +188,16 @@
     // e ainda atrapalharia o toque.
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
 
-    // 0.10 em vez de 0.22: o botao so "respira" na direcao do cursor.
-    // Acima disso o efeito deixa de ser elegante e vira brincadeira.
+    // 0.10: o botao so "respira" na direcao do cursor. Acima disso o
+    // efeito deixa de ser elegante e vira brincadeira.
     const FATOR = 0.10;
+
+    // O botao de cartaz AFUNDA 2px no hover (regra .botao:hover no
+    // CSS). Como escrever style.transform aqui apagaria aquela regra,
+    // a gente SOMA os dois: o afundar e a atracao do cursor saem no
+    // mesmo transform, e nenhum dos dois se perde.
+    const AFUNDA = 2;
+
     const botoes = pegarTodos(".magnetico");
 
     botoes.forEach(function (botao) {
@@ -198,7 +206,9 @@
         // Distancia do cursor ate o CENTRO do botao
         const dx = evento.clientX - (caixa.left + caixa.width / 2);
         const dy = evento.clientY - (caixa.top + caixa.height / 2);
-        botao.style.transform = "translate(" + (dx * FATOR) + "px, " + (dy * FATOR - 2) + "px)";
+        botao.style.transform = "translate("
+          + (AFUNDA + dx * FATOR) + "px, "
+          + (AFUNDA + dy * FATOR) + "px)";
       });
 
       // Ao sair, limpa o transform e o CSS devolve o botao ao lugar
@@ -365,6 +375,53 @@
 
 
   /* =================================================================
+     10. TROCAR O TEMA
+     -----------------------------------------------------------------
+     Tres estados, nao dois:
+       sem escolha  -> segue o sistema operacional (o padrao)
+       "claro"      -> forca o claro, mesmo com o sistema no escuro
+       "escuro"     -> forca o escuro
+
+     O atributo data-tema no <html> e quem manda; o CSS do bloco 01
+     le ele. Aqui a gente so escreve o atributo e guarda a escolha.
+
+     O tema inicial NAO e aplicado aqui: isso acontece num script
+     inline no <head> do base.html, antes da pagina pintar. Se fosse
+     aqui, o site piscaria branco a cada troca de pagina.
+     ================================================================= */
+
+  function trocarTema() {
+    const botao = pegar(".trocar-tema");
+    if (!botao) return;
+
+    const raiz = document.documentElement;
+    const doSistema = window.matchMedia("(prefers-color-scheme: dark)");
+
+    function temaAtual() {
+      // O que estiver escrito no <html> ganha; senao, o do sistema.
+      return raiz.getAttribute("data-tema")
+             || (doSistema.matches ? "escuro" : "claro");
+    }
+
+    botao.addEventListener("click", function () {
+      const novo = temaAtual() === "escuro" ? "claro" : "escuro";
+      raiz.setAttribute("data-tema", novo);
+      try {
+        localStorage.setItem("terra-tema", novo);
+      } catch (erro) { /* aba anonima: vale so nesta visita */ }
+    });
+
+    // Se a pessoa nunca escolheu e muda o tema do sistema no meio da
+    // visita, o site acompanha sozinho.
+    doSistema.addEventListener("change", function () {
+      let salvo = null;
+      try { salvo = localStorage.getItem("terra-tema"); } catch (erro) {}
+      if (!salvo) raiz.removeAttribute("data-tema");
+    });
+  }
+
+
+  /* =================================================================
      LIGA TUDO
      ================================================================= */
 
@@ -377,6 +434,7 @@
     contarNumeros();
     parallaxPlantas();
     avisosSomem();
+    trocarTema();
   }
 
   // Se o HTML ainda esta carregando, espera. Se ja carregou, roda ja.

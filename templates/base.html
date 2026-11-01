@@ -13,14 +13,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="T.E.R.R.A. - Tutor Ecológico de Rotinas e Reduções Ambientais. Descubra quanta água a sua rotina gasta e transforme hábitos sustentáveis em missões.">
-  <meta name="theme-color" content="#FBFDFA">
+  <meta name="theme-color" content="#EFE3C8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1A1714" media="(prefers-color-scheme: dark)">
   <title>{% block titulo %}T.E.R.R.A.{% endblock %}</title>
 
   {# Fontes do Google. O preconnect avisa o navegador para ja ir
      abrindo a conexao, antes mesmo de saber qual arquivo vai pedir. #}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..700&family=Pinyon+Script&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Nunito:wght@500;600;700;800&display=swap">
+
+  {# Aplica o tema salvo ANTES da pagina pintar.
+     Sem isto, quem escolheu o tema escuro veria um flash branco a
+     cada troca de pagina. Por isso este script e inline e fica aqui
+     em cima: ele precisa rodar antes do primeiro desenho da tela. #}
+  <script>
+    try {
+      var tema = localStorage.getItem("terra-tema");
+      if (tema) document.documentElement.setAttribute("data-tema", tema);
+    } catch (erro) { /* navegador sem localStorage: segue o sistema */ }
+  </script>
 
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
@@ -40,6 +52,12 @@
 
   <header class="topo vidro vidro-denso">
     <a class="logo" href="{{ url_for('inicio') }}">T.E.R.R.A.</a>
+
+    <button class="trocar-tema" type="button"
+            aria-label="Trocar entre tema claro e escuro">
+      <span class="sol" aria-hidden="true">&#9728;</span>
+      <span class="lua" aria-hidden="true">&#9790;</span>
+    </button>
 
     <button class="abrir-menu" type="button"
             aria-expanded="false" aria-label="Abrir o menu">&#9776;</button>
